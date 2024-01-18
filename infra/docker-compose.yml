@@ -1,0 +1,14 @@
+version: '3.7'
+
+services: # 컨테이너 설정
+  db:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqldb
+      - MYSQL_DATABASE=mysqlDb
+    ports:
+      - "3306:3306"
