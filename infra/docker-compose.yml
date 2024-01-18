@@ -9,6 +9,6 @@ services: # 컨테이너 설정
       - ./mysqldata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysqldb
-      - MYSQL_DATABASE=mysqlDb
+      - MYSQL_DATABASE=mysqlDbls
     ports:
       - "3306:3306"
