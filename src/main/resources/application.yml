@@ -4,9 +4,14 @@ spring:
     url: jdbc:mysql://localhost:3306/mysqlDb
     username: root
     password: mysqldb
-  jpa:
+
+jpa:
+  generate-ddl: true
+  show-sql: true
+  properties:
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
+      hbm2ddl.auto: create
+      format_sql: true
+      physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  logging.level:
+    org.hibernate.SQL: debug
