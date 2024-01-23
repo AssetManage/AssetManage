@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mysqlDb
+    username: root
+    password: mysqldb
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        hbm2ddl.auto: create
+        format_sql: true
+        naming:
+          physical-strategy: com.aaa.admin.config.NamingStrategy
+          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    logging:
+      level:
+        org.hibernate.SQL: debug
+        org.hibernate.type: trace
