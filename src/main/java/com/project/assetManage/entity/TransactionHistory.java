@@ -1,6 +1,8 @@
 package com.project.assetManage.entity;
 
+import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,10 +11,16 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity(name = "transaction_history")
-public class TransactionHistory {
+@IdClass(TransactionHistoryId.class)
+public class TransactionHistory extends BaseDateTimeEntity {
 
+    @Id
     @Column(name="card_id")
     private String cardId;
+
+    @Id
+    @Column(name="approval_num")
+    private String approvalNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -28,10 +36,22 @@ public class TransactionHistory {
     private String companyRegistrationNum;
     @Column(name="approved_datetime")
     private LocalDateTime approvedDateTime;
-    @Column(name="approval_num")
-    private Long approvalNum;
+    @Column(name="approval_amount")
+    private Long approvalAmount;
     @Column(name = "installments")
     private Integer installments;
 
-
+    @Builder
+    public TransactionHistory(String cardId, String approvalNum, Member member, String companyCategory, String companyAddress, String companyName, String companyRegistrationNum, LocalDateTime approvedDateTime, Long approvalAmount, Integer installments) {
+        this.cardId = cardId;
+        this.approvalNum = approvalNum;
+        this.member = member;
+        this.companyCategory = companyCategory;
+        this.companyAddress = companyAddress;
+        this.companyName = companyName;
+        this.companyRegistrationNum = companyRegistrationNum;
+        this.approvedDateTime = approvedDateTime;
+        this.approvalAmount = approvalAmount;
+        this.installments = installments;
+    }
 }

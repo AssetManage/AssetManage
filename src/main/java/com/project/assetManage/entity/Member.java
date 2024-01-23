@@ -34,9 +34,12 @@ public class Member extends BaseDateTimeEntity {
     @Column(name="income")
     private Long income;
 
+    @Column(name = "consumption_code")
+    private Long consumptionCode;
+
 
     @Builder
-    public Member(String id, String password, String name, Integer age, Gender gender, String rrn, String phone, String job, Long income) {
+    public Member(String id, String password, String name, Integer age, Gender gender, String rrn, String phone, String job, Long income, Long consumptionCode) {
         this.id = id;
         this.password = password;
         this.name = name;
@@ -46,5 +49,11 @@ public class Member extends BaseDateTimeEntity {
         this.phone = phone;
         this.job = job;
         this.income = income;
+        this.consumptionCode = consumptionCode;
+    }
+
+
+    public void updateConsumtionCode(Long code){
+        this.consumptionCode = code;
     }
 }

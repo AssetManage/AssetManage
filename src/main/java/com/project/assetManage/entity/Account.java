@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 @Entity(name ="account")
 public class Account extends BaseDateTimeEntity {
 
+
+    @Id
+    @Column(name = "account_num")
+    private String accountNum;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -19,8 +23,7 @@ public class Account extends BaseDateTimeEntity {
     private String accountName;
     @Column(name = "bank_name")
     private String bankName;
-    @Column(name = "account_num")
-    private String accountNum;
+
     @Column(name = "account_kind")
     private String accountKind;
     @Column(name = "amount")

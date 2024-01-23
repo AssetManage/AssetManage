@@ -5,13 +5,17 @@ spring:
     username: root
     password: mysqldb
 
-jpa:
-  generate-ddl: true
-  show-sql: true
-  properties:
-    hibernate:
-      hbm2ddl.auto: create
-      format_sql: true
-      physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  logging.level:
-    org.hibernate.SQL: debug
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        hbm2ddl.auto: create
+        format_sql: true
+        naming:
+          physical-strategy: com.aaa.admin.config.NamingStrategy
+          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    logging:
+      level:
+        org.hibernate.SQL: debug
+        org.hibernate.type: trace
