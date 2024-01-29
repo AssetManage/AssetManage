@@ -19,3 +19,8 @@ spring:
       level:
         org.hibernate.SQL: debug
         org.hibernate.type: trace
+
+springdoc:
+  version: v1.0.0
+  swagger-ui:
+  packages-to-scan: com.project.assetManage
