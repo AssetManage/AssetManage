@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Products", description = "상품 API")
 @RestController
-@RequestMapping("api/v1/product")
+@RequestMapping("api/product")
 public class ProductController {
     private ProductApi productApi;
 
@@ -20,8 +20,10 @@ public class ProductController {
     }
 
     @Operation(summary = "예적금 API 호출", description = "예적금API를 호출하여 데이터를 저장한다.")
-    @GetMapping("/getProductData")
+    @GetMapping("/productData")
     public void getProductData() {
-        productApi.getDepositData();;
+        productApi.getDepositData();
+        productApi.getSavingData();
     }
+
 }

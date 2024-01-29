@@ -10,22 +10,22 @@ import lombok.*;
 
 @Getter
 @NoArgsConstructor
-@Entity(name ="products")
+@Entity(name = "products")
 @IdClass(ProductKeyId.class)
 public class Product extends BaseDateTimeEntity {
 
     @Id
-    @Column(name="fin_co_no")
+    @Column(name = "fin_co_no")
     private String finCoNo;
 
     @Id
-    @Column(name="fin_prdt_cd")
+    @Column(name = "fin_prdt_cd")
     private String finPrdtCd;
 
-    @Column(name = "act_kind")
-    private String actKind;
+    @Column(name = "act_kind_cd")
+    private String actKindCd;
 
-    @Column(name="dcls_month")
+    @Column(name = "dcls_month")
     private String dclsMonth;
 
     @Column(name = "kor_co_nm")
@@ -61,12 +61,40 @@ public class Product extends BaseDateTimeEntity {
     @Column(name = "dcls_end_day")
     private String dclsEndDay;
 
+    @Column(name = "fin_co_subm_day")
+    private String finCoSubmDay;
+
+    @Column(name = "intr_rate_type")
+    private String intrRateType;
+
+    @Column(name = "intr_rate_type_nm")
+    private String intrRateTypeNm;
+
+    @Column(name = "save_trm")
+    private String saveTrm;
+
+    @Column(name = "intr_rate")
+    private Double intrRate;
+
+    @Column(name = "intr_rate2")
+    private Double intrRate2;
+
+    @Column(name = "rsrv_type", nullable = true)
+    private String rsrvType;
+
+    @Column(name = "rsrv_type_nm", nullable = true)
+    private String rsrvTypeNm;
+
 
     @Builder
-    public Product(String finCoNo, String finPrdtCd, String actKind, String dclsMonth, String korCoNm, String finPrdtNm, String joinWay, String mtrtInt, String spclCnd, String joinDeny, String joinMember, String etcNote, Integer maxLmit, String dclsStrtDay, String dclsEndDay) {
+    public Product(String finCoNo, String finPrdtCd, String actKindCd, String dclsMonth,
+        String korCoNm, String finPrdtNm, String joinWay, String mtrtInt, String spclCnd,
+        String joinDeny, String joinMember, String etcNote, Integer maxLmit, String dclsStrtDay,
+        String dclsEndDay, String finCoSubmDay, String intrRateType, String intrRateTypeNm,
+        String saveTrm, Double intrRate, Double intrRate2, String rsrvType, String rsrvTypeNm) {
         this.finCoNo = finCoNo;
         this.finPrdtCd = finPrdtCd;
-        this.actKind = actKind;
+        this.actKindCd = actKindCd;
         this.dclsMonth = dclsMonth;
         this.korCoNm = korCoNm;
         this.finPrdtNm = finPrdtNm;
@@ -79,5 +107,13 @@ public class Product extends BaseDateTimeEntity {
         this.maxLmit = maxLmit;
         this.dclsStrtDay = dclsStrtDay;
         this.dclsEndDay = dclsEndDay;
+        this.finCoSubmDay = finCoSubmDay;
+        this.intrRateType = intrRateType;
+        this.intrRateTypeNm = intrRateTypeNm;
+        this.saveTrm = saveTrm;
+        this.intrRate = intrRate;
+        this.intrRate2 = intrRate2;
+        this.rsrvType = rsrvType;
+        this.rsrvTypeNm = rsrvTypeNm;
     }
 }
