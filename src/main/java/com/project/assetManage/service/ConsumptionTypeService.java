@@ -1,0 +1,7 @@
+
+/*
+@Service
+public class ConsumptionTypeService {
+
+
+}*/
