@@ -1,5 +1,13 @@
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
 
+/*
 @Tag(name = "ConsumptionType", description = "소비성향분석")
 @Controller
 @RequestMapping("st/cnsmp_incln")
@@ -7,7 +15,7 @@ public class ConsumptionType {
 
     private ConsumptionType consumptionType;
 
-    public ConsumptionTypeController(ConsumptionType consumptionType){
+    public void ConsumptionTypeController(ConsumptionType consumptionType){
         this.consumptionType = consumptionType;
     }
 
@@ -26,4 +34,4 @@ public class ConsumptionType {
 
 
 
-}
+}*/
