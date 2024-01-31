@@ -10,7 +10,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        hbm2ddl.auto: update
+        hbm2ddl.auto: create-drop
         format_sql: true
         naming:
           physical-strategy: com.aaa.admin.config.NamingStrategy

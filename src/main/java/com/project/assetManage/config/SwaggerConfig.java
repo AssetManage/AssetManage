@@ -13,9 +13,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI(@Value("${springdoc.version}") String springdocVersion) {
         Info info = new Info()
-                .title("CMS platform API docs")
+                .title("Financial Management API docs")
                 .version(springdocVersion)
-                .description("cms프로젝트에 쓰이는 api 정리");
+                .description("AssetManage 프로젝트에 쓰이는 api 정리");
 
         return new OpenAPI()
                 .components(new Components())
