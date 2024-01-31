@@ -42,9 +42,9 @@ public class ProductOption extends BaseDateTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "fin_co_no", insertable = false, updatable = false),
-        @JoinColumn(name = "fin_prdt_cd", insertable = false, updatable = false),
-        @JoinColumn(name = "dcls_month", insertable = false, updatable = false)
+            @JoinColumn(name = "fin_co_no", referencedColumnName = "fin_co_no",insertable = false, updatable = false),
+            @JoinColumn(name = "fin_prdt_cd", referencedColumnName = "fin_prdt_cd", insertable = false, updatable = false),
+            @JoinColumn(name = "dcls_month", referencedColumnName = "dcls_month", insertable = false, updatable = false)
     })
     private Product product;
 
@@ -71,10 +71,11 @@ public class ProductOption extends BaseDateTimeEntity {
 
 
     @Builder
-    public ProductOption(String finCoNo, String finPrdtCd, String dclsMonth, Product product,
-        String intrRateType, String intrRateTypeNm, Integer saveTrm, Double intrRate,
-        Double intrRate2,
-        String rsrvType, String rsrvTypeNm) {
+    public ProductOption(long prdOptionSeq,String finCoNo, String finPrdtCd, String dclsMonth, Product product,
+                         String intrRateType, String intrRateTypeNm, Integer saveTrm, Double intrRate,
+                         Double intrRate2,
+                         String rsrvType, String rsrvTypeNm) {
+        this.prdOptionSeq = prdOptionSeq;
         this.finCoNo = finCoNo;
         this.finPrdtCd = finPrdtCd;
         this.dclsMonth = dclsMonth;

@@ -26,7 +26,7 @@ public class ProductApi {
     private ProductOptionRepository productOptionRepository;
 
     public ProductApi(HttpConnection httpConnection, ProductRepository productRepository,
-        ProductOptionRepository productOptionRepository) {
+                      ProductOptionRepository productOptionRepository) {
         this.httpConnection = httpConnection;
         this.productRepository = productRepository;
         this.productOptionRepository = productOptionRepository;
@@ -34,7 +34,7 @@ public class ProductApi {
 
     public void getDepositData() {
         //예금
-        String url = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json";
+        String url = "http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json";
 
         Map<String, String> header = new HashMap<>();
         header.put("Accept", "application/octet-stream,application/json");
@@ -59,24 +59,24 @@ public class ProductApi {
         List<Product> productList = new ArrayList<>();
         for (Map<String, String> resultMap : resultList) {
             Product product = Product.builder()
-                .finCoNo(resultMap.get("fin_co_no"))
-                .finPrdtCd(resultMap.get("fin_prdt_cd"))
-                .actKindCd("DP")
-                .dclsMonth(resultMap.get("dcls_month"))
-                .korCoNm(resultMap.get("kor_co_nm"))
-                .finPrdtNm(resultMap.get("fin_prdt_nm"))
-                .joinWay(resultMap.get("join_way"))
-                .mtrtInt(resultMap.get("mtrt_int"))
-                .spclCnd(resultMap.get("spcl_cnd"))
-                .joinDeny(resultMap.get("join_deny"))
-                .joinMember(resultMap.get("join_member"))
-                .etcNote(resultMap.get("etc_note"))
-                .maxLmit(resultMap.get("max_limit").equals("null") ? null
-                    : Integer.parseInt(resultMap.get("max_limit")))
-                .dclsStrtDay(resultMap.get("dcls_strt_day"))
-                .dclsEndDay(resultMap.get("dcls_end_day"))
-                .finCoSubmDay(resultMap.get("fin_co_subm_day"))
-                .build();
+                    .finCoNo(resultMap.get("fin_co_no"))
+                    .finPrdtCd(resultMap.get("fin_prdt_cd"))
+                    .actKindCd("DP")
+                    .dclsMonth(resultMap.get("dcls_month"))
+                    .korCoNm(resultMap.get("kor_co_nm"))
+                    .finPrdtNm(resultMap.get("fin_prdt_nm"))
+                    .joinWay(resultMap.get("join_way"))
+                    .mtrtInt(resultMap.get("mtrt_int"))
+                    .spclCnd(resultMap.get("spcl_cnd"))
+                    .joinDeny(resultMap.get("join_deny"))
+                    .joinMember(resultMap.get("join_member"))
+                    .etcNote(resultMap.get("etc_note"))
+                    .maxLmit(resultMap.get("max_limit").equals("null") ? null
+                            : Integer.parseInt(resultMap.get("max_limit")))
+                    .dclsStrtDay(resultMap.get("dcls_strt_day"))
+                    .dclsEndDay(resultMap.get("dcls_end_day"))
+                    .finCoSubmDay(resultMap.get("fin_co_subm_day"))
+                    .build();
 
             productList.add(product);
         }
@@ -116,23 +116,23 @@ public class ProductApi {
                 throw new RuntimeException("map is null");
             }
             Product product = Product.builder()
-                .finCoNo(resultMap.get("fin_co_no"))
-                .finPrdtCd(resultMap.get("fin_prdt_cd"))
-                .actKindCd("SV")
-                .dclsMonth(resultMap.get("dcls_month"))
-                .korCoNm(resultMap.get("kor_co_nm"))
-                .finPrdtNm(resultMap.get("fin_prdt_nm"))
-                .joinWay(resultMap.get("join_way"))
-                .mtrtInt(resultMap.get("mtrt_int"))
-                .spclCnd(resultMap.get("spcl_cnd"))
-                .joinDeny(resultMap.get("join_deny"))
-                .joinMember(resultMap.get("join_member"))
-                .etcNote(resultMap.get("etc_note"))
-                .maxLmit(resultMap.get("max_limit") == null || resultMap.get("max_limit").equals("null") ? null
-                    : Integer.parseInt(resultMap.get("max_limit")))
-                .dclsStrtDay(resultMap.get("dcls_strt_day"))
-                .dclsEndDay(resultMap.get("dcls_end_day"))
-                .build();
+                    .finCoNo(resultMap.get("fin_co_no"))
+                    .finPrdtCd(resultMap.get("fin_prdt_cd"))
+                    .actKindCd("SV")
+                    .dclsMonth(resultMap.get("dcls_month"))
+                    .korCoNm(resultMap.get("kor_co_nm"))
+                    .finPrdtNm(resultMap.get("fin_prdt_nm"))
+                    .joinWay(resultMap.get("join_way"))
+                    .mtrtInt(resultMap.get("mtrt_int"))
+                    .spclCnd(resultMap.get("spcl_cnd"))
+                    .joinDeny(resultMap.get("join_deny"))
+                    .joinMember(resultMap.get("join_member"))
+                    .etcNote(resultMap.get("etc_note"))
+                    .maxLmit(resultMap.get("max_limit") == null || resultMap.get("max_limit").equals("null") ? null
+                            : Integer.parseInt(resultMap.get("max_limit")))
+                    .dclsStrtDay(resultMap.get("dcls_strt_day"))
+                    .dclsEndDay(resultMap.get("dcls_end_day"))
+                    .build();
 
             productList.add(product);
         }
@@ -140,19 +140,51 @@ public class ProductApi {
         List<Map<String, String>> resultOptionList = getMaps(httpResult, "optionList");
 
         List<ProductOption> optionList = new ArrayList<>();
+
+        // optionList가 세 개의 pk로 정렬돼서 온다면 사용 가능
+        // t_api_product pk 변수 :: 비교값
+        String cmpFinCoNo = "";
+        String cmpFinPrdtCd = "";
+        String cmpDclsMonth = "";
+
+        // t_api_product_option 순번
+        long prdOptionSeq = 0;
+
         for (Map<String, String> resultMap : resultOptionList) {
+
+            String finCoNo = resultMap.get("fin_co_no");
+            String finPrdtCd = resultMap.get("fin_prdt_cd");
+            String dclsMonth = resultMap.get("dcls_month");
+
+            // 초기화
+            if("".equals(cmpFinCoNo)) cmpFinCoNo = finCoNo;
+            if("".equals(cmpFinPrdtCd)) cmpFinPrdtCd = finPrdtCd;
+            if("".equals(cmpDclsMonth)) cmpDclsMonth = dclsMonth;
+
+            // prdOoptionSeq 채번을 위한 비교
+            if(finCoNo.equals(cmpFinCoNo) && finPrdtCd.equals(cmpFinPrdtCd) && dclsMonth.equals(cmpDclsMonth)){
+                prdOptionSeq++;
+            }else{
+                cmpFinCoNo = "";
+                cmpFinPrdtCd = "";
+                cmpDclsMonth ="";
+                // prdOptionSeq = 0;
+                prdOptionSeq = 1;
+            }
+
             ProductOption productOpts = ProductOption.builder()
-                .finCoNo(resultMap.get("fin_co_no"))
-                .finPrdtCd(resultMap.get("fin_prdt_cd"))
-                .dclsMonth(resultMap.get("dcls_month"))
-                .intrRateType(resultMap.get("intr_rate_type"))
-                .intrRateTypeNm(resultMap.get("intr_rate_type_nm"))
-                .saveTrm(Integer.parseInt(resultMap.get("save_trm")))
-                .intrRate(resultMap.get("intr_rate") != null ? Double.parseDouble(resultMap.get("intr_rate")) : null)
-                .intrRate2(resultMap.get("intr_rate2") != null ? Double.parseDouble(resultMap.get("intr_rate2")) : null)
-                .rsrvType(resultMap.get("rsrv_type"))
-                .rsrvTypeNm(resultMap.get("rsrv_type_nm"))
-                .build();
+                    .prdOptionSeq(prdOptionSeq)
+                    .finCoNo(finCoNo)
+                    .finPrdtCd(finPrdtCd)
+                    .dclsMonth(dclsMonth)
+                    .intrRateType(resultMap.get("intr_rate_type"))
+                    .intrRateTypeNm(resultMap.get("intr_rate_type_nm"))
+                    .saveTrm(Integer.parseInt(resultMap.get("save_trm")))
+                    .intrRate(resultMap.get("intr_rate") != null ? Double.parseDouble(resultMap.get("intr_rate")) : null)
+                    .intrRate2(resultMap.get("intr_rate2") != null ? Double.parseDouble(resultMap.get("intr_rate2")) : null)
+                    .rsrvType(resultMap.get("rsrv_type"))
+                    .rsrvTypeNm(resultMap.get("rsrv_type_nm"))
+                    .build();
 
             optionList.add(productOpts);
         }
