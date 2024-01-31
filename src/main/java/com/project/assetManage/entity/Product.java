@@ -2,15 +2,19 @@ package com.project.assetManage.entity;
 
 import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.*;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "products")
+@Entity(name = "api_products")
 @IdClass(ProductKeyId.class)
 public class Product extends BaseDateTimeEntity {
 
@@ -22,11 +26,12 @@ public class Product extends BaseDateTimeEntity {
     @Column(name = "fin_prdt_cd")
     private String finPrdtCd;
 
-    @Column(name = "act_kind_cd")
-    private String actKindCd;
-
+    @Id
     @Column(name = "dcls_month")
     private String dclsMonth;
+
+    @Column(name = "act_kind_cd")
+    private String actKindCd;
 
     @Column(name = "kor_co_nm")
     private String korCoNm;
@@ -64,38 +69,21 @@ public class Product extends BaseDateTimeEntity {
     @Column(name = "fin_co_subm_day")
     private String finCoSubmDay;
 
-    @Column(name = "intr_rate_type")
-    private String intrRateType;
 
-    @Column(name = "intr_rate_type_nm")
-    private String intrRateTypeNm;
-
-    @Column(name = "save_trm")
-    private String saveTrm;
-
-    @Column(name = "intr_rate")
-    private Double intrRate;
-
-    @Column(name = "intr_rate2")
-    private Double intrRate2;
-
-    @Column(name = "rsrv_type", nullable = true)
-    private String rsrvType;
-
-    @Column(name = "rsrv_type_nm", nullable = true)
-    private String rsrvTypeNm;
+    @OneToMany(mappedBy = "product",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProductOption> productOptions;
 
 
     @Builder
-    public Product(String finCoNo, String finPrdtCd, String actKindCd, String dclsMonth,
-        String korCoNm, String finPrdtNm, String joinWay, String mtrtInt, String spclCnd,
-        String joinDeny, String joinMember, String etcNote, Integer maxLmit, String dclsStrtDay,
-        String dclsEndDay, String finCoSubmDay, String intrRateType, String intrRateTypeNm,
-        String saveTrm, Double intrRate, Double intrRate2, String rsrvType, String rsrvTypeNm) {
+    public Product(String finCoNo, String finPrdtCd, String dclsMonth, String actKindCd,
+        String korCoNm,
+        String finPrdtNm, String joinWay, String mtrtInt, String spclCnd, String joinDeny,
+        String joinMember, String etcNote, Integer maxLmit, String dclsStrtDay, String dclsEndDay,
+        String finCoSubmDay) {
         this.finCoNo = finCoNo;
         this.finPrdtCd = finPrdtCd;
-        this.actKindCd = actKindCd;
         this.dclsMonth = dclsMonth;
+        this.actKindCd = actKindCd;
         this.korCoNm = korCoNm;
         this.finPrdtNm = finPrdtNm;
         this.joinWay = joinWay;
@@ -108,12 +96,5 @@ public class Product extends BaseDateTimeEntity {
         this.dclsStrtDay = dclsStrtDay;
         this.dclsEndDay = dclsEndDay;
         this.finCoSubmDay = finCoSubmDay;
-        this.intrRateType = intrRateType;
-        this.intrRateTypeNm = intrRateTypeNm;
-        this.saveTrm = saveTrm;
-        this.intrRate = intrRate;
-        this.intrRate2 = intrRate2;
-        this.rsrvType = rsrvType;
-        this.rsrvTypeNm = rsrvTypeNm;
     }
 }

@@ -2,9 +2,12 @@ package com.project.assetManage.model;
 
 
 import com.project.assetManage.entity.Product;
+import com.project.assetManage.entity.ProductOption;
+import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
 import com.project.assetManage.util.HttpClientResult;
 import com.project.assetManage.util.HttpConnection;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,10 +23,13 @@ public class ProductApi {
 
     private HttpConnection httpConnection;
     private ProductRepository productRepository;
+    private ProductOptionRepository productOptionRepository;
 
-    public ProductApi(HttpConnection httpConnection, ProductRepository productRepository) {
+    public ProductApi(HttpConnection httpConnection, ProductRepository productRepository,
+        ProductOptionRepository productOptionRepository) {
         this.httpConnection = httpConnection;
         this.productRepository = productRepository;
+        this.productOptionRepository = productOptionRepository;
     }
 
     public void getDepositData() {
@@ -48,7 +54,7 @@ public class ProductApi {
             throw new RuntimeException("httpConnection error : deposit data api error");
         }
 
-        List<Map<String, String>> resultList = getMaps(httpResult);
+        List<Map<String, String>> resultList = getMaps(httpResult, "baseList");
 
         List<Product> productList = new ArrayList<>();
         for (Map<String, String> resultMap : resultList) {
@@ -70,19 +76,13 @@ public class ProductApi {
                 .dclsStrtDay(resultMap.get("dcls_strt_day"))
                 .dclsEndDay(resultMap.get("dcls_end_day"))
                 .finCoSubmDay(resultMap.get("fin_co_subm_day"))
-                .intrRateType(resultMap.get("intr_rate_type"))
-                .intrRateTypeNm(resultMap.get("intr_rate_type_nm"))
-                .saveTrm(resultMap.get("save_trm"))
-                .intrRate(resultMap.get("intr_rate") != null ? Double.parseDouble(resultMap.get("intr_rate")) : null)
-                .intrRate2(resultMap.get("intr_rate2") != null ? Double.parseDouble(resultMap.get("intr_rate2")) : null)
-                .rsrvType(resultMap.get("rsrv_type"))
-                .rsrvTypeNm(resultMap.get("rsrv_type_nm"))
                 .build();
 
             productList.add(product);
         }
 
         productRepository.saveAll(productList);
+
     }
 
 
@@ -108,10 +108,13 @@ public class ProductApi {
             throw new RuntimeException("httpConnection error : deposit data api error");
         }
 
-        List<Map<String, String>> resultList = getMaps(httpResult);
+        List<Map<String, String>> resultList = getMaps(httpResult, "baseList");
 
         List<Product> productList = new ArrayList<>();
         for (Map<String, String> resultMap : resultList) {
+            if(resultMap.isEmpty() || resultMap == null){
+                throw new RuntimeException("map is null");
+            }
             Product product = Product.builder()
                 .finCoNo(resultMap.get("fin_co_no"))
                 .finPrdtCd(resultMap.get("fin_prdt_cd"))
@@ -125,31 +128,57 @@ public class ProductApi {
                 .joinDeny(resultMap.get("join_deny"))
                 .joinMember(resultMap.get("join_member"))
                 .etcNote(resultMap.get("etc_note"))
-                .maxLmit(resultMap.get("max_limit").equals("null") ? null
+                .maxLmit(resultMap.get("max_limit") == null || resultMap.get("max_limit").equals("null") ? null
                     : Integer.parseInt(resultMap.get("max_limit")))
                 .dclsStrtDay(resultMap.get("dcls_strt_day"))
                 .dclsEndDay(resultMap.get("dcls_end_day"))
-                .intrRateType(resultMap.get("intr_rate_type"))
-                .intrRateTypeNm(resultMap.get("intr_rate_type_nm"))
-                .saveTrm(resultMap.get("save_trm"))
-                .intrRate(resultMap.get("intr_rate") != null ? Double.parseDouble(resultMap.get("intr_rate")) : null)
-                .intrRate2(resultMap.get("intr_rate2") != null ? Double.parseDouble(resultMap.get("intr_rate2")) : null)
                 .build();
 
             productList.add(product);
         }
 
-        productRepository.saveAll(productList);
+        List<Map<String, String>> resultOptionList = getMaps(httpResult, "optionList");
+
+        List<ProductOption> optionList = new ArrayList<>();
+        for (Map<String, String> resultMap : resultOptionList) {
+            ProductOption productOpts = ProductOption.builder()
+                .finCoNo(resultMap.get("fin_co_no"))
+                .finPrdtCd(resultMap.get("fin_prdt_cd"))
+                .dclsMonth(resultMap.get("dcls_month"))
+                .intrRateType(resultMap.get("intr_rate_type"))
+                .intrRateTypeNm(resultMap.get("intr_rate_type_nm"))
+                .saveTrm(Integer.parseInt(resultMap.get("save_trm")))
+                .intrRate(resultMap.get("intr_rate") != null ? Double.parseDouble(resultMap.get("intr_rate")) : null)
+                .intrRate2(resultMap.get("intr_rate2") != null ? Double.parseDouble(resultMap.get("intr_rate2")) : null)
+                .rsrvType(resultMap.get("rsrv_type"))
+                .rsrvTypeNm(resultMap.get("rsrv_type_nm"))
+                .build();
+
+            optionList.add(productOpts);
+        }
+
+//        productRepository.saveAll(productList);
+        saveProducts(productList);
+//        productOptionRepository.saveAll(optionList);
+
+        saveProductOptions(optionList);
     }
 
+    @Transactional
+    public void saveProducts(List<Product> productList){
+        productRepository.saveAll(productList);
+    }
+    @Transactional
+    public void saveProductOptions(List<ProductOption> optionList){
+        productOptionRepository.saveAll(optionList);
+    }
 
-    private static List<Map<String, String>> getMaps(HttpClientResult httpResult) {
+    private static List<Map<String, String>> getMaps(HttpClientResult httpResult, String list) {
         try {
             JSONObject jsonObject = new JSONObject(httpResult.getContent());
 
             JSONObject resultObject = jsonObject.getJSONObject("result");
-            JSONArray baseListArray = resultObject.getJSONArray("baseList");
-            JSONArray optionListArray = resultObject.getJSONArray("optionList");
+            JSONArray baseListArray = resultObject.getJSONArray(list);
 
             // Convert JSONArray to List of Maps
             List<Map<String, String>> resultList = new ArrayList<>();
@@ -166,20 +195,6 @@ public class ProductApi {
                 }
 
                 resultList.add(baseMap);
-            }
-
-            for(int i=0; i<optionListArray.length(); i++){
-                JSONObject optionObject = optionListArray.getJSONObject(i);
-                Map<String, String> optsMap = new HashMap<>();
-
-                Iterator<String> keys = optionObject.keys();
-                while(keys.hasNext()){
-                    String key = keys.next();
-                    String value = optionObject.getString(key);
-                    optsMap.put(key, value);
-                }
-
-                resultList.add(optsMap);
             }
 
             return resultList;
