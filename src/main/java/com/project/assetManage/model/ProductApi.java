@@ -1,6 +1,7 @@
 package com.project.assetManage.model;
 
 
+import com.project.assetManage.controller.ProductController;
 import com.project.assetManage.entity.Product;
 import com.project.assetManage.entity.ProductOption;
 import com.project.assetManage.repository.ProductOptionRepository;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,28 +152,32 @@ public class ProductApi {
         String cmpDclsMonth = "";
 
         // t_api_product_option 순번
-        long prdOptionSeq = 0;
+        long prdOptionSeq = 1;
+        // for문 cnt
+        int cnt = 0;
 
         for (Map<String, String> resultMap : resultOptionList) {
+            System.out.println("현재 resultMap ====================================");
+            System.out.println(resultMap.toString());
 
-            String finCoNo = resultMap.get("fin_co_no");
-            String finPrdtCd = resultMap.get("fin_prdt_cd");
-            String dclsMonth = resultMap.get("dcls_month");
+            final String finCoNo = resultMap.get("fin_co_no");
+            final String finPrdtCd = resultMap.get("fin_prdt_cd");
+            final String dclsMonth = resultMap.get("dcls_month");
 
-            // 초기화
-            if("".equals(cmpFinCoNo)) cmpFinCoNo = finCoNo;
-            if("".equals(cmpFinPrdtCd)) cmpFinPrdtCd = finPrdtCd;
-            if("".equals(cmpDclsMonth)) cmpDclsMonth = dclsMonth;
+            // 2번 로우부터 비교
+            if(0<cnt){
+                System.out.println("이전 resultMap ====================================");
+                System.out.println(resultOptionList.get(cnt-1));
 
-            // prdOoptionSeq 채번을 위한 비교
-            if(finCoNo.equals(cmpFinCoNo) && finPrdtCd.equals(cmpFinPrdtCd) && dclsMonth.equals(cmpDclsMonth)){
-                prdOptionSeq++;
-            }else{
-                cmpFinCoNo = "";
-                cmpFinPrdtCd = "";
-                cmpDclsMonth ="";
-                // prdOptionSeq = 0;
-                prdOptionSeq = 1;
+                cmpFinCoNo = resultOptionList.get(cnt-1).get("fin_co_no");
+                cmpFinPrdtCd = resultOptionList.get(cnt-1).get("fin_prdt_cd");
+                cmpDclsMonth = resultOptionList.get(cnt-1).get("dcls_month");
+
+                if(finCoNo.equals(cmpFinCoNo) && finPrdtCd.equals(cmpFinPrdtCd) && dclsMonth.equals(cmpDclsMonth)){
+                    prdOptionSeq ++;
+                }else{
+                    prdOptionSeq = 1;
+                }
             }
 
             ProductOption productOpts = ProductOption.builder()
@@ -187,6 +195,8 @@ public class ProductApi {
                     .build();
 
             optionList.add(productOpts);
+
+            cnt ++;
         }
 
 //        productRepository.saveAll(productList);
