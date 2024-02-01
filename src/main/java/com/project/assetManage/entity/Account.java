@@ -16,8 +16,8 @@ public class Account extends BaseDateTimeEntity {
     @Column(name = "account_num")
     private String accountNum;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_seq")
+    private Member userSeq;
 
     @Column(name = "account_name")
     private String accountName;
