@@ -119,6 +119,27 @@ public class ProductApi {
             if(resultMap.isEmpty() || resultMap == null){
                 throw new RuntimeException("map is null");
             }
+
+            // 가입방법코드 추출 2024.02.02
+            // join_way :: 영업점,인터넷,스마트폰,전화(텔레뱅킹) - 기타 제외
+            String isin = "영업점";
+            String joinWay = resultMap.get("join_way");
+            String joinWayCd = "A"; // 기본값 :: 전체
+            // 비대면인 경우
+            if(joinWay.indexOf(isin)<0){
+                joinWayCd = "N";
+            }else{
+                // 대면인 경우
+                if(joinWay.replaceAll("\\s+", "").equals(isin)){
+                    joinWayCd = "F";
+                }
+            }
+            /*
+            System.out.println("joinWay ====================================");
+            System.out.println(joinWay);
+            System.out.println("joinWayCd ====================================");
+            System.out.println(joinWayCd);
+            */
             Product product = Product.builder()
                     .finCoNo(resultMap.get("fin_co_no"))
                     .finPrdtCd(resultMap.get("fin_prdt_cd"))
@@ -126,7 +147,7 @@ public class ProductApi {
                     .dclsMonth(resultMap.get("dcls_month"))
                     .korCoNm(resultMap.get("kor_co_nm"))
                     .finPrdtNm(resultMap.get("fin_prdt_nm"))
-                    .joinWay(resultMap.get("join_way"))
+                    .joinWay(joinWay)
                     .mtrtInt(resultMap.get("mtrt_int"))
                     .spclCnd(resultMap.get("spcl_cnd"))
                     .joinDeny(resultMap.get("join_deny"))
@@ -136,6 +157,7 @@ public class ProductApi {
                             : Integer.parseInt(resultMap.get("max_limit")))
                     .dclsStrtDay(resultMap.get("dcls_strt_day"))
                     .dclsEndDay(resultMap.get("dcls_end_day"))
+                    .joinWayCd(joinWayCd)
                     .build();
 
             productList.add(product);
@@ -145,30 +167,32 @@ public class ProductApi {
 
         List<ProductOption> optionList = new ArrayList<>();
 
-        // optionList가 세 개의 pk로 정렬돼서 온다면 사용 가능
+        // t_api_product_option :: prd_option_seq 수동 채번 2024.02.01
         // t_api_product pk 변수 :: 비교값
         String cmpFinCoNo = "";
         String cmpFinPrdtCd = "";
         String cmpDclsMonth = "";
 
-        // t_api_product_option 순번
+        // t_api_product_option pk 변수 :: 수동 채번
         long prdOptionSeq = 1;
         // for문 cnt
         int cnt = 0;
 
         for (Map<String, String> resultMap : resultOptionList) {
+            /*
             System.out.println("현재 resultMap ====================================");
             System.out.println(resultMap.toString());
-
+            */
             final String finCoNo = resultMap.get("fin_co_no");
             final String finPrdtCd = resultMap.get("fin_prdt_cd");
             final String dclsMonth = resultMap.get("dcls_month");
 
             // 2번 로우부터 비교
             if(0<cnt){
+                /*
                 System.out.println("이전 resultMap ====================================");
-                System.out.println(resultOptionList.get(cnt-1));
-
+                System.out.println(resultOptionList.get(cnt-1).toString());
+                */
                 cmpFinCoNo = resultOptionList.get(cnt-1).get("fin_co_no");
                 cmpFinPrdtCd = resultOptionList.get(cnt-1).get("fin_prdt_cd");
                 cmpDclsMonth = resultOptionList.get(cnt-1).get("dcls_month");

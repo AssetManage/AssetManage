@@ -69,6 +69,9 @@ public class Product extends BaseDateTimeEntity {
     @Column(name = "fin_co_subm_day")
     private String finCoSubmDay;
 
+    @Column(name = "join_way_cd")
+    private String joinWayCd;
+
 
     @OneToMany(mappedBy = "product",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ProductOption> productOptions;
@@ -79,7 +82,7 @@ public class Product extends BaseDateTimeEntity {
         String korCoNm,
         String finPrdtNm, String joinWay, String mtrtInt, String spclCnd, String joinDeny,
         String joinMember, String etcNote, Integer maxLmit, String dclsStrtDay, String dclsEndDay,
-        String finCoSubmDay) {
+        String finCoSubmDay, String joinWayCd) {
         this.finCoNo = finCoNo;
         this.finPrdtCd = finPrdtCd;
         this.dclsMonth = dclsMonth;
@@ -96,5 +99,6 @@ public class Product extends BaseDateTimeEntity {
         this.dclsStrtDay = dclsStrtDay;
         this.dclsEndDay = dclsEndDay;
         this.finCoSubmDay = finCoSubmDay;
+        this.joinWayCd = joinWayCd;
     }
 }
