@@ -50,7 +50,7 @@ class HttpConnectionTest {
             Product product = Product.builder()
                     .finCoNo(resultMap.get("fin_co_no"))
                     .finPrdtCd(resultMap.get("fin_prdt_cd"))
-                    .actKind("deposit")
+//                    .actKind("deposit")
                     .dclsMonth(resultMap.get("dcls_month"))
                     .korCoNm(resultMap.get("kor_co_nm"))
                     .finPrdtNm(resultMap.get("fin_prdt_nm"))

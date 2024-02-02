@@ -13,7 +13,7 @@ import java.util.List;
 import lombok.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "api_products")
 @IdClass(ProductKeyId.class)
 public class Product extends BaseDateTimeEntity {

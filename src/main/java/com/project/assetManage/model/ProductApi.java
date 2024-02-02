@@ -38,7 +38,7 @@ public class ProductApi {
 
     public void getDepositData() {
         //예금
-        String url = "http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json";
+        String url = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json";
 
         Map<String, String> header = new HashMap<>();
         header.put("Accept", "application/octet-stream,application/json");
@@ -62,30 +62,98 @@ public class ProductApi {
 
         List<Product> productList = new ArrayList<>();
         for (Map<String, String> resultMap : resultList) {
+
+            if(resultMap.isEmpty() || resultMap == null){
+                throw new RuntimeException("map is null");
+            }
+
+            String joinWayCd = getJoinWayCode(resultMap.get("join_way"));
+
             Product product = Product.builder()
-                    .finCoNo(resultMap.get("fin_co_no"))
-                    .finPrdtCd(resultMap.get("fin_prdt_cd"))
-                    .actKindCd("DP")
-                    .dclsMonth(resultMap.get("dcls_month"))
-                    .korCoNm(resultMap.get("kor_co_nm"))
-                    .finPrdtNm(resultMap.get("fin_prdt_nm"))
-                    .joinWay(resultMap.get("join_way"))
-                    .mtrtInt(resultMap.get("mtrt_int"))
-                    .spclCnd(resultMap.get("spcl_cnd"))
-                    .joinDeny(resultMap.get("join_deny"))
-                    .joinMember(resultMap.get("join_member"))
-                    .etcNote(resultMap.get("etc_note"))
-                    .maxLmit(resultMap.get("max_limit").equals("null") ? null
-                            : Integer.parseInt(resultMap.get("max_limit")))
-                    .dclsStrtDay(resultMap.get("dcls_strt_day"))
-                    .dclsEndDay(resultMap.get("dcls_end_day"))
-                    .finCoSubmDay(resultMap.get("fin_co_subm_day"))
-                    .build();
+                .finCoNo(resultMap.get("fin_co_no"))
+                .finPrdtCd(resultMap.get("fin_prdt_cd"))
+                .actKindCd("DP")
+                .dclsMonth(resultMap.get("dcls_month"))
+                .korCoNm(resultMap.get("kor_co_nm"))
+                .finPrdtNm(resultMap.get("fin_prdt_nm"))
+                .joinWay(resultMap.get("join_way"))
+                .mtrtInt(resultMap.get("mtrt_int"))
+                .spclCnd(resultMap.get("spcl_cnd"))
+                .joinDeny(resultMap.get("join_deny"))
+                .joinMember(resultMap.get("join_member"))
+                .etcNote(resultMap.get("etc_note"))
+                .maxLmit(resultMap.get("max_limit") == null || resultMap.get("max_limit").equals("null") ? null
+                    : Integer.parseInt(resultMap.get("max_limit")))
+                .dclsStrtDay(resultMap.get("dcls_strt_day"))
+                .dclsEndDay(resultMap.get("dcls_end_day") == null || resultMap.get("dcls_end_day").equals("null") ? null : resultMap.get("dcls_end_day"))
+                .joinWayCd(joinWayCd)
+                .build();
 
             productList.add(product);
         }
 
-        productRepository.saveAll(productList);
+        //option
+        List<Map<String, String>> resultOptionList = getMaps(httpResult, "optionList");
+
+        List<ProductOption> optionList = new ArrayList<>();
+
+        // t_api_product_option :: prd_option_seq 수동 채번 2024.02.01
+        // t_api_product pk 변수 :: 비교값
+        String cmpFinCoNo = "";
+        String cmpFinPrdtCd = "";
+        String cmpDclsMonth = "";
+
+        // t_api_product_option pk 변수 :: 수동 채번
+        long prdOptionSeq = 1;
+        // for문 cnt
+        int cnt = 0;
+
+        for (Map<String, String> resultMap : resultOptionList) {
+            /*
+            System.out.println("현재 resultMap ====================================");
+            System.out.println(resultMap.toString());
+            */
+            final String finCoNo = resultMap.get("fin_co_no");
+            final String finPrdtCd = resultMap.get("fin_prdt_cd");
+            final String dclsMonth = resultMap.get("dcls_month");
+
+            // 2번 로우부터 비교
+            if(0<cnt){
+                /*
+                System.out.println("이전 resultMap ====================================");
+                System.out.println(resultOptionList.get(cnt-1).toString());
+                */
+                cmpFinCoNo = resultOptionList.get(cnt-1).get("fin_co_no");
+                cmpFinPrdtCd = resultOptionList.get(cnt-1).get("fin_prdt_cd");
+                cmpDclsMonth = resultOptionList.get(cnt-1).get("dcls_month");
+
+                if(finCoNo.equals(cmpFinCoNo) && finPrdtCd.equals(cmpFinPrdtCd) && dclsMonth.equals(cmpDclsMonth)){
+                    prdOptionSeq ++;
+                }else{
+                    prdOptionSeq = 1;
+                }
+            }
+
+            ProductOption productOpts = ProductOption.builder()
+                .prdOptionSeq(prdOptionSeq)
+                .finCoNo(finCoNo)
+                .finPrdtCd(finPrdtCd)
+                .dclsMonth(dclsMonth)
+                .intrRateType(resultMap.get("intr_rate_type"))
+                .intrRateTypeNm(resultMap.get("intr_rate_type_nm"))
+                .saveTrm(Integer.parseInt(resultMap.get("save_trm")))
+                .intrRate(resultMap.get("intr_rate") != null ? Double.parseDouble(resultMap.get("intr_rate")) : null)
+                .intrRate2(resultMap.get("intr_rate2") != null ? Double.parseDouble(resultMap.get("intr_rate2")) : null)
+                .build();
+
+            optionList.add(productOpts);
+
+            cnt ++;
+        }
+
+        saveProducts(productList);
+
+        saveProductOptions(optionList);
 
     }
 
@@ -120,20 +188,8 @@ public class ProductApi {
                 throw new RuntimeException("map is null");
             }
 
-            // 가입방법코드 추출 2024.02.02
-            // join_way :: 영업점,인터넷,스마트폰,전화(텔레뱅킹) - 기타 제외
-            String isin = "영업점";
-            String joinWay = resultMap.get("join_way");
-            String joinWayCd = "A"; // 기본값 :: 전체
-            // 비대면인 경우
-            if(joinWay.indexOf(isin)<0){
-                joinWayCd = "N";
-            }else{
-                // 대면인 경우
-                if(joinWay.replaceAll("\\s+", "").equals(isin)){
-                    joinWayCd = "F";
-                }
-            }
+
+            String joinWayCd = getJoinWayCode(resultMap.get("join_way"));
             /*
             System.out.println("joinWay ====================================");
             System.out.println(joinWay);
@@ -147,7 +203,7 @@ public class ProductApi {
                     .dclsMonth(resultMap.get("dcls_month"))
                     .korCoNm(resultMap.get("kor_co_nm"))
                     .finPrdtNm(resultMap.get("fin_prdt_nm"))
-                    .joinWay(joinWay)
+                    .joinWay(resultMap.get("join_way"))
                     .mtrtInt(resultMap.get("mtrt_int"))
                     .spclCnd(resultMap.get("spcl_cnd"))
                     .joinDeny(resultMap.get("join_deny"))
@@ -156,7 +212,7 @@ public class ProductApi {
                     .maxLmit(resultMap.get("max_limit") == null || resultMap.get("max_limit").equals("null") ? null
                             : Integer.parseInt(resultMap.get("max_limit")))
                     .dclsStrtDay(resultMap.get("dcls_strt_day"))
-                    .dclsEndDay(resultMap.get("dcls_end_day"))
+                    .dclsEndDay(resultMap.get("dcls_end_day") == null || resultMap.get("dcls_end_day").equals("null") ? null : resultMap.get("dcls_end_day"))
                     .joinWayCd(joinWayCd)
                     .build();
 
@@ -223,9 +279,7 @@ public class ProductApi {
             cnt ++;
         }
 
-//        productRepository.saveAll(productList);
         saveProducts(productList);
-//        productOptionRepository.saveAll(optionList);
 
         saveProductOptions(optionList);
     }
@@ -267,6 +321,23 @@ public class ProductApi {
         } catch (JSONException e) {
             throw new IllegalArgumentException("Error parsing JSON content");
         }
+    }
+
+    public String getJoinWayCode(String joinWay){
+        // 가입방법코드 추출 2024.02.02
+        // join_way :: 영업점,인터넷,스마트폰,전화(텔레뱅킹) - 기타 제외
+        String isin = "영업점";
+        String joinWayCd = "A"; // 기본값 :: 전체
+        // 비대면인 경우
+        if(joinWay.indexOf(isin)<0){
+            joinWayCd = "N";
+        }else{
+            // 대면인 경우
+            if(joinWay.replaceAll("\\s+", "").equals(isin)){
+                joinWayCd = "F";
+            }
+        }
+        return joinWayCd;
     }
 
 }

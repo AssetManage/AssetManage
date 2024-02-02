@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@Entity(name ="code_master")
+@Entity(name ="st_code_master")
 public class CodeMaster extends BaseDateTimeEntity {
 
     @Id

@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "member")
-public class Member extends BaseDateTimeEntity {
+@Entity(name = "st_user")
+public class User extends BaseDateTimeEntity {
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+//     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_seq")
     private String userSeq;
 
@@ -69,7 +69,7 @@ public class Member extends BaseDateTimeEntity {
 
 
     @Builder
-    public Member(String userSeq, String userNm, String loginId, String loginPw, String email,
+    public User(String userSeq, String userNm, String loginId, String loginPw, String email,
                   String prdtRcmdItemCd, Character lockYn, Character secsnYn, Character indvdlinfoAgreeYn,
                   String profileImgUrl, Gender sexCd, String ageCd, Integer age, String occupationCd,
                   String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2) {

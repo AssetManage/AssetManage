@@ -20,7 +20,7 @@ public class ApiUserCard extends BaseDateTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
-    private Member userSeq;
+    private User userSeq;
 
     @Column(name = "card_nm")
     private String cardNm;
@@ -47,7 +47,7 @@ public class ApiUserCard extends BaseDateTimeEntity {
     private Character userYn;
 
     @Builder
-    public ApiUserCard(Long cardNo, Member userSeq, String cardNm, String cardCoNo, String cardPw,
+    public ApiUserCard(Long cardNo, User userSeq, String cardNm, String cardCoNo, String cardPw,
                       Character validThruYear, Character validThruMonth, Character cvcCd,
                       LocalDateTime joinDate, Character userYn) {
         this.cardNo = cardNo;

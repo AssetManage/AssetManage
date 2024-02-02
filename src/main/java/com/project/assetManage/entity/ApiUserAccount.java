@@ -21,7 +21,7 @@ public class ApiUserAccount extends BaseDateTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
-    private Member userSeq;
+    private User userSeq;
 
     @Column(name = "fin_prdt_cd")
     private String finPrdtCd;
@@ -57,7 +57,7 @@ public class ApiUserAccount extends BaseDateTimeEntity {
     private Character useYn;
 
     @Builder
-    public ApiUserAccount(String accountNo, Member userSeq, String finPrdtCd, String finCoNo,
+    public ApiUserAccount(String accountNo, User userSeq, String finPrdtCd, String finCoNo,
                           LocalDate dclsMonth, Integer accountSeq, LocalDateTime accountIssueDate,
                           LocalDateTime maturityDate, LocalDateTime lastTranDate, String productNm,
                           String productSubName, Long balanceAmt, Character useYn) {

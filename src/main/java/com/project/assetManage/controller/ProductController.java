@@ -22,7 +22,7 @@ public class ProductController {
     @Operation(summary = "예적금 API 호출", description = "예적금API를 호출하여 데이터를 저장한다.")
     @GetMapping("/productData")
     public void getProductData() {
-//        productApi.getDepositData();
+        productApi.getDepositData();
         productApi.getSavingData();
     }
 

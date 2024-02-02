@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@Entity(name ="account")
-public class Account extends BaseDateTimeEntity {
-
+@Entity(name ="api_user_account")
+public class UserAccount extends BaseDateTimeEntity {
 
     @Id
     @Column(name = "account_num")
     private String accountNum;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
-    private Member userSeq;
+    private User userSeq;
 
     @Column(name = "account_name")
     private String accountName;
