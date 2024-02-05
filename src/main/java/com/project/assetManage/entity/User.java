@@ -43,8 +43,8 @@ public class User extends BaseDateTimeEntity {
     @Column(name="profile_img_url")
     private String profileImgUrl;
 
-    @Column(name="sex_cd", columnDefinition = "VARCHAR(40)")
-    private Gender sexCd;
+    @Column(name="sex_cd")
+    private String sexCd;
 
     @Column(name="age_cd")
     private String ageCd;
@@ -71,7 +71,7 @@ public class User extends BaseDateTimeEntity {
     @Builder
     public User(String userSeq, String userNm, String loginId, String loginPw, String email,
                   String prdtRcmdItemCd, Character lockYn, Character secsnYn, Character indvdlinfoAgreeYn,
-                  String profileImgUrl, Gender sexCd, String ageCd, Integer age, String occupationCd,
+                  String profileImgUrl, String sexCd, String ageCd, Integer age, String occupationCd,
                   String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2) {
         this.userSeq = userSeq;
         this.userNm = userNm;
