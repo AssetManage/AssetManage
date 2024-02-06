@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @NoArgsConstructor
@@ -22,18 +23,22 @@ public class ProductOption extends BaseDateTimeEntity {
 
     @Id
     @Column(name = "prd_option_seq")
+    @Comment("상품옵션순번")
     private Long prdOptionSeq;
 
     @Id
     @Column(name = "fin_co_no")
+    @Comment("금융회사코드")
     private String finCoNo;
 
     @Id
     @Column(name = "fin_prdt_cd")
+    @Comment("금융상품코드")
     private String finPrdtCd;
 
     @Id
     @Column(name = "dcls_month")
+    @Comment("공시제출월[YYYYMM]")
     private String dclsMonth;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,24 +50,31 @@ public class ProductOption extends BaseDateTimeEntity {
     private Product product;
 
     @Column(name = "intr_rate_type")
+    @Comment("저축금리유형")
     private String intrRateType;
 
     @Column(name = "intr_rate_type_nm")
+    @Comment("저축금리유형명")
     private String intrRateTypeNm;
 
     @Column(name = "save_trm")
+    @Comment("저축기간")
     private Integer saveTrm;
 
     @Column(name = "intr_rate")
+    @Comment("저축금리")
     private Double intrRate;
 
     @Column(name = "intr_rate2")
+    @Comment("최고우대금리")
     private Double intrRate2;
 
     @Column(name = "rsrv_type")
+    @Comment("적립유형")
     private String rsrvType;
 
     @Column(name = "rsrv_type_nm")
+    @Comment("적립유형명")
     private String rsrvTypeNm;
 
 
