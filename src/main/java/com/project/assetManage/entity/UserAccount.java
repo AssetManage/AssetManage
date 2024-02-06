@@ -64,7 +64,7 @@ public class UserAccount extends BaseDateTimeEntity {
 
     @Column(name = "balance_amt")
     @Comment("계좌잔액")
-    private Long balanceAmt;
+    private Integer balanceAmt;
 
     @Column(name = "use_yn")
     @Comment("사용여부")
@@ -74,7 +74,7 @@ public class UserAccount extends BaseDateTimeEntity {
     public UserAccount(String accountNo, User userSeq, String finPrdtCd, String finCoNo,
                        String dclsMonth, Integer accountSeq, LocalDateTime accountIssueDate,
                        LocalDateTime maturityDate, LocalDateTime lastTranDate, String productNm,
-                       String productSubName, Long balanceAmt, Character useYn) {
+                       String productSubName, Integer balanceAmt, Character useYn) {
         this.accountNo = accountNo;
         this.userSeq = userSeq;
         this.finPrdtCd = finPrdtCd;
