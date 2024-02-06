@@ -18,12 +18,12 @@ public class AccountDetail extends BaseDateTimeEntity {
 
     @Id
     @Column(name = "bank_tran_id")
-    @Comment("계좌번호")
-    private Long bankTranId;
+    @Comment("은행거래고유번호")
+    private String bankTranId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_no")
-    @Comment("은행거래고유번호")
+    @Comment("계좌번호")
     private UserAccount accountNo;
 
     @Column(name = "tran_date")
@@ -44,11 +44,11 @@ public class AccountDetail extends BaseDateTimeEntity {
 
     @Column(name = "tran_amt")
     @Comment("거래금액")
-    private Long tranAmt;
+    private Integer tranAmt;
 
     @Column(name = "after_balance_amt")
     @Comment("거래후잔액")
-    private Long afterBalanceAmt;
+    private Integer afterBalanceAmt;
 
     @Column(name = "frnc_num")
     @Comment("가맹점번호")
@@ -67,8 +67,8 @@ public class AccountDetail extends BaseDateTimeEntity {
     private String frncIdstrCd;
 
     @Builder
-    public AccountDetail(Long bankTranId, UserAccount accountNo, LocalDate tranDate, LocalTime tranTime,
-                         String inoutTypeCd, String printedContent, Long tranAmt, Long afterBalanceAmt,
+    public AccountDetail(String bankTranId, UserAccount accountNo, LocalDate tranDate, LocalTime tranTime,
+                         String inoutTypeCd, String printedContent, Integer tranAmt, Integer afterBalanceAmt,
                          String frncNum, String frncBusinessNum, String frncName, String frncIdstrCd) {
         this.bankTranId = bankTranId;
         this.accountNo = accountNo;

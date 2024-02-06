@@ -18,52 +18,52 @@ public class CardDetail extends BaseDateTimeEntity {
     @Id
     @Column(name = "approval_no")
     @Comment("승인번호")
-    private Long approvalNo;
+    private Integer approvalNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_no")
     @Comment("카드번호")
     private UserCard cardNo;
 
-    @Column(name = "business_type")
+    @Column(name = "frnc_business_num")
     @Comment("가맹점사업자등록번호")
-    private String businessType;
+    private String frncBusinessNum;
 
-    @Column(name = "company_name")
-    @Comment("가맹점명")
-    private String companyName;
-
-    @Column(name = "registration_number")
+    @Column(name = "frnc_num")
     @Comment("가맹점번호")
-    private String registrationNumber;
+    private String frncNum;
+
+    @Column(name = "frnc_nm")
+    @Comment("가맹점명")
+    private String frncNm;
 
     @Column(name = "frnc_idstr_cd")
-    @Comment("거래금액")
+    @Comment("가맹점업종코드")
     private String frncIdstrCd;
 
-    @Column(name = "approval_amount")
-    @Comment("승인일시")
-    private Long approvalAmount;
+    @Column(name = "approval_amt")
+    @Comment("거래금액")
+    private Integer approvalAmt;
 
     @Column(name = "approval_date")
-    @Comment("할부개월")
+    @Comment("승인일시")
     private LocalDateTime approvalDate;
 
     @Column(name = "installration_month")
-    @Comment("가맹점업종코드")
+    @Comment("할부개월")
     private Integer installrationMonth;
 
     @Builder
-    public CardDetail(Long approvalNo, UserCard cardNo, String businessType, String companyName,
-                      String registrationNumber, String frncIdstrCd, Long approvalAmount,
+    public CardDetail(Integer approvalNo, UserCard cardNo, String frncBusinessNum, String frncNum,
+                      String frncNm, String frncIdstrCd, Integer approvalAmt,
                       LocalDateTime approvalDate, Integer installrationMonth) {
         this.approvalNo = approvalNo;
         this.cardNo = cardNo;
-        this.businessType = businessType;
-        this.companyName = companyName;
-        this.registrationNumber = registrationNumber;
+        this.frncBusinessNum = frncBusinessNum;
+        this.frncNum = frncNum;
+        this.frncNm = frncNm;
         this.frncIdstrCd = frncIdstrCd;
-        this.approvalAmount = approvalAmount;
+        this.approvalAmt = approvalAmt;
         this.approvalDate = approvalDate;
         this.installrationMonth = installrationMonth;
     }
