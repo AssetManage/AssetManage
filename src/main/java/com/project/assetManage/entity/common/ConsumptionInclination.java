@@ -30,22 +30,6 @@ public class ConsumptionInclination extends BaseDateTimeEntity {
     @Comment("소비성향이미지url")
     private String cnsmpInclnImgUrl;
 
-    @Column(name = "card_comput_rate")
-    @Comment("카드지출산출비율(%)")
-    private Integer cardComputRate;
-
-    @Column(name = "cash_comput_rate")
-    @Comment("현금지출산출비율(%)")
-    private Integer cashComputRate;
-
-    @Column(name = "deposit_comput_rate")
-    @Comment("예금산출비율(%)")
-    private Integer depositComputRate;
-
-    @Column(name = "saving_comput_rate")
-    @Comment("적금산출비율(%)")
-    private Integer savingComputRate;
-
     @Column(name = "disp_seq")
     @Comment("표시순서")
     private Integer dispSeq;
@@ -54,5 +38,8 @@ public class ConsumptionInclination extends BaseDateTimeEntity {
     @Comment("사용여부")
     private Character useYn;
 
+    @Column(name = "over_cnsmp_incln")
+    @Comment("과소비지수")
+    private String overCnsmpIncln;
 
 }
