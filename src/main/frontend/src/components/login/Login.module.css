@@ -1,191 +1,183 @@
 .login1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: var(--color-white);
-  width: 1440px;
-  height: 840px;
-  overflow: hidden;
+	position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: var(--color-white);
+	width: 1440px;
+	height: 840px;
+	overflow: hidden;
 }
 .login2,
 .myFinancialPocket {
-  position: absolute;
-  left: 728px;
-  font-weight: 800;
+	position: absolute;
+	left: 728px;
+	font-weight: 800;
 }
 .login2 {
-  top: 172px;
-  font-size: 36px;
-  color: var(--color-mediumslateblue);
+	top: 172px;
+	font-size: 36px;
+	color: var(--color-mediumslateblue);
 }
 .myFinancialPocket {
-  top: 227px;
-  font-size: 34px;
-  letter-spacing: -0.01em;
-  line-height: 35px;
-  display: inline-block;
-  width: 323px;
+	top: 227px;
+	font-size: 34px;
+	letter-spacing: -0.01em;
+	line-height: 35px;
+	display: inline-block;
+	width: 323px;
 }
 .email {
-  top: 313px;
-  left: 729px;
-  font-size: var(--font-size-mini);
-  font-weight: 500;
+	top: 313px;
+	left: 729px;
+	font-size: var(--font-size-mini);
+	font-weight: 500;
 }
 .email,
 .email1,
 .inBox {
-  position: absolute;
-}
-.inBox {
-  top: 339px;
-  left: 730px;
-  border-radius: var(--br-8xs);
-  background-color: var(--color-white);
-  border: 1px solid var(--color-lightgray-100);
-  box-sizing: border-box;
-  width: 380px;
-  height: 48px;
+	position: absolute;
 }
 .email1 {
-  top: 354px;
-  left: 742px;
-  font-weight: 300;
-  color: var(--color-lightslategray);
+	top: 339px;
+	left: 730px;
+	border-radius: var(--br-8xs);
+	background-color: var(--color-white);
+	border: 1px solid var(--color-lightgray-100);
+	box-sizing: border-box;
+	width: 380px;
+	height: 48px;
+	padding-left: 12px;
 }
 .password {
-  position: absolute;
-  top: 419px;
-  left: 729px;
-  font-size: var(--font-size-mini);
-  font-weight: 500;
+	position: absolute;
+	top: 419px;
+	left: 729px;
+	font-size: var(--font-size-mini);
+	font-weight: 500;
 }
-.inBox1 {
-  top: 445px;
-  left: 730px;
-  border-radius: var(--br-8xs);
-  background-color: var(--color-white);
-  border: 1px solid var(--color-lightgray-100);
-  box-sizing: border-box;
-  width: 380px;
-  height: 48px;
+.password1 {
+	top: 445px;
+	left: 730px;
+	border-radius: var(--br-8xs);
+	background-color: var(--color-white);
+	border: 1px solid var(--color-lightgray-100);
+	box-sizing: border-box;
+	width: 380px;
+	height: 48px;
+	padding-left: 12px;
 }
 .chBox,
-.div,
-.inBox1 {
-  position: absolute;
-}
-.div {
-  top: 460px;
-  left: 742px;
-  color: var(--color-lightslategray);
+.password1 {
+	position: absolute;
 }
 .chBox {
-  top: 505px;
-  left: 730px;
-  border-radius: 3px;
-  background-color: var(--color-white);
-  border: 1px solid var(--color-lightgray-100);
-  box-sizing: border-box;
-  width: 16px;
-  height: 16px;
+	top: 505px;
+	left: 730px;
+	border-radius: 3px;
+	background-color: var(--color-white);
+	border: 1px solid var(--color-lightgray-100);
+	box-sizing: border-box;
+	width: 16px;
+	height: 16px;
 }
 .div1 {
-  top: 505px;
-  left: 754px;
+	top: 505px;
+	left: 754px;
 }
 .b,
 .btnBox,
 .div1 {
-  position: absolute;
+	position: absolute;
 }
 .btnBox {
-  top: 554px;
-  left: 730px;
-  border-radius: var(--br-8xs);
-  background-color: var(--color-mediumslateblue);
-  width: 380px;
-  height: 54px;
+	top: 554px;
+	left: 730px;
+	border: none;
+	border-radius: var(--br-8xs);
+	background-color: var(--color-mediumslateblue);
+	width: 380px;
+	height: 54px;
 }
 .b {
-  top: 571px;
-  left: 900px;
-  font-size: 18px;
-  color: var(--color-white);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 18px;
+	color: var(--color-white);
 }
 .div2,
 .div3,
 .div4 {
-  position: absolute;
-  top: 632px;
-  left: 1035px;
-  font-weight: 500;
+	position: absolute;
+	top: 632px;
+	left: 1035px;
+	font-weight: 500;
 }
 .div3,
 .div4 {
-  left: 962px;
+	left: 962px;
 }
 .div4 {
-  left: 730px;
+	left: 730px;
 }
 .loginChild {
-  position: absolute;
-  top: 262px;
-  left: 272px;
-  border-radius: 173px;
-  background-color: #ecf1ff;
-  filter: blur(70px);
-  width: 426px;
-  height: 346px;
+	position: absolute;
+	top: 262px;
+	left: 272px;
+	border-radius: 173px;
+	background-color: #ecf1ff;
+	filter: blur(70px);
+	width: 426px;
+	height: 346px;
 }
 .ellipse {
-  position: absolute;
-  top: 595px;
-  left: 463px;
-  border-radius: 50%;
-  background-color: rgba(205, 209, 222, 0.3);
-  width: 115px;
-  height: 30px;
+	position: absolute;
+	top: 595px;
+	left: 463px;
+	border-radius: 50%;
+	background-color: rgba(205, 209, 222, 0.3);
+	width: 115px;
+	height: 30px;
 }
 .icon,
 .icon1,
 .icon2,
 .icon3 {
-  position: absolute;
-  top: 429px;
-  left: 344px;
-  width: 92px;
-  height: 50.5px;
-  object-fit: cover;
+	position: absolute;
+	top: 429px;
+	left: 344px;
+	width: 92px;
+	height: 50.5px;
+	object-fit: cover;
 }
 .icon1,
 .icon2,
 .icon3 {
-  top: 390px;
-  left: 600px;
-  width: 76px;
-  height: 41.7px;
+	top: 390px;
+	left: 600px;
+	width: 76px;
+	height: 41.7px;
 }
 .icon2,
 .icon3 {
-  top: 316px;
-  left: 390px;
-  width: 80px;
-  height: 43.9px;
+	top: 316px;
+	left: 390px;
+	width: 80px;
+	height: 43.9px;
 }
 .icon3 {
-  top: 306px;
-  left: 414px;
-  width: 210px;
-  height: 328.2px;
-  object-fit: contain;
+	top: 306px;
+	left: 414px;
+	width: 210px;
+	height: 328.2px;
+	object-fit: contain;
 }
 .login {
-  width: 100%;
-  position: relative;
-  height: 840px;
-  text-align: left;
-  font-size: var(--font-size-sm);
-  color: var(--color-gray);
-  font-family: var(--font-pretendard);
+	width: 100%;
+	position: relative;
+	height: 840px;
+	text-align: left;
+	font-size: var(--font-size-sm);
+	color: var(--color-gray);
+	font-family: var(--font-pretendard);
 }
