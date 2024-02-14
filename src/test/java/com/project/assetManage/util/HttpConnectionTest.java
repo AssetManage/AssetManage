@@ -74,12 +74,6 @@ class HttpConnectionTest {
 
     }
 
-    @Test
-    void getSaving(){
-        //productApi.getSavingData();
-
-    }
-
     private static List<Map<String, String>> getMaps(HttpClientResult httpResult) throws JSONException {
         JSONObject jsonObject = new JSONObject(httpResult.getContent());
 

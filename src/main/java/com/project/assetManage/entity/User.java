@@ -13,10 +13,10 @@ import org.hibernate.annotations.Comment;
 public class User extends BaseDateTimeEntity {
 
     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="user_seq")
     @Comment("회원번호")
-    private String userSeq;
+    private Long userSeq;
 
     @Column(name="user_nm")
     @Comment("성명")
@@ -88,11 +88,10 @@ public class User extends BaseDateTimeEntity {
 
 
     @Builder
-    public User(String userSeq, String userNm, String loginId, String loginPw, String email,
+    public User(String userNm, String loginId, String loginPw, String email,
                   String prdtRcmdItemCd, Character lockYn, Character secsnYn, Character indvdlinfoAgreeYn,
                   String profileImgUrl, String sexCd, String ageCd, Integer age, String occupationCd,
                   String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2) {
-        this.userSeq = userSeq;
         this.userNm = userNm;
         this.loginId = loginId;
         this.loginPw = loginPw;
