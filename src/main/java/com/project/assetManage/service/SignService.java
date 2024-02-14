@@ -69,15 +69,13 @@ public class SignService {
     }
 
     @Transactional
-    public SignResponse logout(SignoutRequest request){
+    public boolean logout(SignoutRequest request){
         if(!jwtProvider.validateToken(request.getToken())){
             throw new IllegalArgumentException("로그아웃 : 유효하지 않은 토큰입니다.");
         }
 
         Authentication authentication = jwtProvider.getAuthentication(request.getToken());
-
-        Long expiration = jwtProvider.getExpiration(request.getToken());
-        return null;
+        return authentication.isAuthenticated();
     }
 
 }
