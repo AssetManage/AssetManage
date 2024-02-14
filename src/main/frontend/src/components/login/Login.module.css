@@ -95,6 +95,7 @@
 	border: none;
 	border-radius: var(--br-8xs);
 	background-color: var(--color-mediumslateblue);
+	cursor: pointer;
 	width: 380px;
 	height: 54px;
 }
