@@ -55,7 +55,7 @@ public class SignService {
         User user = userRepository.findUserByEmail(request.getEmail())
             .orElseThrow(() -> new EntityNotFoundException("잘못된 이메일 혹은 비밀번호입니다"));
 
-        if (passwordEncoder.matches(request.getPassword(), user.getLoginPw())) {
+        if (passwordEncoder.matches(request.getPassword(), passwordEncoder.encode(user.getLoginPw()))) {
             throw new IllegalStateException("잘못된 이메일 혹은 비밀번호입니다");
         }
 
