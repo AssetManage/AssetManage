@@ -1,23 +1,10 @@
 package com.project.assetManage.service;
 
-import com.project.assetManage.entity.QAccountDetail;
-import com.project.assetManage.entity.QUserAccount;
-import com.project.assetManage.entity.UserAccount;
-import com.project.assetManage.entity.UserComuteIncome;
-import com.project.assetManage.repository.ApiAccountDetailRepository;
-import com.project.assetManage.repository.ComputeIncomeRepository;
-import com.project.assetManage.repository.UserAccountRepository;
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class ComputeIncomeService{
-
+/*
     private ComputeIncomeRepository computeIncomeRepository;
     private UserAccountRepository userAccountRepository;
     private final ApiAccountDetailRepository apiAccountDetailRepository;
@@ -41,14 +28,14 @@ public class ComputeIncomeService{
 
         // 산출소득 초기화
         UserComuteIncome computeIncome = new UserComuteIncome();
-      /* computeIncome.setUserSeq(userSeq);
+      *//* computeIncome.setUserSeq(userSeq);
         computeIncome.setCardExpdtAmt("0");
         computeIncome.setCashExpdtAmt("0");
         computeIncome.setCnsmpInclnCd("default");
         computeIncome.setIncomeScopeCd("default");
         computeIncome.setMonthIncome(0);
         computeIncome.setSavingExpdtAmt("0");
-        computeIncome.setYearIncome("0");*/
+        computeIncome.setYearIncome("0");*//*
 
         // 계좌별 거래금액 합산
         QAccountDetail apiAccountDetail = QAccountDetail.accountDetail;
@@ -79,7 +66,7 @@ public class ComputeIncomeService{
     public void updateComputeIncome() {
 
         // computeIncomeRepository.update(...) 등
-    }
+    }*/
 }
 
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user/computeIncome")
 public class ComputeIncomeController {
 
-    private ComputeIncomeService computeIncomeService;
+    /*private ComputeIncomeService computeIncomeService;
 
     public ComputeIncomeController(ComputeIncomeService computeIncomeService) {
         this.computeIncomeService = computeIncomeService;
@@ -32,7 +32,7 @@ public class ComputeIncomeController {
     @PostMapping("/update")
     public void updateComputeIncome(){
         computeIncomeService.updateComputeIncome();
-    }
+    }*/
 
 
 }
