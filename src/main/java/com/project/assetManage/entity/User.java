@@ -13,7 +13,7 @@ import org.hibernate.annotations.Comment;
 public class User extends BaseDateTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_seq")
     @Comment("회원번호")
     private Long userSeq;
