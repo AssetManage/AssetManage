@@ -1,7 +1,0 @@
-
-/*
-@Service
-public class ConsumptionTypeService {
-
-
-}*/

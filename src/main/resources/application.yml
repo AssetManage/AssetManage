@@ -1,7 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://43.201.173.195:3306/mysqldb
     url: jdbc:mysql://localhost:3306/mysqlDb
+#    username: pocket
     username: root
     password: mysqldb
 
@@ -10,7 +12,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        hbm2ddl.auto: create
+        hbm2ddl.auto: none
         format_sql: true
         naming:
           physical-strategy: com.aaa.admin.config.NamingStrategy
@@ -19,6 +21,14 @@ spring:
       level:
         org.hibernate.SQL: debug
         org.hibernate.type: trace
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+jwt:
+  secret:
+    key: x!A%D*G-KaPdSgVkYp3s5v8y/B?E(H+M
 
 springdoc:
   version: v1.0.0
