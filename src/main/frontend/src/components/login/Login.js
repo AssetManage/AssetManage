@@ -11,19 +11,6 @@ const Login = () => {
     const navigate = useNavigate();
 
     const onClickLogin = (email, pw) => {
-        axios.post('/api/sign/login', {
-            email: 'test@email.com',
-            password: '123123123a!'
-        }).then(function (res) {
-            console.log(res);
-            localStorage.setItem('accessToken', res.data.token);
-            axios.defaults.headers.common['Authorization'] = res.data.token;
-        }).catch(function (error) {
-            console.log(error);
-        });
-
-        return;
-
         if(email === ''){
             alert('이메일을 입력해 주세요.');
             return;
@@ -45,19 +32,19 @@ const Login = () => {
             alert('이메일 및 비밀번호가 일치하지 않습니다.');
             return;
         }
-    };
 
-    const onClickLogin2 = () => {
-        axios.post('/user/test', {
+        axios.post('/api/sign/login', {
+            email: email,
+            password: pw
         }).then(function (res) {
-            console.log(res);
+            localStorage.setItem('accessToken', res.data.token);
+            axios.defaults.headers.common['Authorization'] = res.data.token;
+
+            navigate('/');
         }).catch(function (error) {
-
-        }).then(function() {
-
+           alert(error.response.data.message);
         });
     };
-
 
     useEffect(() => {
 
@@ -67,7 +54,7 @@ const Login = () => {
         <div className={styles.login}>
             <div className={styles.login1}>
                 <form>
-                    <div className={styles.login2} onClick={(e) => {onClickLogin2()}}>Login</div>
+                    <div className={styles.login2}>Login</div>
                     <div className={styles.myFinancialPocket}>My Financial Pocket</div>
                     <label className={styles.email} htmlFor="email">Email</label>
                     <input
