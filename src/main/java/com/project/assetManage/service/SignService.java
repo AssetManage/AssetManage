@@ -5,6 +5,8 @@ import com.project.assetManage.dto.SignResponse;
 import com.project.assetManage.dto.SignoutRequest;
 import com.project.assetManage.entity.User;
 import com.project.assetManage.repository.UserRepository;
+import com.project.assetManage.util.exception.CustomException;
+import com.project.assetManage.util.exception.ErrorCode;
 import com.project.assetManage.util.security.JwtProvider;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,21 +33,20 @@ public class SignService {
 
     @Transactional
     public SignResponse join(SignRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())){
+            throw new CustomException(ErrorCode.JOIN_EMAIL_DUPLICATE);
+        }
         try{
-            if (userRepository.existsByEmail(request.getEmail())){
-                throw new EntityExistsException("이미 가입된 이메일입니다.");
-            }
-
             String password = passwordEncoder.encode(request.getPassword());
             User user = request.toUserEntity(password, request);
 
             userRepository.save(user);
         }catch (Exception e) {
-            throw new IllegalStateException("가입에 실패하였습니다.");
+            throw new CustomException(ErrorCode.JOIN_FAIL);
         }
 
         User joinedUser = userRepository.findUserByEmail(request.getEmail())
-            .orElseThrow(()-> new EntityNotFoundException("존재하지 않는 회원입니다."));
+            .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return SignResponse.of(joinedUser);
     }
@@ -53,10 +54,10 @@ public class SignService {
     @Transactional
     public SignResponse login(SignRequest request) {
         User user = userRepository.findUserByEmail(request.getEmail())
-            .orElseThrow(() -> new EntityNotFoundException("잘못된 이메일 혹은 비밀번호입니다"));
+            .orElseThrow(() -> new CustomException(ErrorCode.LOGIN_FAIL));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getLoginPw())) {
-            throw new IllegalStateException("잘못된 이메일 혹은 비밀번호입니다");
+            throw new CustomException(ErrorCode.LOGIN_FAIL);
         }
 
         SignResponse result = SignResponse.of(user);
@@ -71,7 +72,7 @@ public class SignService {
     @Transactional
     public boolean logout(SignoutRequest request){
         if(!jwtProvider.validateToken(request.getToken())){
-            throw new IllegalArgumentException("로그아웃 : 유효하지 않은 토큰입니다.");
+            throw new CustomException(ErrorCode.TOKEN_INVALID);
         }
 
         Authentication authentication = jwtProvider.getAuthentication(request.getToken());
