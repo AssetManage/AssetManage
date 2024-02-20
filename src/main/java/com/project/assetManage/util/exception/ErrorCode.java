@@ -15,7 +15,7 @@ public enum ErrorCode {
 
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED,"TOKEN-001", "유효하지 않은 토큰입니다."),
 
-    USER_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "USER-001", "존재하지 않는 회원입니다.");
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER-001", "존재하지 않는 회원입니다.");
 
 
     private final HttpStatus httpStatus;
