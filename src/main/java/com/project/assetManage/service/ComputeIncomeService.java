@@ -6,7 +6,6 @@ import com.project.assetManage.entity.UserAccount;
 import com.project.assetManage.entity.UserComuteIncome;
 import com.project.assetManage.entity.common.Code;
 import com.project.assetManage.entity.common.ConsumptionInclination;
-import com.project.assetManage.entity.common.QCode;
 import com.project.assetManage.entity.common.QConsumptionInclination;
 import com.project.assetManage.repository.*;
 import com.querydsl.core.Tuple;
@@ -139,7 +138,7 @@ public class ComputeIncomeService{
         QConsumptionInclination qConsumptionInclination = QConsumptionInclination.consumptionInclination;
         List<ConsumptionInclination> inclinations = queryFactory
                 .selectFrom(qConsumptionInclination)
-                .where(qConsumptionInclination.overCnsmpIncln.loe(ratio))
+                //.where(qConsumptionInclination.overCnsmpIncln.loe(ratio))
                 .orderBy(qConsumptionInclination.dispSeq.asc())
                 .fetch();
 
