@@ -35,7 +35,15 @@ public class RecommandController {
     @GetMapping("/selectProductList")
     public Map<String, Object> selectProductList(@Nullable @RequestParam Map<String,Object> param, HttpSession session) {
         Map<String, Object> ret = new HashMap<>();
+
+        int size = 0;
+        String stat = "SUCCESS";
+        // TO-DO :: queryDsl의 인라인뷰 미지원 이슈 해결 방안 모색
         List<ProductDto.ResponseAll> productList = productService.selectProductList(param);
+        
+        // TO-DO :: 에러 및 리턴값 모듈화
+        ret.put("size", productList.size());
+        ret.put("stat", stat);
         ret.put("list", productList);
         return ret;
     }
