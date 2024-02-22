@@ -180,59 +180,18 @@
 	width: 38px;
 	height: 18px;
 }
-.radioIco,
-.radioIco1 {
-	position: absolute;
-	border-radius: 50%;
+.genderRadioGroup {
+    border: none;
+    position: absolute;
+    left: 493px;
+    top: 591px;
 }
-.radioIco {
-	top: 602px;
-	left: 510px;
-	background-color: var(--color-white);
-	border: 1px solid var(--color-mediumslateblue);
-	box-sizing: border-box;
-	width: 16px;
-	height: 16px;
+.genderRadioLabel {
+    margin-right: 46px;
 }
-.radioIco1 {
-	top: 606px;
-	left: 514px;
-	background-color: var(--color-mediumslateblue);
-	width: 8px;
-	height: 8px;
-}
-.div11,
-.radioIco2 {
-	position: absolute;
-	top: 602px;
-}
-.div11 {
-	left: 534px;
-	font-size: var(--font-size-sm);
-	display: inline-block;
-	width: 37px;
-	height: 17px;
-}
-.radioIco2 {
-	left: 603px;
-	border-radius: 50%;
-	background-color: var(--color-white);
-	border: 1px solid var(--color-lightgray-100);
-	box-sizing: border-box;
-	width: 16px;
-	height: 16px;
-}
-.div12,
 .div13 {
 	position: absolute;
 	display: inline-block;
-}
-.div12 {
-	top: 602px;
-	left: 627px;
-	font-size: var(--font-size-sm);
-	width: 37px;
-	height: 17px;
 }
 .div13 {
 	top: 564px;
@@ -320,6 +279,11 @@ input[type="number"]::-webkit-outer-spin-button {
 .inBox7,
 .member2Child {
 	position: absolute;
+}
+.jobCategorySelectWrapper {
+    position: absolute;
+    top: 694px;
+    left: 510px;
 }
 .div18 {
 	top: 752px;
@@ -428,71 +392,17 @@ input[type="number"]::-webkit-outer-spin-button {
 	left: 509px;
 	font-weight: 500;
 }
-.radioIco3,
-.radioIco4 {
+.productRecommendRadioGroup {
+    border: none;
+    position: absolute;
+    top: 1070px;
+    left: 494px;
+}
+.productRecommendRadioLabel {
+    margin-right: 33px;
+}
+.chBox {
 	position: absolute;
-	border-radius: 50%;
-}
-.radioIco3 {
-	top: 1083px;
-	left: 510px;
-	background-color: var(--color-white);
-	border: 1px solid var(--color-mediumslateblue);
-	box-sizing: border-box;
-	width: 16px;
-	height: 16px;
-}
-.radioIco4 {
-	top: 1087px;
-	left: 514px;
-	background-color: var(--color-mediumslateblue);
-	width: 8px;
-	height: 8px;
-}
-.div23 {
-	left: 534px;
-	font-size: var(--font-size-sm);
-}
-.div23,
-.div24,
-.radioIco5 {
-	position: absolute;
-	top: 1083px;
-}
-.radioIco5 {
-	left: 603px;
-	border-radius: 50%;
-	background-color: var(--color-white);
-	border: 1px solid var(--color-lightgray-100);
-	box-sizing: border-box;
-	width: 16px;
-	height: 16px;
-}
-.div24 {
-	left: 627px;
-	font-size: var(--font-size-sm);
-	display: inline-block;
-	width: 69px;
-}
-.radioIco6 {
-	top: 1083px;
-	left: 728px;
-	border-radius: 50%;
-	background-color: var(--color-white);
-	border: 1px solid var(--color-lightgray-100);
-	box-sizing: border-box;
-	width: 16px;
-	height: 16px;
-}
-.chBox,
-.div25,
-.radioIco6 {
-	position: absolute;
-}
-.div25 {
-	top: 1083px;
-	left: 752px;
-	font-size: var(--font-size-sm);
 }
 .chBox {
 	top: 1133px;

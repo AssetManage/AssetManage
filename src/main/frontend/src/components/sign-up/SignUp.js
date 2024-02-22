@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import RadioGroup from './component/RadioGroup';
+import Radio from './component/Radio';
+import SelectBox from './component/SelectBox';
 
 import styles from "./SignUp.module.css";
 
@@ -10,6 +13,24 @@ const SignUp = () => {
     const [inputNm, setInputNm] = useState('');
     const [inputAge, setInputAge] = useState('');
     const [inputPhoneNumber, setInputPhoneNumber] = useState('');
+    const [inputGender, setInputGender] = useState('male');
+    const [inputProductRecommend, setInputProductRecommend] = useState('incomeType');
+    const [inputJobCategory, setInputJobCategory] = useState('expertWorker');
+
+    const JobCategoryOptions = [
+    	{ value: "expertWorker", name: "전문가 및 관련 종사자" },
+    	{ value: "officeWorker", name: "사무 종사자" },
+    	{ value: "serviceWorker", name: "서비스 종사자" },
+    	{ value: "salesWorker", name: "판매 종사자" },
+    	{ value: "agricultureAndFisheryWorker", name: "농림/어업 숙련종사자" },
+    	{ value: "techniciansWorker", name: "기능원 및 관련 기능 종사자" },
+    	{ value: "equipmentWorker", name: "장치/기계 조작 및 조립 종사자" },
+    	{ value: "simpleWorker", name: "단순노무 종사자" },
+    	{ value: "soldier", name: "군인" },
+    ];
+
+    useEffect(() => {
+    }, []);
 
 	return (
 		<div className={styles.member2}>
@@ -27,7 +48,7 @@ const SignUp = () => {
                     name="email"
                     placeholder="Email 주소를 입력해 주세요."
                     value={inputEmail}
-                    maxlength="25"
+                    maxLength="25"
                     onChange={(e) => setInputEmail(e.target.value)}
                 />
                 <div className={styles.mfdbcom}>@mfdb.com</div>
@@ -80,11 +101,14 @@ const SignUp = () => {
                     <span>{`성별 `}</span>
                     <span className={styles.span}>*</span>
                 </div>
-                <div className={styles.radioIco} />
-                <div className={styles.radioIco1} />
-                <div className={styles.div11}>남성</div>
-                <div className={styles.radioIco2} />
-                <div className={styles.div12}>여성</div>
+                <RadioGroup
+                    className={styles.genderRadioGroup}
+                    value={inputGender}
+                    onChange={setInputGender}
+                >
+                    <Radio radioLabelStyle={styles.genderRadioLabel} value="male">남성</Radio>
+                    <Radio value="female">여성</Radio>
+                </RadioGroup>
                 <label className={styles.div13} htmlFor="age">
                     <span>나이</span>
                     <span className={styles.span}>*</span>
@@ -103,9 +127,17 @@ const SignUp = () => {
                     <span>{`직업군 `}</span>
                     <span className={styles.span}>*</span>
                 </div>
+                {/*
                 <div className={styles.inBox6} />
                 <div className={styles.div17}>선택하세요.</div>
                 <img className={styles.member2Child} alt="" src="/polygon-2.svg" />
+                */}
+                <SelectBox
+                    selectWrapperStyle={styles.jobCategorySelectWrapper}
+                    options={JobCategoryOptions}
+                    defaultValue={inputJobCategory}
+                    onChange={(e) => setInputJobCategory(e.target.value)}
+                />
                 <div className={styles.div18}>
                     <span>{`휴대번호 `}</span>
                     <span className={styles.span}>*</span>
@@ -134,14 +166,16 @@ const SignUp = () => {
                     <span>{`상품 추천 선택 항목 `}</span>
                     <span className={styles.span}>{`* `}</span>
                 </div>
-                <div className={styles.radioIco3} />
-                <div className={styles.radioIco4} />
-                <div className={styles.div23}>소득별</div>
-                <div className={styles.radioIco5} />
-                <div className={styles.div24}>소비유형별</div>
-                <div className={styles.radioIco6} />
-                <div className={styles.div25}>연령별</div>
                 <div className={styles.chBox} />
+                <RadioGroup
+                    className={styles.productRecommendRadioGroup}
+                    value={inputProductRecommend}
+                    onChange={setInputProductRecommend}
+                >
+                    <Radio radioLabelStyle={styles.productRecommendRadioLabel} value="incomeType">소득별</Radio>
+                    <Radio radioLabelStyle={styles.productRecommendRadioLabel} value="consumptType">소비유형별</Radio>
+                    <Radio value="ageType">연령별</Radio>
+                </RadioGroup>
                 <div className={styles.div26}>개인정보 제공 및 수집에 동의합니다.</div>
                 <div className={styles.btnBox1} />
                 <b className={styles.b2}>회원가입</b>
