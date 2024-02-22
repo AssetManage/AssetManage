@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://43.201.173.195:3306/mysqldb
-    url: jdbc:mysql://localhost:3306/mysqlDbls
+    url: jdbc:mysql://localhost:3306/mysqlDb
 #    username: pocket
     username: root
     password: mysqldb
