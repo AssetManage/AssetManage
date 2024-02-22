@@ -1,11 +1,9 @@
 package com.project.assetManage.entity.common;
 
-import com.project.assetManage.entity.UserCard;
-import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Builder;
+import jakarta.persistence.IdClass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -13,7 +11,8 @@ import org.hibernate.annotations.Comment;
 @Getter
 @NoArgsConstructor
 @Entity(name ="st_code")
-public class Code extends BaseDateTimeEntity {
+@IdClass(CodeId.class)
+public class Code {
 
     @Id
     @Column(name = "grp_code_id")

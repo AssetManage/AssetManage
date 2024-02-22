@@ -15,7 +15,7 @@ public class UserComuteIncome {
 /*    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")*/
     @Comment("회원번호")
-    private String userSeq;
+    private Long userSeq;
 
     @Column(name = "cnsmp_incln_cd")
     @Comment("소비성향코드")
@@ -34,27 +34,17 @@ public class UserComuteIncome {
     private Integer cardExpdtAmt;
 
     @Column(name = "cash_expdt_amt")
-    @Comment("현금지출금액")
+    @Comment("월현금지출금액")
     private Integer cashExpdtAmt;
 
     @Column(name = "saving_expdt_amt")
-    @Comment("예적금이체금액")
+    @Comment("월예적금이체금액")
     private Integer savingExpdtAmt;
 
-    @Column(name = "recv_client_name")
-    @Comment("최종수취고객성명")
-    private String recvClientName;
 
-    @Column(name = "recv_client_bank_code")
-    @Comment("최종수취고객계좌 금융회사코드")
-    private String recvClientBankCode;
-
-    @Column(name = "recv_client_account_num")
-    @Comment("최종수취고객계좌번호")
-    private String recvClientAccountNum;
 
     // Getter methods
-    public String getUserSeq() {
+    public Long getUserSeq() {
         return userSeq;
     }
 
@@ -82,20 +72,9 @@ public class UserComuteIncome {
         return savingExpdtAmt;
     }
 
-    public String getRecvClientName() {
-        return recvClientName;
-    }
-
-    public String getRecvClientBankCode() {
-        return recvClientBankCode;
-    }
-
-    public String getRecvClientAccountNum() {
-        return recvClientAccountNum;
-    }
 
     // Setter methods
-    public void setUserSeq(String userSeq) {
+    public void setUserSeq(Long userSeq) {
         this.userSeq = userSeq;
     }
 
@@ -123,22 +102,10 @@ public class UserComuteIncome {
         this.savingExpdtAmt = savingExpdtAmt;
     }
 
-    public void setRecvClientName(String recvClientName) {
-        this.recvClientName = recvClientName;
-    }
-
-    public void setRecvClientBankCode(String recvClientBankCode) {
-        this.recvClientBankCode = recvClientBankCode;
-    }
-
-    public void setRecvClientAccountNum(String recvClientAccountNum) {
-        this.recvClientAccountNum = recvClientAccountNum;
-    }
-
 
     @Builder
-    public UserComuteIncome(String userSeq, String cnsmpInclnCd, String incomeScopeCd,
-                            Integer yearIncome, Integer cardExpdtAmt, Integer cashExpdtAmt, Integer savingExpdtAmt, String recvClientName, String recvClientBankCode, String recvClientAccountNum) {
+    public UserComuteIncome(Long userSeq, String cnsmpInclnCd, String incomeScopeCd,
+                            Integer yearIncome, Integer cardExpdtAmt, Integer cashExpdtAmt, Integer savingExpdtAmt) {
         this.userSeq = userSeq;
         this.cnsmpInclnCd = cnsmpInclnCd;
         this.incomeScopeCd = incomeScopeCd;
@@ -146,9 +113,7 @@ public class UserComuteIncome {
         this.cardExpdtAmt = cardExpdtAmt;
         this.cashExpdtAmt = cashExpdtAmt;
         this.savingExpdtAmt = savingExpdtAmt;
-        this.recvClientName = recvClientName;
-        this.recvClientBankCode = recvClientBankCode;
-        this.recvClientAccountNum = recvClientAccountNum;
+
     }
 
 }
