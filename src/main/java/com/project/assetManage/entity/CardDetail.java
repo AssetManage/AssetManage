@@ -1,7 +1,6 @@
 package com.project.assetManage.entity;
 
 
-import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity(name ="api_card_detail")
-public class CardDetail extends BaseDateTimeEntity {
+public class CardDetail {
 
     @Id
     @Column(name = "approval_no")

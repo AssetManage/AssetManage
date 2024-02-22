@@ -1,6 +1,5 @@
 package com.project.assetManage.entity.common;
 
-import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +10,7 @@ import org.hibernate.annotations.Comment;
 @Getter
 @NoArgsConstructor
 @Entity(name = "st_cnsmp_incln")
-public class ConsumptionInclination extends BaseDateTimeEntity {
+public class ConsumptionInclination {
 
     @Id
     @Column(name = "cnsmp_incln_cd")
@@ -40,6 +39,6 @@ public class ConsumptionInclination extends BaseDateTimeEntity {
 
     @Column(name = "over_cnsmp_incln")
     @Comment("과소비지수")
-    private String overCnsmpIncln;
+    private Double overCnsmpIncln;
 
 }

@@ -1,20 +1,18 @@
 package com.project.assetManage.entity;
 
 
-import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 @Entity(name ="api_user_account")
-public class UserAccount extends BaseDateTimeEntity {
+public class UserAccount  {
 
     @Id
     @Column(name = "account_no")

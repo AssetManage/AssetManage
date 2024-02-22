@@ -1,7 +1,6 @@
 package com.project.assetManage.entity;
 
 
-import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor
 @Entity(name ="api_account_detail")
-public class AccountDetail extends BaseDateTimeEntity {
+public class AccountDetail {
 
     @Id
     @Column(name = "bank_tran_id")
@@ -66,10 +65,14 @@ public class AccountDetail extends BaseDateTimeEntity {
     @Comment("가맹점업종코드")
     private String frncIdstrCd;
 
+    @Column(name = "recv_client_account_num")
+    @Comment("최종수취고객계좌번호")
+    private String recvClientAccountNum;
+
     @Builder
     public AccountDetail(String bankTranId, UserAccount accountNo, LocalDate tranDate, LocalTime tranTime,
                          String inoutTypeCd, String printedContent, Integer tranAmt, Integer afterBalanceAmt,
-                         String frncNum, String frncBusinessNum, String frncName, String frncIdstrCd) {
+                         String frncNum, String frncBusinessNum, String frncName, String frncIdstrCd, String recv_client_account_num) {
         this.bankTranId = bankTranId;
         this.accountNo = accountNo;
         this.tranDate = tranDate;
@@ -82,6 +85,7 @@ public class AccountDetail extends BaseDateTimeEntity {
         this.frncBusinessNum = frncBusinessNum;
         this.frncName = frncName;
         this.frncIdstrCd = frncIdstrCd;
+        this.recvClientAccountNum = recv_client_account_num;
     }
 
 }
