@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700;800&display=swap");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 body {
   margin: 0;
   line-height: normal;
@@ -9,14 +9,29 @@ body {
 
   /* font sizes */
   --font-size-sm: 14px;
+  --font-size-smi: 13px;
+  --font-size-base: 16px;
   --font-size-mini: 15px;
+  --font-size-lg: 18px;
+  --font-size-2xl: 21px;
+  --font-size-11xl: 30px;
+  --font-size-9xl: 28px;
 
   /* Colors */
+  --color-white: #fff;
+  --color-darkslategray: #444;
+  --color-gray-100: #061237;
+  --color-gray: #080808;
+  --color-ghostwhite: #f6f7fb;
   --color-lightgray-100: #cdd1de;
   --color-gray: #080808;
   --color-white: #fff;
   --color-mediumslateblue: #1355ff;
   --color-lightslategray: #7f879e;
+  --color-gray-100: #061237;
+  --color-gray: #080808;
+  --color-red-100: #ff2626;
+  --color-red-200: #fd1111;
 
   /* Border radiuses */
   --br-8xs: 5px;

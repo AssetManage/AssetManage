@@ -120,6 +120,7 @@
 }
 .div4 {
 	left: 730px;
+    cursor: pointer;
 }
 .loginChild {
 	position: absolute;

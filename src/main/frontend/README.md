@@ -1,5 +1,5 @@
 ## 초기 설정
-'npm install' 로 필요한 모듈 설치 후, 'npm install' 로 실행하시면 됩니다.
+'npm install' 로 필요한 모듈 설치 후, 'npm start' 로 실행하시면 됩니다.
 홈 화면 주소는 'http://localhost:3000/' 입니다.
 
 ## 백엔드 서버 주소 설정
