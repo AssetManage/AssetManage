@@ -9,11 +9,20 @@ body {
 
   /* font sizes */
   --font-size-sm: 14px;
-  --font-size-mini: 15px;
   --font-size-smi: 13px;
+  --font-size-base: 16px;
+  --font-size-mini: 15px;
+  --font-size-lg: 18px;
+  --font-size-2xl: 21px;
+  --font-size-11xl: 30px;
+  --font-size-9xl: 28px;
 
   /* Colors */
   --color-white: #fff;
+  --color-darkslategray: #444;
+  --color-gray-100: #061237;
+  --color-gray: #080808;
+  --color-ghostwhite: #f6f7fb;
   --color-lightgray-100: #cdd1de;
   --color-gray: #080808;
   --color-white: #fff;
