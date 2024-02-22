@@ -1,5 +1,7 @@
 package com.project.assetManage.service;
 
+import com.project.assetManage.dto.ProductDto;
+import com.project.assetManage.dto.ProductOptionDto;
 import com.project.assetManage.entity.Product;
 import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
@@ -20,33 +22,15 @@ public class ProductService {
         this.productRepository = productRepository;
         this.productOptionRepository = productOptionRepository;
     }
+    
+    // 상품 목록 조회
+    public List<ProductDto.ResponseAll> selectProductList(Map<String, Object> param){
+        // inner join 옵션 list 조회 :: 임시
+        List<ProductOptionDto.ResponseAll> selectprdOptionList = productOptionRepository.selectProductOptionList(param);
+        param.put("prdOptionList", selectprdOptionList);
 
-    public List<Product> selectProductList(Map<String, Object> param){
-        List<Product> response = null;
-
-        response = productRepository.selectProductList(param).stream()
-                .map(m -> Product.builder()
-                        .finCoNo(m.getFinCoNo())
-                        .finPrdtCd(m.getFinPrdtCd())
-                        .actKindCd(m.getActKindCd())
-                        .dclsMonth(m.getDclsMonth())
-                        .korCoNm(m.getKorCoNm())
-                        .finPrdtNm(m.getFinPrdtNm())
-                        .joinWay(m.getJoinWay())
-                        .mtrtInt(m.getMtrtInt())
-                        .spclCnd(m.getSpclCnd())
-                        .joinDeny(m.getJoinDeny())
-                        .joinMember(m.getJoinMember())
-                        .etcNote(m.getEtcNote())
-                        .maxLmit(m.getMaxLmit())
-                        .dclsStrtDay(m.getDclsStrtDay())
-                        .dclsEndDay(m.getDclsEndDay())
-                        .joinWayCd(m.getJoinWayCd())
-                        .build()
-                ).collect(Collectors.toList());
-
-
-        return response;
+        List<ProductDto.ResponseAll> ret = productRepository.selectProductList(param);
+        return ret;
     }
 
 

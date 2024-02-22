@@ -1,13 +1,16 @@
 package com.project.assetManage.repository;
 
+import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
+import com.project.assetManage.entity.QProduct;
 import com.project.assetManage.entity.QProductOption;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -24,19 +27,22 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ProductOptionDto> selectProductOptionList(Map<String, Object> param) {
+    public List<ProductOptionDto.ResponseAll> selectProductOptionList(Map<String, Object> param) {
         System.out.println("selectProductOptionList ====================================");
         System.out.println(param.toString());
 
         QProductOption qProductOption = QProductOption.productOption;
+        // QProduct qProduct = new QProduct("product");
+
         // QProductOption qProductOptionSub = new QProductOption("sub");
-        List<ProductOptionDto> list = null;
-        List<ProductOptionDto> prdOptionList = this.selectProductOptionListSub(param);
+        List<ProductOptionDto.ResponseAll> list = null;
+        List<ProductOptionDto.ResponseSimple> prdOptionList = this.selectProductOptionListSub(param);
         // case1 :: where
-        list = jpaQueryFactory.select(Projections.fields(ProductOptionDto.class
+        list = jpaQueryFactory.select(Projections.fields(ProductOptionDto.ResponseAll.class
                         , qProductOption.prdOptionSeq
                         , qProductOption.finCoNo
                         , qProductOption.finPrdtCd
+                        , qProductOption.dclsMonth
                         , qProductOption.intrRateType
                         , qProductOption.intrRateTypeNm
                         , qProductOption.saveTrm
@@ -45,13 +51,7 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
                         , qProductOption.rsrvType
                         , qProductOption.rsrvTypeNm
                         // custom
-                /*
-                        , new CaseBuilder().when(qProductOption.intrRateType.eq("S"))
-                                           .then(100 + 100 * qProductOption.intrRate2.multiply(qProductOption.saveTrm.castToNum(Long.class).divide(12))) // 단리
-                                           .otherwise(100 * Math.pow((1 + qProductOption.intrRate2), (qProductOption.saveTrm.divide(12)))  ) // 복리
-                                .as("maturityAmt")
-
-                 */
+                        , retMaturityAmt(qProductOption).as("maturityAmt")
                 ))
                 .from(qProductOption)
                 .where(
@@ -67,7 +67,7 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
     }
 
     @Override
-    public List<ProductOptionDto> selectProductOptionListSub(Map<String, Object> param) {
+    public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(Map<String, Object> param) {
         System.out.println("selectProductOptionListSub ====================================");
         System.out.println("param ====================================");
         System.out.println(param.toString());
@@ -87,9 +87,9 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
 
         // 소비유형코드에 따라 save_trm max, min, avg 조회
         QProductOption qProductOption = QProductOption.productOption;
-        List<ProductOptionDto> list = null;
-        list = jpaQueryFactory.select(Projections.fields(ProductOptionDto.class,
-                        retPrdOptionSeq(qProductOption, cnsmpInclnCd)
+        List<ProductOptionDto.ResponseSimple> list = null;
+        list = jpaQueryFactory.select(Projections.fields(ProductOptionDto.ResponseSimple.class,
+                        retPrdOptionSeq(qProductOption, cnsmpInclnCd).as("prdOptionSeq")
                         , qProductOption.finCoNo
                         , qProductOption.finPrdtCd
                         , qProductOption.dclsMonth))
@@ -109,26 +109,41 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
     // 소비유형코드에 따른 상품옵션시퀀스 Expression
     private NumberExpression<Long> retPrdOptionSeq(QProductOption qProductOption, String cnsmpInclnCd) {
         if(cnsmpInclnCd.equals("GH") || cnsmpInclnCd.equals("YL")){
-            return qProductOption.prdOptionSeq.min().as("prdOptionSeq");
+            return qProductOption.prdOptionSeq.min();
         }else if(cnsmpInclnCd.equals("BP")){
-            return qProductOption.prdOptionSeq.avg().floor().castToNum(Long.class).as("prdOptionSeq");
+            return qProductOption.prdOptionSeq.avg().floor().castToNum(Long.class);
         }
-        return qProductOption.prdOptionSeq.max().as("prdOptionSeq");
+        return qProductOption.prdOptionSeq.max();
+    }
+    // 저축금리유형에 따른 예상만기금액 Expression
+    private NumberExpression<Integer> retMaturityAmt(QProductOption qProductOption){
+        NumberExpression<Integer> intrRate2 = qProductOption.intrRate2.castToNum(Integer.class);
+        NumberExpression<Integer> saveTrm = qProductOption.saveTrm;
+        // 단리
+        // FLOOR(100 + 100 * a.intr_rate2 * (a.save_trm/12))
+        if(qProductOption.intrRateType.equals("S")){
+            return intrRate2.multiply(saveTrm.divide(12)).multiply(100).add(100).floor();
+        }else{
+            // 복리
+            // FLOOR(100 * POW((1 + a.intr_rate2), (a.save_trm/12)))
+            NumberTemplate pow = Expressions.numberTemplate(Integer.class,"POW({0}, {1})", qProductOption.intrRate2, saveTrm.divide(12));
+            return pow.multiply(100);
+        }
     }
     // 적립유형코드 Expression
     private BooleanExpression eqRsrvType(QProductOption qProductOption, String rsrvType) {
-        if(StringUtils.isEmpty(rsrvType)) {
+        if (StringUtils.isEmpty(rsrvType)) {
             return null;
         }
         return qProductOption.rsrvType.eq(rsrvType);
     }
     
     // case1 :: 추출된 서브 쿼리 조건절
-    private Expression[] inPrdOptionList(List<ProductOptionDto> productOptionList) {
+    private Expression[] inPrdOptionList(List<ProductOptionDto.ResponseSimple> productOptionList) {
 
         List<Expression> tuples = new ArrayList<>();
 
-        for(ProductOptionDto productOption : productOptionList) {
+        for(ProductOptionDto.ResponseSimple productOption : productOptionList) {
             tuples.add(Expressions.template(Object.class, "(({0}, {1}, {2}, {3}))"
                     , productOption.getPrdOptionSeq()
                     , productOption.getFinCoNo()
@@ -137,5 +152,12 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
         }
 
         return tuples.toArray(new Expression[0]);
+    }
+
+    // TO-DO :: case2 :: 추출된 서브 쿼리 join절
+    private JPQLQuery<ProductOptionDto.ResponseSimple> selectPrdOptionListForCnsmpInclnCd(QProductOption qProductOption){
+        return JPAExpressions
+                .select(Projections.fields(ProductOptionDto.ResponseSimple.class, qProductOption.dclsMonth))
+                .from(qProductOption);
     }
 }

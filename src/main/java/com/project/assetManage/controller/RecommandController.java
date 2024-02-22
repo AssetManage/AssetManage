@@ -1,12 +1,11 @@
 package com.project.assetManage.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
 import com.project.assetManage.entity.Product;
-import com.project.assetManage.entity.ProductOption;
 import com.project.assetManage.service.ProductOptionService;
 import com.project.assetManage.service.ProductService;
-import com.querydsl.core.Tuple;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
@@ -36,7 +35,7 @@ public class RecommandController {
     @GetMapping("/selectProductList")
     public Map<String, Object> selectProductList(@Nullable @RequestParam Map<String,Object> param, HttpSession session) {
         Map<String, Object> ret = new HashMap<>();
-        List<Product> productList = productService.selectProductList(param);
+        List<ProductDto.ResponseAll> productList = productService.selectProductList(param);
         ret.put("list", productList);
         return ret;
     }
@@ -49,7 +48,7 @@ public class RecommandController {
         int size = 0;
         String stat = "SUCCESS";
         // List<ProductOptionDto> productOptionList = productOptionService.selectProductOptionListSub(param);
-        List<ProductOptionDto> productOptionList = productOptionService.selectProductOptionList(param);
+        List<ProductOptionDto.ResponseAll> productOptionList = productOptionService.selectProductOptionList(param);
 
         // TO-DO :: 에러 및 리턴값 모듈화
         ret.put("size", productOptionList.size());

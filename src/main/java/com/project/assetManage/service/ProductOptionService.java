@@ -1,7 +1,6 @@
 package com.project.assetManage.service;
 
 import com.project.assetManage.dto.ProductOptionDto;
-import com.project.assetManage.entity.ProductOption;
 import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,13 @@ public class ProductOptionService {
         this.productOptionRepository = productOptionRepository;
     }
 
-    public List<ProductOptionDto> selectProductOptionList(Map<String, Object> param){
-        List<ProductOptionDto> ret = productOptionRepository.selectProductOptionList(param).stream().collect(Collectors.toList());
+    public List<ProductOptionDto.ResponseAll> selectProductOptionList(Map<String, Object> param){
+        List<ProductOptionDto.ResponseAll> ret = productOptionRepository.selectProductOptionList(param).stream().collect(Collectors.toList());
         return ret;
     }
 
-    public List<ProductOptionDto> selectProductOptionListSub(Map<String, Object> param){
-        List<ProductOptionDto> ret = productOptionRepository.selectProductOptionListSub(param).stream().collect(Collectors.toList());
+    public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(Map<String, Object> param){
+        List<ProductOptionDto.ResponseSimple> ret = productOptionRepository.selectProductOptionListSub(param).stream().collect(Collectors.toList());
         return ret;
     }
 
