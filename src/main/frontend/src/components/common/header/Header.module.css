@@ -108,3 +108,54 @@
 	bottom: 96.25%;
 	left: 70.56%;
 }
+.vectorDiv {
+    cursor: pointer;
+}
+.vectorIcon2 {
+	position: absolute;
+	height: 80%;
+	width: 8.94%;
+	top: 10%;
+	right: 91.06%;
+	bottom: 10%;
+	left: 0;
+	max-width: 100%;
+	overflow: hidden;
+	max-height: 100%;
+}
+.logIn,
+.signUp {
+    top: 11px;
+}
+.logIn {
+	left: 24px;
+}
+.logIn,
+.signUp,
+.vectorIcon1 {
+	position: absolute;
+}
+.vectorIcon1 {
+	height: 100%;
+	width: 11.17%;
+	right: 36.31%;
+	bottom: 0;
+	left: 52.51%;
+	max-width: 100%;
+	overflow: hidden;
+	max-height: 100%;
+}
+.signUp {
+	left: 122px;
+}
+.vectorParent {
+	height: 1.93%;
+	width: 12.43%;
+    top: 1.9%;
+    right: 9.03%;
+    bottom: 96.25%;
+    left: 70.56%;
+	text-align: left;
+	font-size: var(--font-size-base);
+	position: absolute;
+}
