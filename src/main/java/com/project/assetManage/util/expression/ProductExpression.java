@@ -47,19 +47,4 @@ public class ProductExpression {
             return null;
         }
     }
-    // 소비유형코드목록 Expression
-    public static String retCnsmpInclnCdList(String cnsmpInclnCd){
-        return switch (cnsmpInclnCd) {
-            case "GH" -> "GH|YL";
-            case "YL" -> "GH|YL";
-            case "BP" -> "BP";
-            case "AT" -> "SR|AT";
-            case "SR" -> "SR|AT";
-            default -> "AT";
-        };
-        // TO-DO :: 상품이 소속되는 소비유형코드 세분화
-        // case1 :: 상품 옵션 목록이 하나인 경우,
-
-        // case2 :: BP의 상품과 타 소비유형 상품이 중복되는 경우,
-    }
 }

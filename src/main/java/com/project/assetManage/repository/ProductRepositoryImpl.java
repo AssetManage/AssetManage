@@ -2,13 +2,17 @@ package com.project.assetManage.repository;
 
 import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
+import com.project.assetManage.dto.QProductOptionDto_ResponseCustom;
 import com.project.assetManage.entity.QProduct;
 import com.project.assetManage.entity.QProductOption;
 import com.project.assetManage.util.expression.CodeExpression;
 import com.project.assetManage.util.expression.ProductExpression;
 import com.project.assetManage.util.expression.ProductOptionExpression;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -79,8 +83,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         System.out.println(param.toString());
 
         QProductOption qProductOption = QProductOption.productOption;
+        QProductOption qProductOptionSub = new QProductOption("sub");
 
-        // 임시
         List<ProductOptionDto.ResponseSimple> optList = param.getPrdOptList();
         QProduct qProduct = QProduct.product;
 
@@ -119,9 +123,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .when(qProduct.joinWayCd.ne("F"))
                                 .then(Expressions.constant("방문없이가입"))
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
-                        , Expressions.as(Expressions.constant(ProductExpression.retCnsmpInclnCdList(param.getCnsmpInclnCd())), "cnsmpInclnCdList")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
+                        , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdList")
                 ))
                 .from(qProductOption)
                 .innerJoin(qProduct)
@@ -142,6 +146,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 )
                 .orderBy(ProductOptionExpression.orderSpecifiers(qProductOption, param.getCnsmpInclnCd(), qProduct.actKindCd))
                 .fetch();
+
         return list;
     }
     // TO-DO :: 중복되는 조회 쿼리 코드 모듈화
@@ -201,8 +206,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         System.out.println(param.toString());
 
         QProductOption qProductOption = QProductOption.productOption;
+        QProductOption qProductOptionSub = new QProductOption("sub");
 
-        // 임시
         List<ProductOptionDto.ResponseSimple> optList = param.getPrdOptList();
         QProduct qProduct = QProduct.product;
 
@@ -241,9 +246,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .when(qProduct.joinWayCd.ne("F"))
                                 .then(Expressions.constant("방문없이가입"))
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
-                        , Expressions.as(Expressions.constant(ProductExpression.retCnsmpInclnCdList(param.getCnsmpInclnCd())), "cnsmpInclnCdList")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
+                        , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdList")
                 ))
                 .from(qProductOption)
                 .innerJoin(qProduct)

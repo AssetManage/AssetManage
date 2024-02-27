@@ -6,6 +6,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.JPAExpressions;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class ProductOptionExpression {
             case "BP" -> qProductOption.prdOptionSeq.avg().floor().castToNum(Long.class);
             case "AT" -> qProductOption.prdOptionSeq.max();
             case "SR" -> qProductOption.prdOptionSeq.max();
-            default -> qProductOption.prdOptionSeq;
+            default -> qProductOption.prdOptionSeq.max();
         };
     }
     // 적립유형코드 Expression
@@ -81,6 +82,63 @@ public class ProductOptionExpression {
 
         return tuples.toArray(new Expression[0]);
     }
+    // 소비유형코드목록 Expression
+    // TO-DO :: 단순히 순번 비교를 통한 추가로 필터링 필요
+    public static Expression retCnsmpInclnCdList(QProductOption qProductOption, QProductOption qProductOptionSub, String cnsmpInclnCd){
+        // TO-DO :: 상품이 소속되는 소비유형코드 세분화
+        // case1 :: 상품 옵션 목록이 하나인 경우,
+        // case2 :: BP의 상품과 타 소비유형 상품이 중복되는 경우,
+        /*
+        * select case when t.max_prd_option_seq = min_prd_option_seq then 'GH|YL|BP|AT|SR'
+                        when t.max_prd_option_seq = avg_prd_option_seq then 'AT|SR|BP'
+                        when t.min_prd_option_seq = avg_prd_option_seq then 'GH|YL|BP'
+                        else '기존 세팅된 코드'
+                         end cnsmp_incln_cd_list
+                 , t.fin_co_no
+                 , t.fin_prdt_cd
+                 , t.dcls_month
+                 , p.fin_prdt_nm
+              from ( select MAX(sub.prd_option_seq) as max_prd_option_seq
+                         , MIN(sub.prd_option_seq) as min_prd_option_seq
+                         , FLOOR(AVG(sub.prd_option_seq)) as avg_prd_option_seq
+                         , sub.fin_co_no
+                         , sub.fin_prdt_cd
+                         , sub.dcls_month
+                      from api_products_option sub
+                     group by sub.fin_co_no, sub.fin_prdt_cd, sub.dcls_month
+                    ) t
+                    inner join api_products p
+                            on p.fin_co_no = t.fin_co_no
+                           and p.fin_prdt_cd = t.fin_prdt_cd
+                           and p.dcls_month = t.dcls_month
+             order by p.fin_prdt_nm
+        * */
+
+        cnsmpInclnCd = switch (cnsmpInclnCd) {
+            case "GH" -> "GH|YL";
+            case "YL" -> "GH|YL";
+            case "BP" -> "BP";
+            case "AT" -> "SR|AT";
+            case "SR" -> "SR|AT";
+            default -> "AT";
+        };
+
+        return JPAExpressions.select( new CaseBuilder()
+                        .when(qProductOptionSub.prdOptionSeq.max().eq(qProductOptionSub.prdOptionSeq.min()))
+                        .then(Expressions.constant("GH|YL|BP|AT|SR"))
+                        .when(qProductOptionSub.prdOptionSeq.max().eq(retPrdOptionSeq(qProductOptionSub, "BP")))
+                        .then(Expressions.constant("AT|SR|BP"))
+                        .when(qProductOptionSub.prdOptionSeq.min().eq(retPrdOptionSeq(qProductOptionSub, "BP")))
+                        .then(Expressions.constant("GH|YL|BP"))
+                        .otherwise(Expressions.constant(cnsmpInclnCd)).as("cnsmpInclnCdList")
+                )
+                .from(qProductOptionSub)
+                .where(qProductOption.dclsMonth.eq(qProductOptionSub.dclsMonth)
+                        , qProductOption.finCoNo.eq(qProductOptionSub.finCoNo)
+                        , qProductOption.finPrdtCd.eq(qProductOptionSub.finPrdtCd))
+        // .groupBy(qProductOptionSub.dclsMonth, qProductOptionSub.finCoNo, qProductOptionSub.finPrdtCd)
+        ;
+    }
 
     // 소비유형과 부가 항목에 따른 상품 목록 정렬
     // 선순위 :: 소비유형 , 후순위 :: 연령별, 소득별
@@ -97,7 +155,7 @@ public class ProductOptionExpression {
             case "AT" -> orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, qProductOption.saveTrm)); // order by apo.save_trm desc, apo.maturity_amt desc, field(apo.intr_rate_type, 'M')
             case "SR" -> orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, qProductOption.saveTrm)); // order by apo.save_trm desc, apo.maturity_amt desc, field(apo.intr_rate_type, 'M')
             // default -> new OrderSpecifier<>(Order.ASC, qProductOption.saveTrm);
-        };
+        }
         // 2. 예상 만기금액이 높은 순
         orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, retMaturityAmt(qProductOption)));
         // 3. intr_rate_type 복리(M) 우선
@@ -113,7 +171,7 @@ public class ProductOptionExpression {
                 case "AT" -> orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, qProductOption.rsrvType));
                 case "SR" -> orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, qProductOption.rsrvType));
                 // default -> new OrderSpecifier<>(Order.ASC, qProductOption.saveTrm);
-            };
+            }
         }
         // TO-DO :: 정렬 후순위조건
         // 5. 연령별 (로그인한 회원과 동일한 연령대의 내부 회원이 많이 보유한 상품을 우선 정렬한다)

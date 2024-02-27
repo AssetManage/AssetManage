@@ -16,6 +16,7 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    // 상품 옵션 목록 조회
     @Override
     public List<ProductOptionDto.ResponseAll> selectProductOptionList(ProductOptionDto.Request param) {
         System.out.println("selectProductOptionList ====================================");
@@ -61,6 +62,7 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
         return list;
     }
 
+    // 소비유형코드에 해당하는 상품 옵션 순번 단건 조회
     @Override
     public ProductOptionDto.ResponseSimple selectProductOption(ProductOptionDto.Request param) {
         System.out.println("selectProductOption ====================================");
@@ -76,10 +78,12 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
                         , qProductOption.finPrdtCd
                         , qProductOption.dclsMonth))
                 .from(qProductOption)
-                .where(ProductOptionExpression.eqRsrvType(qProductOption, param.getRsrvType())
-                        , ProductOptionExpression.eqFinCoNo(qProductOption, param.getFinCoNo())
+                .where(
+                        ProductOptionExpression.eqFinCoNo(qProductOption, param.getFinCoNo())
                         , ProductOptionExpression.eqFinPrdtCd(qProductOption, param.getFinPrdtCd())
-                        , ProductOptionExpression.eqDclsMonth(qProductOption, param.getDclsMonth()))
+                        , ProductOptionExpression.eqDclsMonth(qProductOption, param.getDclsMonth())
+                        , ProductOptionExpression.eqRsrvType(qProductOption, param.getRsrvType())
+                )
                 .fetchOne();
 
         System.out.println("ret ====================================");
@@ -87,6 +91,7 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
         return ret;
     }
 
+    // 상품별 소비유형코드에 해당하는 상품 옵션 순번 목록 조회
     @Override
     public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(ProductOptionDto.Request param) {
         System.out.println("selectProductOptionListSub ====================================");
@@ -102,7 +107,12 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
                         , qProductOption.finPrdtCd
                         , qProductOption.dclsMonth))
                 .from(qProductOption)
-                .where(ProductOptionExpression.eqRsrvType(qProductOption, param.getRsrvType()))
+                .where(
+                        ProductOptionExpression.eqFinCoNo(qProductOption, param.getFinCoNo())
+                        , ProductOptionExpression.eqFinPrdtCd(qProductOption, param.getFinPrdtCd())
+                        , ProductOptionExpression.eqDclsMonth(qProductOption, param.getDclsMonth())
+                        , ProductOptionExpression.eqRsrvType(qProductOption, param.getRsrvType())
+                )
                 .groupBy(qProductOption.finCoNo
                         , qProductOption.finPrdtCd
                         , qProductOption.dclsMonth)

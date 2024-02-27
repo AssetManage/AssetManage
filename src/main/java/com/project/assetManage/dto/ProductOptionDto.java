@@ -128,6 +128,35 @@ public class ProductOptionDto {
 
     @NoArgsConstructor
     @Getter
+    public static class ResponseCustom {
+
+        private String finCoNo;
+        private String finPrdtCd;
+        private String dclsMonth;
+        // custom
+        private Long maxPrdOptionSeq;
+        private Long minPrdOptionSeq;
+        private Long avgPrdOptionSeq;
+        private String cnsmpInclnCdList;
+
+        @QueryProjection
+        public ResponseCustom(String finCoNo, String finPrdtCd, String dclsMonth
+                , Long maxPrdOptionSeq
+                , Long minPrdOptionSeq
+                , Long avgPrdOptionSeq
+                , String cnsmpInclnCdList) {
+            this.finCoNo = finCoNo;
+            this.finPrdtCd = finPrdtCd;
+            this.dclsMonth = dclsMonth;
+            this.maxPrdOptionSeq = maxPrdOptionSeq;
+            this.minPrdOptionSeq = minPrdOptionSeq;
+            this.avgPrdOptionSeq = avgPrdOptionSeq;
+            this.cnsmpInclnCdList = cnsmpInclnCdList;
+        }
+    }
+
+    @NoArgsConstructor
+    @Getter
     public static class Result {
         private String stat;
         private int size;
