@@ -19,8 +19,11 @@ spring:
           implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     logging:
       level:
-        org.hibernate.SQL: debug
-        org.hibernate.type: trace
+        org:
+          hibernate:
+            type:
+              descriptor:
+                sql: trace
 
   mvc:
     pathmatch:
