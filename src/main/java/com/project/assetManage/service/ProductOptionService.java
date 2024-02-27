@@ -1,5 +1,6 @@
 package com.project.assetManage.service;
 
+import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
 import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
@@ -21,13 +22,18 @@ public class ProductOptionService {
         this.productOptionRepository = productOptionRepository;
     }
 
-    public List<ProductOptionDto.ResponseAll> selectProductOptionList(Map<String, Object> param){
+    public List<ProductOptionDto.ResponseAll> selectProductOptionList(ProductOptionDto.Request param){
         List<ProductOptionDto.ResponseAll> ret = productOptionRepository.selectProductOptionList(param).stream().collect(Collectors.toList());
         return ret;
     }
 
-    public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(Map<String, Object> param){
-        List<ProductOptionDto.ResponseSimple> ret = productOptionRepository.selectProductOptionListSub(param).stream().collect(Collectors.toList());
+    public ProductOptionDto.ResponseSimple selectProductOption(ProductOptionDto.Request param){
+        ProductOptionDto.ResponseSimple ret = productOptionRepository.selectProductOption(param);
+        return ret;
+    }
+
+    public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(ProductOptionDto.Request param){
+        List<ProductOptionDto.ResponseSimple> ret = productOptionRepository.selectProductOptionListSub(param);
         return ret;
     }
 

@@ -4,15 +4,19 @@ import com.project.assetManage.dto.ProductOptionDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface ProductOptionRepositoryCustom {
 
-    // 소비유형에 따라 추출된 상품 옵션 PrdOptionSeq 목록의 정보 조회
-    List<ProductOptionDto.ResponseAll> selectProductOptionList(Map<String, Object> param);
+    // 상품 옵션 목록 조회
+    // return List<ProductOptionDto.ResponseAll>
+    List<ProductOptionDto.ResponseAll> selectProductOptionList(ProductOptionDto.Request param);
 
-    // 소비유형에 따라 save_trm 값 분기하여 목록 조회
-    List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(Map<String, Object> param);
+    // 소비유형코드에 해당하는 상품 옵션 순번 단건 조회
+    // return ProductOptionDto.ResponseSimple
+   ProductOptionDto.ResponseSimple selectProductOption(ProductOptionDto.Request param);
 
+    // 상품별 소비유형코드에 해당하는 상품 옵션 순번 목록 조회
+    // return List<ProductOptionDto.ResponseSimple>
+    List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(ProductOptionDto.Request param);
 }

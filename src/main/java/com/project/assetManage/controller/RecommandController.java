@@ -33,37 +33,35 @@ public class RecommandController {
 
     @Operation(summary = "상품 목록 조회", description = "임시")
     @GetMapping("/selectProductList")
-    public Map<String, Object> selectProductList(@Nullable @RequestParam Map<String,Object> param, HttpSession session) {
-        Map<String, Object> ret = new HashMap<>();
+    public ProductDto.Result selectProductList(@Nullable @ModelAttribute ProductOptionDto.Request param, HttpSession session) {
 
-        int size = 0;
         String stat = "SUCCESS";
-        // TO-DO :: queryDsl의 인라인뷰 미지원 이슈 해결 방안 모색
+        // TO-DO :: 로그인한 경우, 사용자의 소득산출정보 조회
         List<ProductDto.ResponseAll> productList = productService.selectProductList(param);
-        
-        // TO-DO :: 에러 및 리턴값 모듈화
-        ret.put("size", productList.size());
-        ret.put("stat", stat);
-        ret.put("list", productList);
-        return ret;
+
+        return new ProductDto.Result(stat, productList);
     }
 
     @Operation(summary = "상품 옵션 목록 조회", description = "임시")
     @GetMapping("/selectProductOptionList")
-    public Map<String, Object> selectProductOptionListSub(@Nullable @RequestParam Map<String,Object> param, HttpSession session) {
-        Map<String, Object> ret = new HashMap<>();
+    public ProductOptionDto.Result selectProductOptionList(@Nullable @ModelAttribute ProductOptionDto.Request param, HttpSession session) {
 
-        int size = 0;
         String stat = "SUCCESS";
-        // List<ProductOptionDto> productOptionList = productOptionService.selectProductOptionListSub(param);
+        // List<ProductOptionDto.ResponseSimple> productOptionList = productOptionService.selectProductOptionListSub(param);
         List<ProductOptionDto.ResponseAll> productOptionList = productOptionService.selectProductOptionList(param);
 
-        // TO-DO :: 에러 및 리턴값 모듈화
-        ret.put("size", productOptionList.size());
-        ret.put("stat", stat);
-        ret.put("list", productOptionList);
+        return new ProductOptionDto.Result(stat, productOptionList);
+    }
 
-        return ret;
+    @Operation(summary = "상품과 대표 상품 옵션 통합 목록 조회", description = "임시")
+    @GetMapping("/selectProductListWithOpt")
+    public ProductDto.Result selectProductListWithOpt(@Nullable @ModelAttribute ProductOptionDto.Request param, HttpSession session) {
+
+        String stat = "SUCCESS";
+        // TO-DO :: 로그인한 경우, 사용자의 소득산출정보 조회
+        List<ProductDto.ResponseCustom> productList = productService.selectProductListWithOpt(param);
+
+        return new ProductDto.Result(stat, productList);
     }
 
 }
