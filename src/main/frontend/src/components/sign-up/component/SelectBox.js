@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
 
 const SelectWrapper = styled.div`
@@ -9,17 +11,25 @@ const SelectWrapper = styled.div`
 	height: 42px;
 	display: flex;
 	align-items: center;
-	padding-left: 12px;
+
+    &:focus-within {
+        border: 1px solid;
+    }
 `;
 
 const StyledSelect = styled.select`
 	font-size: var(--font-size-sm);
 	font-weight: 300;
-	color: var(--color-lightslategray);
-	width: 171px;
-	height: 17px;
+	color: 1px solid;
+	width: 100%;
+	height: 100%;
 	border-width: 0px;
 	appearance: none;
+	padding-left: 12px;
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 const StyledArrow = styled.div`
@@ -40,7 +50,9 @@ const StyledArrow = styled.div`
 
 function SelectBox({ selectWrapperStyle, options, defaultValue, onChange }) {
 	return (
-	    <SelectWrapper className={selectWrapperStyle}>
+	    <SelectWrapper
+	        className={selectWrapperStyle}
+        >
             <StyledSelect
                 defaultValue={defaultValue}
                 onChange={onChange}
