@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import RadioGroup from './component/RadioGroup';
 import Radio from './component/Radio';
 import SelectBox from './component/SelectBox';
+import DaumPostcode from 'react-daum-postcode';
 
 import styles from "./SignUp.module.css";
 
@@ -16,6 +17,12 @@ const SignUp = () => {
     const [inputGender, setInputGender] = useState('male');
     const [inputProductRecommend, setInputProductRecommend] = useState('incomeType');
     const [inputJobCategory, setInputJobCategory] = useState('expertWorker');
+    const [openPostcode, setOpenPostcode] = useState(false);
+
+    const postCodeStyle = {
+        width: '400px',
+        height: '400px',
+    };
 
     const JobCategoryOptions = [
     	{ value: "expertWorker", name: "전문가 및 관련 종사자" },
@@ -29,11 +36,38 @@ const SignUp = () => {
     	{ value: "soldier", name: "군인" },
     ];
 
+    const postCodeHandle = {
+        // 버튼 클릭 이벤트
+        clickButton: () => {
+            setOpenPostcode(current => !current);
+        },
+
+        // 주소 선택 이벤트
+        selectAddress: (data: any) => {
+            console.log(`
+                주소: ${data.address},
+                우편번호: ${data.zonecode}
+            `)
+            setOpenPostcode(false);
+        },
+    };
+
     useEffect(() => {
     }, []);
 
 	return (
 		<div className={styles.member2}>
+            <div>
+                <button onClick={postCodeHandle.clickButton}>toggle</button>
+                {openPostcode &&
+                    <DaumPostcode
+                        style={postCodeStyle}
+                        onComplete={postCodeHandle.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
+                        autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                        defaultQuery='판교역로 235' // 팝업을 열때 기본적으로 입력되는 검색어
+                    />
+                }
+            </div>
 			<div className={styles.back}>
                 <img className={styles.bultIcon} alt="" src="/bult.svg" />
                 <div className={styles.div}>회원가입</div>
@@ -127,11 +161,6 @@ const SignUp = () => {
                     <span>{`직업군 `}</span>
                     <span className={styles.span}>*</span>
                 </div>
-                {/*
-                <div className={styles.inBox6} />
-                <div className={styles.div17}>선택하세요.</div>
-                <img className={styles.member2Child} alt="" src="/polygon-2.svg" />
-                */}
                 <SelectBox
                     selectWrapperStyle={styles.jobCategorySelectWrapper}
                     options={JobCategoryOptions}

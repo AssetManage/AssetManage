@@ -1,0 +1,243 @@
+.dimBox,
+.seltBoxParent {
+	position: absolute;
+	top: 43px;
+	left: 197px;
+	width: 1180px;
+	height: 911px;
+}
+.dimBox {
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.76);
+	width: 100%;
+	height: 100%;
+}
+.dimBox1,
+.dimBoxWrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 580px;
+	height: 495px;
+}
+.dimBox1 {
+	border-radius: var(--br-xs);
+	background-color: var(--color-white);
+	box-shadow: 6px 4px 12px rgba(0, 0, 0, 0.36);
+}
+.dimBoxWrapper {
+	overflow: hidden;
+}
+.bultIcon {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	width: 26.9px;
+	height: 22px;
+}
+.div17 {
+	position: absolute;
+	top: 24px;
+	left: 35px;
+	line-height: 35px;
+	font-weight: 600;
+}
+.clsIcoIcon {
+	position: absolute;
+	height: 27.59%;
+	width: 3.1%;
+	top: 0;
+	right: 0;
+	bottom: 72.41%;
+	left: 96.9%;
+	max-width: 100%;
+	overflow: hidden;
+	max-height: 100%;
+}
+.wLine1 {
+	position: absolute;
+	top: 57.5px;
+	left: -0.5px;
+	border-top: 1px solid var(--color-gray);
+	box-sizing: border-box;
+	width: 517px;
+	height: 1px;
+}
+.frameWrapper,
+.poptitWrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 516px;
+	height: 58px;
+}
+.frameWrapper {
+	top: 24px;
+	left: 32px;
+	font-size: 21px;
+}
+.div18,
+.div20 {
+	position: absolute;
+	top: 106px;
+	left: 32px;
+	font-weight: 500;
+}
+.div20 {
+	top: 0;
+	left: 0;
+}
+.div19,
+.inBox1 {
+	position: absolute;
+	width: 248px;
+}
+.inBox1 {
+	top: 24px;
+	left: 0;
+	border-radius: var(--br-10xs);
+	background-color: var(--color-white);
+	border: 1px solid var(--color-lightgray);
+	box-sizing: border-box;
+	height: 36px;
+}
+.div19 {
+	top: 151px;
+	left: 32px;
+	height: 60px;
+	font-size: var(--font-size-mini);
+}
+.div22,
+.inBox2 {
+	position: absolute;
+	left: 0;
+}
+.div22 {
+	top: 0;
+	font-size: var(--font-size-mini);
+	font-weight: 500;
+}
+.inBox2 {
+	top: 24px;
+	border-radius: var(--br-10xs);
+	background-color: var(--color-white);
+	border: 1px solid var(--color-lightgray);
+	box-sizing: border-box;
+	width: 516px;
+	height: 36px;
+}
+.div23,
+.div24 {
+	position: absolute;
+	top: 34px;
+	display: inline-block;
+	width: 171px;
+	height: 17px;
+}
+.div23 {
+	left: 12px;
+	font-weight: 300;
+	color: var(--color-lightslategray);
+}
+.div24 {
+	left: 333px;
+	font-weight: 500;
+	text-align: right;
+}
+.span27 {
+	color: var(--color-gray);
+}
+.div25 {
+	position: absolute;
+	top: 4px;
+	left: 269px;
+	font-size: 12px;
+	color: var(--color-mediumslateblue);
+}
+.div21,
+.div26 {
+	left: 32px;
+	width: 516px;
+	height: 60px;
+}
+.div21 {
+	position: absolute;
+	top: 229px;
+}
+.div26 {
+	top: 307px;
+}
+.b8,
+.btnBox1,
+.div26 {
+	position: absolute;
+}
+.btnBox1 {
+	top: 0;
+	left: 0;
+	border-radius: var(--br-8xs);
+	background-color: var(--color-mediumslateblue);
+	width: 160px;
+	height: 42px;
+}
+.b8 {
+	top: 12px;
+	left: 50px;
+}
+.btn1 {
+	top: 399px;
+	left: 256px;
+	width: 160px;
+	height: 42px;
+	font-size: var(--font-size-base);
+	color: var(--color-white);
+}
+.btn1,
+.btnBox2,
+.div30 {
+	position: absolute;
+}
+.btnBox2 {
+	top: 0;
+	left: 0;
+	border-radius: var(--br-8xs);
+	background-color: var(--color-white);
+	border: 1px solid var(--color-gray-100);
+	box-sizing: border-box;
+	width: 84px;
+	height: 42px;
+}
+.div30 {
+	top: 12px;
+	left: 28px;
+	font-weight: 500;
+}
+.btn2,
+.frameParent {
+	position: absolute;
+	top: 399px;
+	left: 164px;
+	width: 84px;
+	height: 42px;
+	font-size: var(--font-size-base);
+}
+.frameParent {
+	top: 120px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 580px;
+	height: 495px;
+	text-align: left;
+	font-size: var(--font-size-sm);
+}
+.mainPop1 {
+	width: 100%;
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	text-align: right;
+	font-size: var(--font-size-lg);
+	color: var(--color-gray);
+	font-family: var(--font-pretendard);
+}
