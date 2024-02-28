@@ -1,0 +1,295 @@
+.dimBox,
+.dimBox1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.dimBox {
+  background-color: rgba(0, 0, 0, 0.76);
+  width: 100%;
+  height: 100%;
+}
+.dimBox1 {
+  border-radius: 12px;
+  background-color: var(--color-white);
+  box-shadow: 6px 4px 12px rgba(0, 0, 0, 0.36);
+  width: 580px;
+  height: 611px;
+}
+.bultIcon {
+  top: 20px;
+  left: 0;
+  width: 26.9px;
+  height: 22px;
+}
+.bultIcon,
+.div,
+.wLine {
+  position: absolute;
+}
+.div {
+  top: 24px;
+  left: 35px;
+  letter-spacing: -0.01em;
+  line-height: 35px;
+  font-weight: 600;
+}
+.wLine {
+  top: 57.5px;
+  left: -0.5px;
+  border-top: 1px solid var(--color-gray);
+  box-sizing: border-box;
+  width: 517px;
+  height: 1px;
+}
+.clsIcoIcon {
+  position: absolute;
+  height: 27.59%;
+  width: 3.1%;
+  top: 0;
+  right: 0;
+  bottom: 72.41%;
+  left: 96.9%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.poptit {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  width: 516px;
+  height: 58px;
+  font-size: 21px;
+}
+.vsImgIcon {
+  position: absolute;
+  top: 114px;
+  left: 42px;
+  width: 250px;
+  height: 182.1px;
+}
+.b,
+.div1 {
+  position: absolute;
+  left: 0;
+}
+.div1 {
+  top: 0;
+  letter-spacing: -0.02em;
+  line-height: 55px;
+  font-weight: 600;
+}
+.b {
+  top: 34px;
+  line-height: 46px;
+  color: var(--color-mediumslateblue);
+}
+.youOnlyLive {
+  top: 71px;
+  left: 0;
+  font-size: var(--font-size-base);
+  line-height: 26px;
+  font-weight: 600;
+}
+.div2,
+.stit,
+.youOnlyLive {
+  position: absolute;
+}
+.div2 {
+  top: 94px;
+  left: 0;
+  font-size: 14px;
+  line-height: 26px;
+  font-weight: 500;
+}
+.stit {
+  top: 161px;
+  left: 318px;
+  width: 207px;
+  height: 104px;
+  font-size: var(--font-size-7xl);
+}
+.div3,
+.inBox {
+  position: absolute;
+  left: 32px;
+}
+.div3 {
+  top: 340px;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+.inBox {
+  top: 373px;
+  border-radius: 3px;
+  background-color: #f6f7fb;
+  width: 516px;
+  height: 84px;
+}
+.shinhanIcoIcon {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  object-fit: cover;
+}
+.div4 {
+  top: 0;
+  left: 0;
+  letter-spacing: -0.01em;
+  line-height: 42px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  height: 16.5px;
+}
+.div4,
+.div5,
+.sTit,
+.shinhanIcoParent {
+  position: absolute;
+  width: 135.4px;
+}
+.div5 {
+  top: 17.8px;
+  left: 0;
+  font-size: var(--font-size-base);
+  letter-spacing: -0.01em;
+  line-height: 42px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 19.8px;
+}
+.sTit,
+.shinhanIcoParent {
+  top: 0;
+  left: 42.6px;
+  height: 37.6px;
+}
+.shinhanIcoParent {
+  top: 396px;
+  left: 50px;
+  width: 178px;
+  font-size: var(--font-size-smi);
+}
+.div6,
+.span {
+  font-weight: 800;
+}
+.div6 {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  letter-spacing: -0.01em;
+  line-height: 42px;
+}
+.span {
+  font-size: var(--font-size-lg);
+}
+.div7 {
+  top: 0;
+  left: 36px;
+  letter-spacing: -0.02em;
+  line-height: 42px;
+  color: var(--color-gray);
+  font-size: 28px;
+}
+.div7,
+.div8,
+.parent {
+  position: absolute;
+}
+.parent {
+  top: 0;
+  left: 58px;
+  width: 93px;
+  height: 20px;
+}
+.div8 {
+  top: 28px;
+  right: 0;
+  font-size: var(--font-size-smi);
+  letter-spacing: -0.01em;
+  line-height: 42px;
+  color: #444;
+}
+.groupParent {
+  top: 397px;
+  left: 379px;
+  width: 151px;
+  height: 37px;
+  text-align: right;
+  color: #ff8126;
+}
+.b1,
+.btnBox,
+.groupParent {
+  position: absolute;
+}
+.btnBox {
+  top: 0;
+  left: 0;
+  border-radius: var(--br-8xs);
+  background-color: var(--color-mediumslateblue);
+  width: 260px;
+  height: 42px;
+}
+.b1 {
+  top: 12px;
+  left: 44px;
+}
+.btn1 {
+  top: 505px;
+  left: 206px;
+  width: 260px;
+  height: 42px;
+  color: var(--color-white);
+}
+.btn1,
+.btnBox1,
+.div9 {
+  position: absolute;
+}
+.btnBox1 {
+  top: 0;
+  left: 0;
+  border-radius: var(--br-8xs);
+  background-color: var(--color-white);
+  border: 1px solid #061237;
+  box-sizing: border-box;
+  width: 84px;
+  height: 42px;
+}
+.div9 {
+  top: 12px;
+  left: 28px;
+  font-weight: 500;
+}
+.btn2,
+.dimBoxParent {
+  position: absolute;
+  top: 505px;
+  left: 114px;
+  width: 84px;
+  height: 42px;
+}
+.dimBoxParent {
+  top: 120px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 580px;
+  height: 611px;
+}
+.mainPop2 {
+  width: 100%;
+  position: relative;
+  height: 100%;
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--color-gray);
+  font-family: var(--font-pretendard);
+}
