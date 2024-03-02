@@ -1,5 +1,6 @@
 package com.project.assetManage.entity;
 
+import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import org.hibernate.annotations.Comment;
 @Getter
 @NoArgsConstructor
 @Entity(name = "st_user_compute_income")
-public class UserComuteIncome {
+public class UserComuteIncome extends BaseDateTimeEntity {
 
     @Id
 /*    @ManyToOne(fetch = FetchType.LAZY)
