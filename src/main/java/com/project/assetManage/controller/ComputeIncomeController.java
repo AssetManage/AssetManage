@@ -30,11 +30,4 @@ public class ComputeIncomeController {
         return ResponseEntity.ok("ComputeIncome inserted successfully for userSeq: " + userSeq);
     }
 
-    @Operation(summary = "회원산출소득 업데이트", description = "회원산출소득 데이터를 업데이트한다.")
-    @PostMapping("/update")
-    public void updateComputeIncome(){
-        computeIncomeService.updateComputeIncome();
-    }
-
-
 }
