@@ -50,6 +50,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests((authorizeRequests)-> {
                 // 회원가입과 로그인은 모두 승인
                 authorizeRequests.requestMatchers("/join", "/login").permitAll();
+                authorizeRequests.requestMatchers("/visitor/**").permitAll(); //비회원 전용 api
                 authorizeRequests.requestMatchers("/user/**").authenticated();
                 authorizeRequests.anyRequest().permitAll();
             })
