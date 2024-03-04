@@ -17,7 +17,7 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<CodeDto.ResponseAll> selectCodeIdRegexpList(CodeDto.Request param) {
+    public List<CodeDto.ResponseAll> selectCodeList(CodeDto.Request param) {
         QCode qCode = QCode.code;
         List<CodeDto.ResponseAll> list =
                 jpaQueryFactory.select(Projections.fields(CodeDto.ResponseAll.class

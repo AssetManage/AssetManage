@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CodeRepositoryCustom {
-    List<CodeDto.ResponseAll> selectCodeIdRegexpList(CodeDto.Request param);
+    List<CodeDto.ResponseAll> selectCodeList(CodeDto.Request param);
 }

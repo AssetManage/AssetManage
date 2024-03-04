@@ -77,7 +77,7 @@ public class ProductService {
             code.setGroupCode("cnsmp_incln_cd");
             code.setUseYn('Y');
             code.setCodeIdListStr(product.getCnsmpInclnCdListStr());
-            List<CodeDto.ResponseAll> codeList = codeRepository.selectCodeIdRegexpList(code);
+            List<CodeDto.ResponseAll> codeList = codeRepository.selectCodeList(code);
             product.setCnsmpInclnCdList(codeList);
         }
         return ret;
