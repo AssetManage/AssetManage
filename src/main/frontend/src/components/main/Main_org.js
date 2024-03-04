@@ -11,11 +11,9 @@ const Main = () => {
     const [productList, setProductList] = useState([]);
 
     useEffect(() => {
-        // TO-DO :: slick 라이브러리 사용
         axios.get('/st/product/selectProductListWithOpt', {
             params : {
-                'cnsmpInclnCd': 'BP',
-                'actKindCd' : 'SV',
+                'cnsmpInclnCd': 'AT',
                 'limit': 3
             }
         })
@@ -27,10 +25,10 @@ const Main = () => {
                 console.log(err);
             });
     }, []);
-    return (
-        <div className={styles.main1}>
-            <div className={styles.main}>
-                <Header />
+	return (
+		<div className={styles.main1}>
+			<div className={styles.main}>
+			    <Header />
                 <div className={styles.main1Child} />
                 <div className={styles.myFinancialPocketParent}>
                     <b className={styles.myFinancialPocket}>My Financial Pocket</b>
@@ -70,36 +68,110 @@ const Main = () => {
                     <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg" />
                     <div className={styles.wLine} />
                 </div>
-                {
+                <div className={styles.bgBox} />
+                <img className={styles.shinhanIcoIcon} alt="" src="/shinhanico@2x.png" />
+                <div className={styles.sTit}>
+                    <div className={styles.db}>신한은행</div>
+                    <div className={styles.m}>더드림정기예금</div>
+                </div>
+                <b className={styles.b1}>최고금리</b>
+                <div className={styles.div6}>
+                    <span className={styles.txt}>
+                        <span className={styles.span3}>{` `}</span>
+                        <span className={styles.span4}>
+                            <span className={styles.span5}>
+                                <b className={styles.b2}>3.7</b>
+                                <span className={styles.span6}>%</span>
+                            </span>
+                            <span className={styles.span6}>
+                                <span className={styles.span8}>{` `}</span>
+                            </span>
+                            <span>(세전)</span>
+                        </span>
+                    </span>
+                </div>
+                <div className={styles.div7}>(12개월 / 온라인가입 기준)</div>
+                <>{
                     productList.map((e) => {
                         return (
-                                <div className={styles.bgBox}>
-                                    <img className={styles.shinhanIcoIcon} alt="" src={e.finCoNoImgUrl}/>
-                                    <div className={styles.sTit}>
-                                        <div className={styles.db}>{e.korCoNm}</div>
-                                        <div className={styles.m}>{e.finPrdtNm}</div>
-                                    </div>
-                                    <b className={styles.b1}>최고금리</b>
-                                    <div className={styles.div6}>
-                                        <span className={styles.txt}>
-                                            <span className={styles.span3}>{` `}</span>
-                                            <span className={styles.span4}>
-                                                <span className={styles.span5}>
-                                                    <b className={styles.b2}>{e.intrRate2}</b>
-                                                    <span className={styles.span6}>%</span>
-                                                </span>
-                                                <span className={styles.span6}>
-                                                    <span className={styles.span8}>{` `}</span>
-                                                </span>
-                                                <span>(세전)</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
+                            <div>
+                                <div className={styles.bgBox}/>
+                                <img className={styles.shinhanIcoIcon} alt="" src="/shinhanico@2x.png"/>
+                                <div className={styles.sTit}>
+                                    <div className={styles.db}>{e.korCoNm}</div>
+                                    <div className={styles.m}>{e.finPrdtNm}</div>
                                 </div>
+                                <b className={styles.b1}>최고금리</b>
+                                <div className={styles.div6}>
+                                    <span className={styles.txt}>
+                                        <span className={styles.span3}>{` `}</span>
+                                        <span className={styles.span4}>
+                                            <span className={styles.span5}>
+                                                <b className={styles.b2}>{e.intrRate2}</b>
+                                                <span className={styles.span6}>%</span>
+                                            </span>
+                                            <span className={styles.span6}>
+                                                <span className={styles.span8}>{` `}</span>
+                                            </span>
+                                            <span>(세전)</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
+                            </div>
                         );
                     })
-                }
+                }</>
+                <div className={styles.bgBox1}/>
+                <img className={styles.kbIcoIcon} alt="" src="/kbico@2x.png"/>
+                <div className={styles.sTit1}>
+                    <div className={styles.db}>국민은행</div>
+                    <a
+                        className={styles.kbStar}
+                        href={`https://obank.kbstar.com/quics?page=C016613&cc=b061496:b061496#none`}
+                        target="_blank"
+                    >
+                        KB Star 정기예금
+                    </a>
+                </div>
+                <b className={styles.b3}>최고금리</b>
+                <div className={styles.div9}>
+                    <span className={styles.txt}>
+                        <span className={styles.span3}>{` `}</span>
+                        <span className={styles.span4}>
+                            <span className={styles.span5}>
+                                <b className={styles.b2}>3.7</b>
+                                <span className={styles.span6}>%</span>
+                            </span>
+                            <span className={styles.span6}>
+                                <span className={styles.span8}>{` `}</span>
+                            </span>
+                            <span>(세전)</span>
+                        </span>
+                    </span>
+                </div>
+                <div className={styles.div10}>( 12개월 / 온라인가입 기준)</div>
+                <div className={styles.bgBox2} />
+                <img className={styles.kakaoIcoIcon} alt="" src="/kakaoico1@2x.png" />
+                <div className={styles.sTit2}>
+                    <div className={styles.db}>카카오뱅크</div>
+                    <div className={styles.m}>카카오뱅크 정기예금</div>
+                </div>
+                <b className={styles.b5}>최고금리</b>
+                <div className={styles.div13}>
+                    <span className={styles.txt}>
+                        <span className={styles.span15}>{` `}</span>
+                        <span className={styles.span16}>
+                            <b>3.8</b>
+                            <span className={styles.span15}>%</span>
+                        </span>
+                        <span className={styles.span15}>
+                            <span>{` `}</span>
+                        </span>
+                        <span className={styles.span19}>(세전)</span>
+                    </span>
+                </div>
+                <div className={styles.div14}>( 12개월 / 온라인가입 기준)</div>
                 <img className={styles.lArrowIcon} alt="" src="/larrow.svg" />
                 <div className={styles.hit}>
                     <span className={styles.txt}>
@@ -207,8 +279,8 @@ const Main = () => {
             <ProductRecmdPopup2 />
             */}
 
-        </div>
-    );
+		</div>
+	);
 };
 
 export default Main;

@@ -5,6 +5,7 @@ import com.project.assetManage.dto.ProductOptionDto;
 import com.project.assetManage.entity.QProduct;
 import com.project.assetManage.entity.QProductOption;
 
+import com.project.assetManage.entity.common.QCode;
 import com.project.assetManage.util.expression.CodeExpression;
 import com.project.assetManage.util.expression.ProductExpression;
 import com.project.assetManage.util.expression.ProductOptionExpression;
@@ -86,6 +87,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         List<ProductOptionDto.ResponseSimple> optList = param.getPrdOptList();
         QProduct qProduct = QProduct.product;
+        QCode qCode = QCode.code;
 
         List<ProductDto.ResponseCustom> list = null;
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseCustom.class
@@ -124,6 +126,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
+                        , ExpressionUtils.as(qCode.etc1, "finCoNoImgUrl")
                         , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdListStr")
                 ))
                 .from(qProductOption)
@@ -131,6 +134,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .on(qProduct.dclsMonth.eq(qProductOption.dclsMonth)
                         , qProduct.finCoNo.eq(qProductOption.finCoNo)
                         , qProduct.finPrdtCd.eq(qProductOption.finPrdtCd))
+                .leftJoin(qCode)
+                .on(
+                        qCode.groupCode.eq("fin_co_no")
+                        , qProduct.finCoNo.eq(qCode.codeId)
+                )
                 .where(
                         ProductExpression.eqFinCoNo(qProduct, param.getFinCoNo())
                         , ProductExpression.eqFinPrdtCd(qProduct, param.getFinPrdtCd())
@@ -210,6 +218,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         List<ProductOptionDto.ResponseSimple> optList = param.getPrdOptList();
         QProduct qProduct = QProduct.product;
+        QCode qCode = QCode.code;
 
         List<ProductDto.ResponseCustom> list = null;
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseCustom.class
@@ -248,6 +257,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
+                        , ExpressionUtils.as(qCode.etc1, "finCoNoImgUrl")
                         , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdListStr")
                 ))
                 .from(qProductOption)
@@ -255,6 +265,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .on(qProduct.dclsMonth.eq(qProductOption.dclsMonth)
                         , qProduct.finCoNo.eq(qProductOption.finCoNo)
                         , qProduct.finPrdtCd.eq(qProductOption.finPrdtCd))
+                .leftJoin(qCode)
+                .on(
+                        qCode.groupCode.eq("fin_co_no")
+                        , qProduct.finCoNo.eq(qCode.codeId)
+                )
                 .where(
                         ProductExpression.eqFinCoNo(qProduct, param.getFinCoNo())
                         , ProductExpression.eqFinPrdtCd(qProduct, param.getFinPrdtCd())

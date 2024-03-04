@@ -143,6 +143,7 @@ public class ProductDto {
         // custom
         private int maturityAmt;
         private int rnum;
+        private String finCoNoImgUrl;
         @Setter
         private List<CodeDto.ResponseAll> cnsmpInclnCdList;
 
@@ -175,6 +176,7 @@ public class ProductDto {
                 , String rsrvTypeNm
                 , int maturityAmt
                 , int rnum
+                , String finCoNoImgUrl
                 , List<CodeDto.ResponseAll> cnsmpInclnCdList) {
             this.finCoNo = finCoNo;
             this.finPrdtCd = finPrdtCd;
@@ -213,6 +215,7 @@ public class ProductDto {
             // custom
             this.maturityAmt = maturityAmt;
             this.rnum = rnum;
+            this.finCoNoImgUrl = finCoNoImgUrl;
             this.cnsmpInclnCdList = cnsmpInclnCdList;
         }
     }
