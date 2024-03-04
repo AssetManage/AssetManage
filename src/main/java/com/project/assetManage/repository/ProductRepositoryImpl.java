@@ -2,17 +2,15 @@ package com.project.assetManage.repository;
 
 import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
-import com.project.assetManage.dto.QProductOptionDto_ResponseCustom;
 import com.project.assetManage.entity.QProduct;
 import com.project.assetManage.entity.QProductOption;
+
 import com.project.assetManage.util.expression.CodeExpression;
 import com.project.assetManage.util.expression.ProductExpression;
 import com.project.assetManage.util.expression.ProductOptionExpression;
-import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -72,6 +70,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         , ProductExpression.eqJoinWayCd(qProduct, param.getJoinWayCd())
                         , ProductExpression.inFinCoNoList(qProduct, param.getFinCoNoList())
                 )
+                // TO-DO :: 정렬 추가
                 .fetch();
         return list;
     }
@@ -125,7 +124,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
-                        , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdList")
+                        , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdListStr")
                 ))
                 .from(qProductOption)
                 .innerJoin(qProduct)
@@ -196,6 +195,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         , ProductExpression.inFinCoNoList(qProduct, param.getFinCoNoList())
                 )
                 .limit(param.getLimit())
+                // TO-DO :: 정렬 추가
                 .fetch();
         return list;
     }
@@ -248,7 +248,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
-                        , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdList")
+                        , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdListStr")
                 ))
                 .from(qProductOption)
                 .innerJoin(qProduct)
@@ -270,6 +270,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .orderBy(ProductOptionExpression.orderSpecifiers(qProductOption, param.getCnsmpInclnCd(), qProduct.actKindCd))
                 .limit(param.getLimit())
                 .fetch();
+
         return list;
     }
 }

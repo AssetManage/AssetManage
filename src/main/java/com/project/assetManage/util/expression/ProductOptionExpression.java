@@ -35,6 +35,7 @@ public class ProductOptionExpression {
     }
     // 소비유형코드에 따른 상품옵션시퀀스 Expression
     public static NumberExpression<Long> retPrdOptionSeq(QProductOption qProductOption, String cnsmpInclnCd) {
+        if(null == cnsmpInclnCd) cnsmpInclnCd = "";
         return switch (cnsmpInclnCd) {
             case "GH" -> qProductOption.prdOptionSeq.min();
             case "YL" -> qProductOption.prdOptionSeq.min();
@@ -113,7 +114,7 @@ public class ProductOptionExpression {
                            and p.dcls_month = t.dcls_month
              order by p.fin_prdt_nm
         * */
-
+        if(null == cnsmpInclnCd) cnsmpInclnCd = "";
         cnsmpInclnCd = switch (cnsmpInclnCd) {
             case "GH" -> "GH|YL";
             case "YL" -> "GH|YL";
@@ -144,6 +145,8 @@ public class ProductOptionExpression {
     // 선순위 :: 소비유형 , 후순위 :: 연령별, 소득별
     public static OrderSpecifier[] orderSpecifiers(QProductOption qProductOption, String cnsmpInclnCd, StringPath actKindCd) {
         List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+
+        if(null == cnsmpInclnCd) cnsmpInclnCd = "";
 
         // 정렬 선순위조건 :: 소비유형
         // 1. save_trm

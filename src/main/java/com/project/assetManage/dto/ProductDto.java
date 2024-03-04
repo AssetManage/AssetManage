@@ -1,7 +1,5 @@
 package com.project.assetManage.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,7 +49,7 @@ public class ProductDto {
         private String actKindNm;
         private String joinWayNm;
         private String joinWayElCnts;
-        private String cnsmpInclnCdList;
+        private String cnsmpInclnCdListStr;
 
         // option
         @Setter
@@ -76,7 +74,7 @@ public class ProductDto {
                 , String actKindNm
                 , String joinWayNm
                 , String joinWayElCnts
-                , String cnsmpInclnCdList
+                , String cnsmpInclnCdListStr
                 , List<ProductOptionDto.ResponseAll> productOptionList) {
             this.finCoNo = finCoNo;
             this.finPrdtCd = finPrdtCd;
@@ -100,7 +98,7 @@ public class ProductDto {
             this.actKindNm = actKindNm;
             this.joinWayNm = joinWayNm;
             this.joinWayElCnts = joinWayElCnts;
-            this.cnsmpInclnCdList = cnsmpInclnCdList;
+            this.cnsmpInclnCdListStr = cnsmpInclnCdListStr;
 
             // option
             this.productOptionList = productOptionList;
@@ -131,7 +129,7 @@ public class ProductDto {
         private String actKindNm;
         private String joinWayNm;
         private String joinWayElCnts;
-        private String cnsmpInclnCdList;
+        private String cnsmpInclnCdListStr;
 
         // option
         private Long prdOptionSeq;
@@ -145,8 +143,9 @@ public class ProductDto {
         // custom
         private int maturityAmt;
         private int rnum;
+        @Setter
+        private List<CodeDto.ResponseAll> cnsmpInclnCdList;
 
-        // @QueryProjection
         public ResponseCustom(String finCoNo, String finPrdtCd, String dclsMonth
                 , String actKindCd
                 , String korCoNm
@@ -165,7 +164,7 @@ public class ProductDto {
                 , String actKindNm
                 , String joinWayNm
                 , String joinWayElCnts
-                , String cnsmpInclnCdList
+                , String cnsmpInclnCdListStr
                 , Long prdOptionSeq
                 , String intrRateType
                 , String intrRateTypeNm
@@ -175,7 +174,8 @@ public class ProductDto {
                 , String rsrvType
                 , String rsrvTypeNm
                 , int maturityAmt
-                , int rnum) {
+                , int rnum
+                , List<CodeDto.ResponseAll> cnsmpInclnCdList) {
             this.finCoNo = finCoNo;
             this.finPrdtCd = finPrdtCd;
             this.dclsMonth = dclsMonth;
@@ -198,7 +198,7 @@ public class ProductDto {
             this.actKindNm = actKindNm;
             this.joinWayNm = joinWayNm;
             this.joinWayElCnts = joinWayElCnts;
-            this.cnsmpInclnCdList = cnsmpInclnCdList;
+            this.cnsmpInclnCdListStr = cnsmpInclnCdListStr;
 
             // option
             this.prdOptionSeq = prdOptionSeq;
@@ -213,6 +213,7 @@ public class ProductDto {
             // custom
             this.maturityAmt = maturityAmt;
             this.rnum = rnum;
+            this.cnsmpInclnCdList = cnsmpInclnCdList;
         }
     }
 

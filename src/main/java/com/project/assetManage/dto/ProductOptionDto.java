@@ -92,7 +92,7 @@ public class ProductOptionDto {
         private String rsrvTypeNm;
         // custom
         private int maturityAmt;
-        private String cnsmpInclnCdList;
+        private String cnsmpInclnCdListStr;
 
         public ResponseAll(Long prdOptionSeq
                 , String finCoNo
@@ -106,7 +106,7 @@ public class ProductOptionDto {
                 , String rsrvType
                 , String rsrvTypeNm
                 , int maturityAmt
-                , String cnsmpInclnCdList) {
+                , String cnsmpInclnCdListStr) {
 
             this.prdOptionSeq = prdOptionSeq;
             this.finCoNo = finCoNo;
@@ -122,7 +122,7 @@ public class ProductOptionDto {
 
             // custom
             this.maturityAmt = maturityAmt;
-            this.cnsmpInclnCdList = cnsmpInclnCdList;
+            this.cnsmpInclnCdListStr = cnsmpInclnCdListStr;
         }
     }
 
@@ -137,21 +137,21 @@ public class ProductOptionDto {
         private Long maxPrdOptionSeq;
         private Long minPrdOptionSeq;
         private Long avgPrdOptionSeq;
-        private String cnsmpInclnCdList;
+        private String cnsmpInclnCdListStr;
 
         @QueryProjection
         public ResponseCustom(String finCoNo, String finPrdtCd, String dclsMonth
                 , Long maxPrdOptionSeq
                 , Long minPrdOptionSeq
                 , Long avgPrdOptionSeq
-                , String cnsmpInclnCdList) {
+                , String cnsmpInclnCdListStr) {
             this.finCoNo = finCoNo;
             this.finPrdtCd = finPrdtCd;
             this.dclsMonth = dclsMonth;
             this.maxPrdOptionSeq = maxPrdOptionSeq;
             this.minPrdOptionSeq = minPrdOptionSeq;
             this.avgPrdOptionSeq = avgPrdOptionSeq;
-            this.cnsmpInclnCdList = cnsmpInclnCdList;
+            this.cnsmpInclnCdListStr = cnsmpInclnCdListStr;
         }
     }
 

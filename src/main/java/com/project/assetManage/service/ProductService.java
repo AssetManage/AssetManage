@@ -1,24 +1,29 @@
 package com.project.assetManage.service;
 
+import com.project.assetManage.dto.CodeDto;
 import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
+import com.project.assetManage.repository.CodeRepository;
 import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ProductService {
     public ProductRepository productRepository;
     public ProductOptionRepository productOptionRepository;
+    public CodeRepository codeRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductOptionRepository productOptionRepository) {
+    public ProductService(ProductRepository productRepository
+            , ProductOptionRepository productOptionRepository
+            , CodeRepository codeRepository) {
         this.productRepository = productRepository;
         this.productOptionRepository = productOptionRepository;
+        this.codeRepository = codeRepository;
     }
     
     // 상품 목록 조회
@@ -56,6 +61,24 @@ public class ProductService {
             ret = productRepository.selectProductListWithOptLimit(param);
         }else{
             ret = productRepository.selectProductListWithOpt(param);
+        }
+
+        // 상품 목록 div 내부 소비유형코드 아이콘 동적 생성을 위한 list 반환
+        // TO-DO :: queryDsl 별도의 가공 필요, jpa regexp 사용시 오류 해결 방안
+        /*
+        * select *
+          from st_code sc
+         where grp_code_id = 'cnsmp_incln_cd'
+           and code_id regexp 'BP|AT'
+           and use_yn = 'Y'
+        * */
+        for (ProductDto.ResponseCustom product : ret) {
+            CodeDto.Request code = new CodeDto.Request();
+            code.setGroupCode("cnsmp_incln_cd");
+            code.setUseYn('Y');
+            code.setCodeIdListStr(product.getCnsmpInclnCdListStr());
+            List<CodeDto.ResponseAll> codeList = codeRepository.selectCodeIdRegexpList(code);
+            product.setCnsmpInclnCdList(codeList);
         }
         return ret;
     }

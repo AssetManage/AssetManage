@@ -2,11 +2,12 @@ package com.project.assetManage.repository;
 
 import com.project.assetManage.entity.common.Code;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CodeRepository extends JpaRepository<Code, String> {
+public interface CodeRepository extends JpaRepository<Code, String>, CodeRepositoryCustom {
 
     Optional<Code> findByGroupCodeAndCodeId(String groupCode, String codeId);
 
