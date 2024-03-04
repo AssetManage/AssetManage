@@ -20,8 +20,12 @@ const SignUp = () => {
     const [openPostcode, setOpenPostcode] = useState(false);
 
     const postCodeStyle = {
+        top: '750px',
+        left: '1400px',
+        transform: 'translate(-50%, 0)',
         width: '400px',
         height: '400px',
+        position: 'absolute',
     };
 
     const JobCategoryOptions = [
@@ -39,7 +43,7 @@ const SignUp = () => {
     const postCodeHandle = {
         // 버튼 클릭 이벤트
         clickButton: () => {
-            setOpenPostcode(current => !current);
+            setOpenPostcode(true);
         },
 
         // 주소 선택 이벤트
@@ -57,17 +61,6 @@ const SignUp = () => {
 
 	return (
 		<div className={styles.member2}>
-            <div>
-                <button onClick={postCodeHandle.clickButton}>toggle</button>
-                {openPostcode &&
-                    <DaumPostcode
-                        style={postCodeStyle}
-                        onComplete={postCodeHandle.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
-                        autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-                        defaultQuery='판교역로 235' // 팝업을 열때 기본적으로 입력되는 검색어
-                    />
-                }
-            </div>
 			<div className={styles.back}>
                 <img className={styles.bultIcon} alt="" src="/bult.svg" />
                 <div className={styles.div}>회원가입</div>
@@ -186,8 +179,12 @@ const SignUp = () => {
                     <span className={styles.span}>*</span>
                 </div>
                 <div className={styles.inBox8} />
-                <div className={styles.btnBox} />
-                <b className={styles.b1}>우편번호</b>
+                <div
+                    className={styles.btnBox}
+                    onClick={postCodeHandle.clickButton}
+                >
+                    <b className={styles.b1}>우편번호</b>
+                </div>
                 <div className={styles.inBox9} />
                 <div className={styles.inBox10} />
                 <div className={styles.div21}>상세주소를 입력해 주세요.</div>
@@ -209,6 +206,17 @@ const SignUp = () => {
                 <div className={styles.btnBox1} />
                 <b className={styles.b2}>회원가입</b>
             </div>
+            {false && openPostcode &&
+                <div className={styles.dimBox} />
+            }
+            {openPostcode &&
+                <DaumPostcode
+                    style={postCodeStyle}
+                    onComplete={postCodeHandle.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
+                    autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                    defaultQuery='판교역로 235' // 팝업을 열때 기본적으로 입력되는 검색어
+                />
+            }
 		</div>
 	);
 };
