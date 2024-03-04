@@ -172,31 +172,61 @@ public class ComputeIncomeService{
         }
     }
 
-    // session 체크 비회원이면 => 월저축액을 비율로 받아옴. 총 회원/비회원 2번 타는 메서드
+    // session 체크 비회원이면 => 월저축액을 비율로 받아옴. 회원
     private void setConsumptionInclinationCode(Long yearAvgIncome, UserComuteIncome computeIncome) {
 
         // 과소비지수 = ( 월평균 수입 - 월평균 저축액 ) / 월평균 수입
-        double ratio = ((yearAvgIncome- safeAdd(computeIncome.getSavingExpdtAmt(),0)) / yearAvgIncome);
+        double ratio = ((double)(yearAvgIncome - safeAdd(computeIncome.getSavingExpdtAmt(), 0)) / yearAvgIncome);
+
+        System.out.println("yearAvgIncome! :::::: "+yearAvgIncome);
+        System.out.println("computeIncome.getSavingExpdtAmt()! :::::: "+computeIncome.getSavingExpdtAmt());
+        System.out.println("ratio! :::::: "+ratio);
 
         // st_cnsmp_incln 테이블에서 disp_seq를 기준으로 오름차순으로 정렬하여 over_cnsmp_incln이 ratio 이하인 레코드 조회
         QConsumptionInclination qConsumptionInclination = QConsumptionInclination.consumptionInclination;
-        List<ConsumptionInclination> inclinations = queryFactory
+        ConsumptionInclination inclination = queryFactory
                 .selectFrom(qConsumptionInclination)
-                //.where(qConsumptionInclination.overCnsmpIncln.loe(ratio))
+                .where(qConsumptionInclination.overCnsmpIncln.gt(ratio))
                 .orderBy(qConsumptionInclination.dispSeq.asc())
-                .fetch();
+                .limit(1)
+                .fetchOne();
 
-        // 조회된 레코드들을 확인하면서 cnsmp_incln_cd 값을 찾음
-        for (ConsumptionInclination inclination : inclinations) {
-            if (ratio <= Double.valueOf(inclination.getOverCnsmpIncln())) {
-                computeIncome.setCnsmpInclnCd(inclination.getCnsmpInclnCd());
-                break;
-            }
-        }
+        computeIncome.setCnsmpInclnCd(inclination.getCnsmpInclnCd());
+
     }
 
-    private int safeAdd(Integer a, Integer b) {
+    private Integer safeAdd(Integer a, Integer b) {
         return (a != null ? a : 0) + (b != null ? b : 0);
+    }
+
+    // 비회원
+    @Transactional
+    public String selectVisitorComputeIncome(Long yearIncome, Integer savingRatios) {
+        // 연소득을 월 단위로 변환
+        yearIncome = yearIncome / 12;
+
+        // 비율을 0에서 1 사이의 소수로 변환
+        double savingRatio = savingRatios / 100.0;
+
+        // 과소비지수 = (월평균 수입 - 월평균 수입 * 저축비율) / 월평균 수입
+        double ratio = ((double)(yearIncome - (yearIncome * savingRatio)) / yearIncome);
+
+        System.out.println("yearAvgIncome! :::::: " + yearIncome);
+        System.out.println("savingRatio! :::::: " + savingRatio);
+        System.out.println("ratio! :::::: " + ratio);
+
+        // st_cnsmp_incln 테이블에서 disp_seq를 기준으로 오름차순으로 정렬하여 over_cnsmp_incln이 ratio 이하인 레코드 조회
+        QConsumptionInclination qConsumptionInclination = QConsumptionInclination.consumptionInclination;
+        ConsumptionInclination inclination = queryFactory
+                .selectFrom(qConsumptionInclination)
+                .where(qConsumptionInclination.overCnsmpIncln.gt(ratio))
+                .orderBy(qConsumptionInclination.dispSeq.asc())
+                .limit(1)
+                .fetchOne();
+
+        System.out.println("selectVisitorComputeIncome getCnsmpInclnCd():::::: " + inclination.getCnsmpInclnCd());
+
+        return inclination.getCnsmpInclnCd();
     }
 
 }
