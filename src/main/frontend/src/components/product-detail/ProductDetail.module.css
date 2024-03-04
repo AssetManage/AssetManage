@@ -136,7 +136,7 @@
 	font-weight: 600;
 }
 .sTit {
-	top: 13px;
+	top: 0px;
 	left: 44px;
 	width: 83px;
 	height: 11px;
@@ -164,10 +164,9 @@
 	font-size: var(--font-size-base);
 	line-height: 26px;
 }
-.div3,
 .groupChild {
 	position: absolute;
-	top: 0;
+	top: 10px;
 	left: 0;
 }
 .groupChild {
@@ -232,7 +231,7 @@
 .groupDiv {
 	top: 0;
 	left: 305px;
-	width: 210px;
+	width: 220px;
 	height: 60px;
 }
 .b1,
@@ -246,11 +245,11 @@
 	font-weight: 500;
 }
 .b1 {
-	top: 2px;
+	top: 7px;
 	left: 0;
 }
 .b2 {
-	top: 2px;
+	top: -6px;
 	left: 20px;
 	font-size: var(--font-size-11xl);
 	line-height: 46px;
@@ -261,7 +260,7 @@
 	position: absolute;
 }
 .div8 {
-	top: 0;
+	top: 7px;
 	left: 97px;
 	line-height: 26px;
 	font-weight: 500;
@@ -291,7 +290,7 @@
 	font-size: var(--font-size-mini);
 }
 .banCont {
-	top: 203px;
+	top: 198px;
 	left: 298px;
 	width: 844px;
 	height: 181px;
@@ -323,7 +322,7 @@
 	top: 24px;
 	left: 194px;
 	width: 28px;
-	height: 0;
+	height: 6px;
 	object-fit: contain;
 }
 .arrIcoIcon,
@@ -352,7 +351,7 @@
 	top: 80px;
 	left: 194px;
 	width: 28px;
-	height: 0;
+	height: 6px;
 	object-fit: contain;
 }
 .arrIcoIcon1,
@@ -382,7 +381,7 @@
 	top: 136px;
 	left: 194px;
 	width: 28px;
-	height: 0;
+	height: 6px;
 	object-fit: contain;
 }
 .div12,
@@ -487,7 +486,7 @@
 	height: 467px;
 }
 .div13 {
-	top: 87px;
+	top: 73px;
 	left: 48px;
 	font-weight: 500;
 	color: var(--color-gray);
@@ -501,12 +500,12 @@
 	line-height: 42px;
 }
 .div14 {
-	top: 87px;
+	top: 73px;
 	left: 244px;
 }
 .div15,
 .div16 {
-	top: 133px;
+	top: 120px;
 }
 .div15 {
 	left: 48px;
@@ -517,7 +516,7 @@
 	left: 244px;
 }
 .div17 {
-	top: 182px;
+	top: 169px;
 	left: 48px;
 	font-weight: 500;
 	color: var(--color-gray);
@@ -531,12 +530,12 @@
 	line-height: 42px;
 }
 .div18 {
-	top: 181px;
+	top: 169px;
 	left: 244px;
 }
 .div19,
 .div20 {
-	top: 229px;
+	top: 215px;
 }
 .div19 {
 	left: 48px;
@@ -552,7 +551,7 @@
 }
 .div21 {
 	position: absolute;
-	top: 307px;
+	top: 290px;
 	left: 48px;
 	letter-spacing: -0.01em;
 	line-height: 42px;
@@ -565,7 +564,7 @@
 	margin: 0;
 }
 .div22 {
-	top: 283px;
+	top: 275px;
 	left: 244px;
 	line-height: 24px;
 }
@@ -576,14 +575,14 @@
 	letter-spacing: -0.01em;
 }
 .div23 {
-	top: 441px;
+	top: 422px;
 	left: 48px;
 	line-height: 42px;
 	font-weight: 500;
 	color: var(--color-gray);
 }
 .div24 {
-	top: 390px;
+	top: 389px;
 	left: 244px;
 	line-height: 22px;
 }
@@ -594,17 +593,17 @@
 .div26,
 .div27 {
 	position: absolute;
-	top: 441px;
+	top: 434px;
 	left: 244px;
 	letter-spacing: -0.01em;
 	line-height: 24px;
 }
 .div26,
 .div27 {
-	top: 470px;
+	top: 458px;
 }
 .div27 {
-	top: 499px;
+	top: 483px;
 }
 .div11 {
 	top: 550px;
@@ -663,7 +662,7 @@
 .div31,
 .div32 {
 	position: absolute;
-	top: 87px;
+	top: 72px;
 	left: 134px;
 	letter-spacing: -0.01em;
 	line-height: 42px;
@@ -687,7 +686,7 @@
 .div40,
 .div41 {
 	position: absolute;
-	top: 133px;
+	top: 121px;
 	left: 129px;
 	letter-spacing: -0.01em;
 	line-height: 42px;
@@ -717,7 +716,7 @@
 .div39,
 .div40,
 .div41 {
-	top: 181px;
+	top: 168px;
 	left: 129px;
 }
 .div37,
@@ -736,7 +735,7 @@
 .div39,
 .div40,
 .div41 {
-	top: 229px;
+	top: 215px;
 	left: 126px;
 }
 .div40,
@@ -749,7 +748,7 @@
 .div42,
 .div43 {
 	position: absolute;
-	top: 278px;
+	top: 264px;
 }
 .div42 {
 	left: 126px;
@@ -768,12 +767,12 @@
 }
 .div44 {
 	position: absolute;
-	top: 278px;
+	top: 264px;
 	left: 712px;
 }
 .div45,
 .div46 {
-	top: 326px;
+	top: 311px;
 }
 .div45 {
 	position: absolute;
@@ -788,7 +787,7 @@
 	position: absolute;
 }
 .div47 {
-	top: 326px;
+	top: 311px;
 	left: 711px;
 	letter-spacing: -0.01em;
 	line-height: 42px;
@@ -817,7 +816,7 @@
 	height: 24px;
 }
 .div50 {
-	top: 67px;
+	top: 56px;
 	left: 1px;
 	font-size: var(--font-size-lg);
 	font-weight: 500;
@@ -873,7 +872,7 @@
 	font-weight: 500;
 }
 .div53 {
-	top: 29px;
+	top: 38px;
 	font-size: 14px;
 	line-height: 22px;
 	color: var(--color-darkslategray);
@@ -881,7 +880,7 @@
 .div51,
 .txt {
 	position: absolute;
-	top: 33px;
+	top: 18px;
 	left: 158px;
 	width: 692px;
 	height: 61px;

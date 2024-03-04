@@ -62,7 +62,7 @@ const ProductDetail = () => {
                 <div className={styles.tabMenu}>
                     <div className={styles.inBox} />
                     <b className={styles.b3}>상품안내</b>
-                    <img className={styles.arrIcoIcon} alt="" src="/arrico.svg" />
+                    <img className={styles.arrIcoIcon} alt="" src="/arrico_white.svg" />
                     <div className={styles.inBox1} />
                     <div className={styles.div9}>금리안내</div>
                     <img className={styles.arrIcoIcon1} alt="" src="/arrico.svg" />
