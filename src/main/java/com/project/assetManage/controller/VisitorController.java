@@ -24,7 +24,7 @@ public class VisitorController {
     }
 
     @Operation(summary = "비회원산출소득 산출", description = "비회원산출소득을 산출한다.")
-    @RequestMapping(value = "/select", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/select", method = {RequestMethod.POST})
     public ResponseEntity<String> selectVisitorComputeIncome(@RequestParam(name = "yearIncome") Long yearIncome, @RequestParam(name = "savingRatios") Integer savingRatios, Model model) {
         // 서비스로 파라미터 전달하고 결과 받기
         String cnsmpInclnCd = computeIncomeService.selectVisitorComputeIncome(yearIncome, savingRatios);

@@ -175,6 +175,11 @@ public class ComputeIncomeService{
     // session 체크 비회원이면 => 월저축액을 비율로 받아옴. 회원
     private void setConsumptionInclinationCode(Long yearAvgIncome, UserComuteIncome computeIncome) {
 
+        if(yearAvgIncome == 0){
+            computeIncome.setCnsmpInclnCd("");
+            return;
+        }
+
         // 과소비지수 = ( 월평균 수입 - 월평균 저축액 ) / 월평균 수입
         double ratio = ((double)(yearAvgIncome - safeAdd(computeIncome.getSavingExpdtAmt(), 0)) / yearAvgIncome);
 
