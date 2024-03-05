@@ -338,6 +338,7 @@
 	float:left;
 }
 .shinhanIcoIcon {
+	/*position: inherit;*/
 	top: 705px;
 	left: 458px;
 
@@ -348,7 +349,7 @@
 .b1,
 .sTit,
 .shinhanIcoIcon {
-	position: absolute;
+	/*position: absolute;*/
 }
 .sTit {
 	top: 702px;
@@ -356,6 +357,8 @@
 	width: 164px;
 	height: 48px;
 	text-align: left;
+	/*tmp*/
+	margin-bottom: 50px;
 }
 .b1 {
 	top: 828px;
@@ -367,6 +370,9 @@
 	align-items: center;
 	width: 187px;
 	height: 34px;
+
+	/*	tmp*/
+	float: right;
 }
 .b1,
 .span3 {
@@ -400,11 +406,15 @@
 	width: 187px;
 	height: 34px;
 	font-size: var(--font-size-lg);
+
+	/*tmp*/
+	float: right;
+	margin-right: 20px;
 }
 .bgBox1,
 .div6,
 .div7 {
-	position: absolute;
+	/*position: absolute;*/
 }
 .div7 {
 	top: 902px;
@@ -417,6 +427,8 @@
 	align-items: center;
 	width: 159px;
 	height: 24px;
+	/*	tmp*/
+	float: right;
 }
 .bgBox1 {
 	top: 674px;
@@ -653,7 +665,11 @@
 .db,
 .m,
 .sTit3 {
-	position: absolute;
+	/*tmp*/
+	/*position: absolute;*/
+	position: inherit;
+	margin: 10px;
+
 	width: 164px;
 }
 .m {
@@ -661,9 +677,9 @@
 	left: 0;
 	font-size: var(--font-size-lg);
 	letter-spacing: -0.01em;
-	line-height: 42px;
+	/*line-height: 42px;*/
 	font-weight: 600;
-	display: flex;
+	/*display: flex;*/
 	align-items: center;
 	height: 24px;
 }
