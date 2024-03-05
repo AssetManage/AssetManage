@@ -39,9 +39,11 @@ public class CodeExpression {
     // 코드목록 string => list 조건절 세팅
     // codeIdList format :: "ex1|ex2|..."
     public static BooleanExpression inCnsmpInclnCdList(QCode qCode, String codeIdListStr) {
+        if(null == codeIdListStr) return null;
+
         List<String> codeIdList = List.of(codeIdListStr.split("\\|"));
 
-        if(null != codeIdList && !codeIdList.isEmpty()){
+        if(!codeIdList.isEmpty()){
             List<Expression> tuples = new ArrayList<>();
             for(String codeId : codeIdList) {
                 tuples.add(Expressions.template(Object.class, "{0}", codeId));
