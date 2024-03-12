@@ -10,6 +10,7 @@ import com.project.assetManage.util.expression.CodeExpression;
 import com.project.assetManage.util.expression.ProductExpression;
 import com.project.assetManage.util.expression.ProductOptionExpression;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -89,6 +90,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         QProduct qProduct = QProduct.product;
         QCode qCode = QCode.code;
 
+        NumberPath<Long> cnt = Expressions.numberPath(Long.class, "cnt");
+
         List<ProductDto.ResponseCustom> list = null;
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseCustom.class
                         , qProductOption.prdOptionSeq
@@ -128,6 +131,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
                         , ExpressionUtils.as(qCode.etc1, "finCoNoImgUrl")
                         , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdListStr")
+                        , ExpressionUtils.as(ProductExpression.retProductCnt(qProduct, param), cnt)
                 ))
                 .from(qProductOption)
                 .innerJoin(qProduct)
@@ -151,7 +155,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 , qProductOption.finPrdtCd
                                 , qProductOption.dclsMonth).in(ProductOptionExpression.inPrdOptionList(optList))
                 )
-                .orderBy(ProductOptionExpression.orderSpecifiers(qProductOption, param.getCnsmpInclnCd(), qProduct.actKindCd))
+                .orderBy(cnt.desc()) // TO-DO :: 정렬 조건 두 개 합칠 수 있는 방법 찾기
+                .orderBy(ProductOptionExpression.orderSpecifiers(qProductOption, param.getCnsmpInclnCd(), String.valueOf(qProduct.actKindCd)))
                 .fetch();
 
         return list;
@@ -220,6 +225,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         QProduct qProduct = QProduct.product;
         QCode qCode = QCode.code;
 
+        NumberPath<Long> cnt = Expressions.numberPath(Long.class, "cnt");
+
         List<ProductDto.ResponseCustom> list = null;
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseCustom.class
                         , qProductOption.prdOptionSeq
@@ -259,6 +266,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
                         , ExpressionUtils.as(qCode.etc1, "finCoNoImgUrl")
                         , ExpressionUtils.as(ProductOptionExpression.retCnsmpInclnCdList(qProductOption, qProductOptionSub, param.getCnsmpInclnCd()), "cnsmpInclnCdListStr")
+                        , ExpressionUtils.as(ProductExpression.retProductCnt(qProduct, param), cnt)
                 ))
                 .from(qProductOption)
                 .innerJoin(qProduct)
@@ -282,7 +290,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 , qProductOption.finPrdtCd
                                 , qProductOption.dclsMonth).in(ProductOptionExpression.inPrdOptionList(optList))
                 )
-                .orderBy(ProductOptionExpression.orderSpecifiers(qProductOption, param.getCnsmpInclnCd(), qProduct.actKindCd))
+                .orderBy(cnt.desc()) // TO-DO :: 정렬 조건 두 개 합칠 수 있는 방법 찾기
+                .orderBy(ProductOptionExpression.orderSpecifiers(qProductOption, param.getCnsmpInclnCd(), String.valueOf(qProduct.actKindCd)))
                 .limit(param.getLimit())
                 .fetch();
 

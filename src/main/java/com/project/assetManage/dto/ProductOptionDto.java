@@ -26,6 +26,10 @@ public class ProductOptionDto {
         private List<String> finCoNoList;
         private String rsrvType;
 
+        private String ageCd;
+        private String incomeScopeCd;
+        private String prdtRcmdItemCd;
+
         // custom
         private String fetchOne;
         private int limit;
@@ -40,7 +44,10 @@ public class ProductOptionDto {
         , String fetchOne
         , int limit
         , List<ResponseSimple> prdOptList
-        , List<String> finCoNoList) {
+        , List<String> finCoNoList
+        , String ageCd
+        , String incomeScopeCd
+        , String prdtRcmdItemCd) {
             this.prdOptionSeq = prdOptionSeq;
             this.finCoNo = finCoNo;
             this.finPrdtCd = finPrdtCd;
@@ -50,6 +57,9 @@ public class ProductOptionDto {
             this.cnsmpInclnCd = cnsmpInclnCd == null ? "AT" : cnsmpInclnCd;
             this.actKindCd = actKindCd;
             this.joinWayCd = joinWayCd;
+            this.ageCd = ageCd;
+            this.incomeScopeCd = incomeScopeCd;
+            this.prdtRcmdItemCd = prdtRcmdItemCd;
 
             // custom
             this.fetchOne = fetchOne;
