@@ -42,23 +42,34 @@ public class UserDto {
         private String userNm;
         private String prdtRcmdItemCd;
         private String cnsmpInclnCd;
+        private String ageCd;
+        private String incomeScopeCd;
         private String prdtRcmdItemNm;
         private String cnsmpInclnNm;
+        private String ageNm;
+        private String incomeScopeNm;
 
 
         public ResponseSimple(Long userSeq, String userNm
+                , String ageCd
                 , String prdtRcmdItemCd
                 , String cnsmpInclnCd
+                , String incomeScopeCd
+                , String ageNm
                 , String prdtRcmdItemNm
                 , String cnsmpInclnNm
-
+                , String incomeScopeNm
         ) {
             this.userSeq = userSeq;
             this.userNm = userNm;
+            this.ageCd = ageCd;
             this.prdtRcmdItemCd = prdtRcmdItemCd;
             this.cnsmpInclnCd = cnsmpInclnCd;
+            this.incomeScopeCd = incomeScopeCd;
+            this.ageNm = ageNm;
             this.prdtRcmdItemNm = prdtRcmdItemNm;
             this.cnsmpInclnNm = cnsmpInclnNm;
+            this.incomeScopeNm = incomeScopeNm;
 
         }
     }
@@ -86,6 +97,12 @@ public class UserDto {
         private String zipDetailAddr1;
         private String zipDetailAddr2;
 
+        // UserComuteIncome
+        private String cnsmpInclnCd;
+        private String incomeScopeCd;
+        private String cnsmpInclnNm;
+        private String incomeScopeNm;
+
         // UserAccount
         @Setter
         private List<?> userAccountList;
@@ -97,6 +114,8 @@ public class UserDto {
                               String prdtRcmdItemCd, Character lockYn, Character secsnYn, Character indvdlinfoAgreeYn,
                               String profileImgUrl, String sexCd, String ageCd, Integer age, String occupationCd,
                               String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2
+                , String cnsmpInclnCd, String incomeScopeCd
+                , String cnsmpInclnNm, String incomeScopeNm
                 , List<?> userAccountList
                 , List<UserCard> userCardList
             ) {
@@ -119,6 +138,12 @@ public class UserDto {
             this.zipCd = zipCd;
             this.zipDetailAddr1 = zipDetailAddr1;
             this.zipDetailAddr2 = zipDetailAddr2;
+
+            // UserComuteIncome
+            this.cnsmpInclnCd = cnsmpInclnCd;
+            this.incomeScopeCd = incomeScopeCd;
+            this.cnsmpInclnNm = cnsmpInclnNm;
+            this.incomeScopeNm = incomeScopeNm;
 
             this.userAccountList = userAccountList;
             this.userCardList = userCardList;
