@@ -36,7 +36,7 @@ public class UserService {
         // 사용자의 계좌/카드 목록 조회
         for (UserDto.ResponseCustom user : ret) {
             UserAccountDto.Request account = new UserAccountDto.Request();
-            account.setUserSeq(param.getUserSeq());
+            account.setUserSeq(user.getUserSeq());
             List<UserAccountDto.ResponseAll> accountList = userAccountRepository.selectUserAccountList(account);
             // 보유 상품 정보 통합 조회시 사용
             // List<UserAccountDto.ResponseCustom> accountList = userAccountRepository.selectUserAccountListWithProduct(account);
