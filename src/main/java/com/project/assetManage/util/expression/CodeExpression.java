@@ -15,7 +15,7 @@ public class CodeExpression {
 
     // 공통코드명 Expression
     public static StringExpression retCodeNm(StringExpression column, String grpCodeId){
-        return Expressions.stringTemplate("fn_get_code_nm({0}, {1})", grpCodeId, column);
+        return Expressions.stringTemplate("ifnull(fn_get_code_nm({0}, {1}), '')", grpCodeId, column);
     }
 
     // 그룹코드id Expression
@@ -32,7 +32,7 @@ public class CodeExpression {
 
     // 사용여부 Expression
     public static BooleanExpression eqUseYn(QCode qCode, Character useYn){
-        if (null == useYn) return null;
+        if (null == useYn) return qCode.useYn.eq('Y');
         return qCode.useYn.eq(useYn);
     }
 
