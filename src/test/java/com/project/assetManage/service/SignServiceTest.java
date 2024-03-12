@@ -22,14 +22,6 @@ class SignServiceTest {
     @Test
     void login(){
 
-        SignRequest request = SignRequest.builder()
-            .email("test@email.com")
-            .password("password")
-            .build();
-
-        SignResponse response = signService.login(request);
-        System.out.println(response.getToken());
-
 //        System.out.println(signController.test());
 
     }

@@ -10,7 +10,7 @@ import com.project.assetManage.util.exception.ErrorCode;
 import com.project.assetManage.util.security.JwtProvider;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.security.core.Authentication;
@@ -79,4 +79,8 @@ public class SignService {
         return authentication.isAuthenticated();
     }
 
+    @Transactional(readOnly = true)
+    public boolean emailCheck(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

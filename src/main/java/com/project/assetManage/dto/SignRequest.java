@@ -31,13 +31,14 @@ public class SignRequest {
     private String zipCd;
     private String zipDetailAddr1;
     private String zipDetailAddr2;
+    private String prdt_rcmd_item_cd;
 
 
     @Builder
     public SignRequest(String email, String password, String userNm,
-        Character indvdlinfoAgreeYn, String profileImgUrl, String sexCd, String ageCd, Integer age,
-        String occupationCd, String mobileTelNum, String zipCd, String zipDetailAddr1,
-        String zipDetailAddr2) {
+                       Character indvdlinfoAgreeYn, String profileImgUrl, String sexCd, String ageCd, Integer age,
+                       String occupationCd, String mobileTelNum, String zipCd, String zipDetailAddr1,
+                       String zipDetailAddr2, String prdtRcmdItemCd) {
         this.email = email;
         this.password = password;
         this.userNm = userNm;
@@ -52,6 +53,7 @@ public class SignRequest {
         this.zipCd = zipCd;
         this.zipDetailAddr1 = zipDetailAddr1;
         this.zipDetailAddr2 = zipDetailAddr2;
+        prdt_rcmd_item_cd = prdtRcmdItemCd;
     }
 
     public User toUserEntity(String password, SignRequest request){
@@ -72,6 +74,7 @@ public class SignRequest {
             .zipCd(request.getZipCd())
             .zipDetailAddr1(request.getZipDetailAddr1())
             .zipDetailAddr2(request.getZipDetailAddr2())
+            .prdtRcmdItemCd(request.getPrdt_rcmd_item_cd())
             .build();
     }
 
