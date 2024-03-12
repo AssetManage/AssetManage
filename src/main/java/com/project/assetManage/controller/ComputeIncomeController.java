@@ -26,10 +26,7 @@ public class ComputeIncomeController {
     @Operation(summary = "회원산출소득 저장", description = "회원산출소득 데이터를 저장한다.")
     @PostMapping("/insert")
     public ResponseEntity<String> insertComputeIncome(@RequestParam(name = "userSeq")  String userSeq) {
-        for(int i=1; i<=100; i++){
-            computeIncomeService.insertComputeIncome(String.valueOf(i));
-        }
-        // computeIncomeService.insertComputeIncome(userSeq);
+        computeIncomeService.insertComputeIncome(userSeq);
         return ResponseEntity.ok("ComputeIncome inserted successfully for userSeq: " + userSeq);
     }
 
