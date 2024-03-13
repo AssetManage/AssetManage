@@ -27,7 +27,7 @@ public class CodeController {
         this.codeService = codeService;
     }
 
-    @Operation(summary = "코드 목록 조회", description = "임시")
+    @Operation(summary = "코드 목록 조회", description = "공통 코드 목록을 조회한다.")
     @GetMapping("/selectCodeList")
     public CodeDto.Result selectCodeList(@Nullable @ModelAttribute CodeDto.Request param, HttpSession session) {
 

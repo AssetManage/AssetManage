@@ -32,7 +32,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Operation(summary = "사용자 정보 (simple) 단건 조회", description = "임시")
+    @Operation(summary = "사용자 정보 (simple) 단건 조회", description = "내부 회원의 사용자 일부 정보를 단건 조회한다.")
     @GetMapping("/selectUserSimple")
     public UserDto.ResultOne selectUserSimple(@Nullable @ModelAttribute UserDto.Request param
             , @AuthenticationPrincipal CustomUserDetails user) {
@@ -47,7 +47,7 @@ public class UserController {
         return new UserDto.ResultOne(stat, ret);
     }
 
-    @Operation(summary = "사용자 정보 (all) 단건 조회", description = "임시")
+    @Operation(summary = "사용자 정보 (all) 단건 조회", description = "내부 회원의 사용자 전체 정보를 단건 조회한다.")
     @GetMapping("/selectUserAll")
     public UserDto.ResultOne selectUserAll(@Nullable @ModelAttribute UserDto.Request param
             , @AuthenticationPrincipal CustomUserDetails user) {
@@ -62,7 +62,7 @@ public class UserController {
         return new UserDto.ResultOne(stat, ret);
     }
 
-    @Operation(summary = "사용자 정보와 해당 사용자의 소득 산출 정보 목록 조회", description = "임시")
+    @Operation(summary = "사용자 정보와 해당 사용자의 소득 산출 정보 목록 조회", description = "내부 회원의 사용자 정보와 소득 산출 정보를 통합한 목록을 조회한다.")
     @GetMapping("/selectUserListWithComputeIncome")
     public UserDto.Result selectUserListWithComputeIncome(@Nullable @ModelAttribute UserDto.Request param
             , @AuthenticationPrincipal CustomUserDetails user) {

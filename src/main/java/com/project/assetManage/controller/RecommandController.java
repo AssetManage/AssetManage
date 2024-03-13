@@ -38,7 +38,7 @@ public class RecommandController {
         this.userService = userService;
     }
 
-    @Operation(summary = "상품 목록 조회", description = "임시")
+    @Operation(summary = "상품 목록 조회", description = "예적금 상품 목록을 조회한다.")
     @GetMapping("/selectProductList")
     public ProductDto.Result selectProductList(@Nullable @ModelAttribute ProductOptionDto.Request param) {
 
@@ -49,7 +49,7 @@ public class RecommandController {
         return new ProductDto.Result(stat, productList);
     }
 
-    @Operation(summary = "상품 옵션 목록 조회", description = "임시")
+    @Operation(summary = "상품 옵션 목록 조회", description = "예적금 상품 옵션 목록을 조회한다.")
     @GetMapping("/selectProductOptionList")
     public ProductOptionDto.Result selectProductOptionList(@Nullable @ModelAttribute ProductOptionDto.Request param) {
 
@@ -60,7 +60,7 @@ public class RecommandController {
         return new ProductOptionDto.Result(stat, productOptionList);
     }
 
-    @Operation(summary = "상품과 대표 상품 옵션 통합 목록 조회", description = "임시")
+    @Operation(summary = "상품과 대표 상품 옵션 통합 목록 조회", description = "예적금 상품과 소비성향코드에 해당하는 대표 옵션 정보를 통합하여 목록을 조회한다.")
     @GetMapping("/selectProductListWithOpt")
     public ProductDto.Result selectProductListWithOpt(@Nullable @ModelAttribute ProductOptionDto.Request param) {
 
