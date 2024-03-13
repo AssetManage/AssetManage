@@ -23,17 +23,24 @@ public class UserAccountDto {
         private Integer accountSeq;
         private String accountNo;
         private Long userSeq;
-        private String finCoNo;
         private Character useYn;
 
-        public Request(Integer accountSeq
-                , String accountNo
-                , Long userSeq, String finCoNo, Character useYn) {
+        private String ageCd;
+        private String cnsmpInclnCd;
+        private String incomeScopeCd;
+
+        public Request(Integer accountSeq, String accountNo, Long userSeq, Character useYn
+                , String ageCd
+                , String cnsmpInclnCd
+                , String incomeScopeCd) {
             this.accountSeq = accountSeq;
             this.accountNo = accountNo;
             this.userSeq = userSeq;
-            this.finCoNo = finCoNo;
             this.useYn = useYn;
+
+            this.ageCd = ageCd;
+            this.cnsmpInclnCd = cnsmpInclnCd;
+            this.incomeScopeCd = incomeScopeCd;
         }
     }
 

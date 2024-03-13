@@ -6,6 +6,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -32,25 +33,22 @@ public class CodeExpression {
 
     // 사용여부 Expression
     public static BooleanExpression eqUseYn(QCode qCode, Character useYn){
-        if (null == useYn) return qCode.useYn.eq('Y');
+        if (ObjectUtils.isEmpty(useYn)) return qCode.useYn.eq('Y');
         return qCode.useYn.eq(useYn);
     }
 
     // 코드목록 string => list 조건절 세팅
     // codeIdList format :: "ex1|ex2|..."
     public static BooleanExpression inCnsmpInclnCdList(QCode qCode, String codeIdListStr) {
-        if(null == codeIdListStr) return null;
-
-        List<String> codeIdList = List.of(codeIdListStr.split("\\|"));
-
-        if(!codeIdList.isEmpty()){
+        if(ObjectUtils.isEmpty(codeIdListStr)){
+            return null;
+        }else{
+            List<String> codeIdList = List.of(codeIdListStr.split("\\|"));
             List<Expression> tuples = new ArrayList<>();
             for(String codeId : codeIdList) {
                 tuples.add(Expressions.template(Object.class, "{0}", codeId));
             }
             return qCode.codeId.in(tuples.toArray(new Expression[0]));
-        }else{
-            return null;
         }
     }
 

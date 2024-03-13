@@ -2,13 +2,14 @@ package com.project.assetManage.util.expression;
 
 import com.project.assetManage.entity.QUser;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class UserExpression {
 
     // 사용자seq Expression
     public static BooleanExpression eqUserSeq(QUser qUser, Long userSeq){
-        if (null == userSeq) return null;
+        if (ObjectUtils.isEmpty(userSeq)) return null;
         return qUser.userSeq.eq(userSeq);
     }
 
@@ -26,7 +27,7 @@ public class UserExpression {
 
     // 탈퇴여부 Expression
     public static BooleanExpression eqSecsnYn(QUser qUser, Character secsnYn){
-        if (null == secsnYn) return qUser.secsnYn.eq('N');
+        if (ObjectUtils.isEmpty(secsnYn)) return qUser.secsnYn.eq('N');
         return qUser.secsnYn.eq(secsnYn);
     }
 

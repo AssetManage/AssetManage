@@ -6,6 +6,7 @@ import com.project.assetManage.util.expression.ProductOptionExpression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ProductOptionRepositoryImpl implements ProductOptionRepositoryCusto
 
         // 특정 상품옵션순번 단건만 조회하는 경우
         // param :: fetchOne
-        if(null != param.getFetchOne()){
+        if(!StringUtils.isEmpty(param.getFetchOne())){
             prdOption = this.selectProductOption(param);
             param.setPrdOptionSeq(prdOption.getPrdOptionSeq());
         }

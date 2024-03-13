@@ -4,6 +4,7 @@ import com.project.assetManage.dto.ProductDto;
 import com.project.assetManage.dto.ProductOptionDto;
 import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,19 @@ public class ProductOptionService {
     }
 
     public List<ProductOptionDto.ResponseAll> selectProductOptionList(ProductOptionDto.Request param){
-        List<ProductOptionDto.ResponseAll> ret = productOptionRepository.selectProductOptionList(param).stream().collect(Collectors.toList());
+        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
+        List<ProductOptionDto.ResponseAll> ret = productOptionRepository.selectProductOptionList(param);
         return ret;
     }
 
     public ProductOptionDto.ResponseSimple selectProductOption(ProductOptionDto.Request param){
+        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         ProductOptionDto.ResponseSimple ret = productOptionRepository.selectProductOption(param);
         return ret;
     }
 
     public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(ProductOptionDto.Request param){
+        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         List<ProductOptionDto.ResponseSimple> ret = productOptionRepository.selectProductOptionListSub(param);
         return ret;
     }

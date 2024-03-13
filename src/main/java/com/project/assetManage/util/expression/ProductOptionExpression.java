@@ -7,6 +7,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -30,12 +31,12 @@ public class ProductOptionExpression {
     }
     // 상품옵션순번 Expression
     public static BooleanExpression eqPrdOptionSeq(QProductOption qProductOption, Long prdOptionSeq) {
-        if (null == prdOptionSeq) return null;
+        if (ObjectUtils.isEmpty(prdOptionSeq)) return null;
         return qProductOption.prdOptionSeq.eq(prdOptionSeq);
     }
     // 소비유형코드에 따른 상품옵션시퀀스 Expression
     public static NumberExpression<Long> retPrdOptionSeq(QProductOption qProductOption, String cnsmpInclnCd) {
-        if(null == cnsmpInclnCd) cnsmpInclnCd = "";
+
         return switch (cnsmpInclnCd) {
             case "GH" -> qProductOption.prdOptionSeq.min();
             case "YL" -> qProductOption.prdOptionSeq.min();
@@ -114,7 +115,7 @@ public class ProductOptionExpression {
                            and p.dcls_month = t.dcls_month
              order by p.fin_prdt_nm
         * */
-        if(null == cnsmpInclnCd) cnsmpInclnCd = "";
+
         cnsmpInclnCd = switch (cnsmpInclnCd) {
             case "GH" -> "GH|YL";
             case "YL" -> "GH|YL";
@@ -143,10 +144,10 @@ public class ProductOptionExpression {
 
     // 소비유형과 부가 항목에 따른 상품 목록 정렬
     // 선순위 :: 소비유형 , 후순위 :: 연령별, 소득별
-    public static OrderSpecifier[] orderSpecifiers(QProductOption qProductOption, String cnsmpInclnCd, StringPath actKindCd) {
-        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+    public static OrderSpecifier[] orderSpecifiers(QProductOption qProductOption, String cnsmpInclnCd, String actKindCd) {
+        if(StringUtils.isEmpty(cnsmpInclnCd)) cnsmpInclnCd = "";
 
-        if(null == cnsmpInclnCd) cnsmpInclnCd = "";
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
 
         // 정렬 선순위조건 :: 소비유형
         // 1. save_trm
@@ -176,11 +177,6 @@ public class ProductOptionExpression {
                 // default -> new OrderSpecifier<>(Order.ASC, qProductOption.saveTrm);
             }
         }
-        // TO-DO :: 정렬 후순위조건
-        // 5. 연령별 (로그인한 회원과 동일한 연령대의 내부 회원이 많이 보유한 상품을 우선 정렬한다)
-
-        // 5. 소득별 (로그인한 회원과 동일한 소득범위의 내부 회원이 많이 보유한 상품을 우선 정렬한다)
-
         // TO-DO :: 정렬 조건의 값이 동일한 상품인 경우, 은행이름순이나, 추후 추가될 광고 상품 우선 정렬 로직 추가
         return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
     }

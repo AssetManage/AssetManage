@@ -6,6 +6,7 @@ import com.project.assetManage.dto.ProductOptionDto;
 import com.project.assetManage.repository.CodeRepository;
 import com.project.assetManage.repository.ProductOptionRepository;
 import com.project.assetManage.repository.ProductRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ public class ProductService {
     // 상품 목록 조회
     public List<ProductDto.ResponseAll> selectProductList(ProductOptionDto.Request param){
         List<ProductDto.ResponseAll> ret = null;
+        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
 
         // limit 존재하는 경우, 반환 목록 갯수 제한
         if(0<param.getLimit()){
@@ -54,6 +56,7 @@ public class ProductService {
     public List<ProductDto.ResponseCustom> selectProductListWithOpt(ProductOptionDto.Request param){
         List<ProductDto.ResponseCustom> ret = null;
         // 특정 상품 옵션 순번 목록 조회
+        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         List<ProductOptionDto.ResponseSimple> prdOptList = productOptionRepository.selectProductOptionListSub(param);
         param.setPrdOptList(prdOptList);
         // limit 존재하는 경우, 반환 목록 갯수 제한
