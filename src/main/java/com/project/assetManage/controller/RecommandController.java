@@ -40,10 +40,10 @@ public class RecommandController {
 
     @Operation(summary = "상품 목록 조회", description = "임시")
     @GetMapping("/selectProductList")
-    public ProductDto.Result selectProductList(@Nullable @ModelAttribute ProductOptionDto.Request param, HttpSession session) {
+    public ProductDto.Result selectProductList(@Nullable @ModelAttribute ProductOptionDto.Request param) {
 
         String stat = "SUCCESS";
-        // TO-DO :: 로그인한 경우, 사용자의 소득산출정보 조회
+
         List<ProductDto.ResponseAll> productList = productService.selectProductList(param);
 
         return new ProductDto.Result(stat, productList);
@@ -51,7 +51,7 @@ public class RecommandController {
 
     @Operation(summary = "상품 옵션 목록 조회", description = "임시")
     @GetMapping("/selectProductOptionList")
-    public ProductOptionDto.Result selectProductOptionList(@Nullable @ModelAttribute ProductOptionDto.Request param, HttpSession session) {
+    public ProductOptionDto.Result selectProductOptionList(@Nullable @ModelAttribute ProductOptionDto.Request param) {
 
         String stat = "SUCCESS";
         // List<ProductOptionDto.ResponseSimple> productOptionList = productOptionService.selectProductOptionListSub(param);

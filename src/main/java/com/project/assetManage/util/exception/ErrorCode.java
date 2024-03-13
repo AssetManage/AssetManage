@@ -15,7 +15,14 @@ public enum ErrorCode {
 
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED,"TOKEN-001", "유효하지 않은 토큰입니다."),
 
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER-001", "존재하지 않는 회원입니다.");
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER-001", "존재하지 않는 회원입니다."),
+
+    // 필수 파라미터 체크
+    USER_SEQ_IS_NULL(HttpStatus.BAD_REQUEST, "PARAM-001", "사용자 SEQ는 필수 파라미터입니다."),
+    AGE_CD_IS_NULL(HttpStatus.BAD_REQUEST, "PARAM-002", "연령대는 필수 파라미터입니다."),
+    INCOME_SCOPE_CD_IS_NULL(HttpStatus.BAD_REQUEST, "PARAM-003", "소득범위코드는 필수 파라미터입니다."),
+
+    ;
 
 
     private final HttpStatus httpStatus;

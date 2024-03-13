@@ -8,7 +8,7 @@ public class UserComputeIncomeExpression {
 
     // 소득범위코드 Expression
     public static BooleanExpression eqIncomeScopeCd(QUserComuteIncome qUserComuteIncome, String incomeScopeCd){
-        if (null == incomeScopeCd) return null;
+        if (StringUtils.isEmpty(incomeScopeCd)) return null;
         return qUserComuteIncome.incomeScopeCd.eq(incomeScopeCd);
     }
 
