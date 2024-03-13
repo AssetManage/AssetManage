@@ -7,6 +7,13 @@
 	height: 840px;
 	overflow: hidden;
 }
+.bultIcon {
+    position: absolute;
+    top: 60px;
+    left: 200px;
+    height: 85px;
+    cursor: pointer
+}
 .login2,
 .myFinancialPocket {
 	position: absolute;

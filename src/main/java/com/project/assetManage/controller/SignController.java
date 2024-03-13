@@ -33,8 +33,8 @@ public class SignController {
     }
 
 
-    @GetMapping("/emailCheck/{email}")
-    public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email){
+    @GetMapping("/emailCheck")
+    public ResponseEntity<Boolean> emailDuplicateCheck(@RequestParam("email") String email){
         return ResponseEntity.ok(signService.emailCheck(email));
     }
 
