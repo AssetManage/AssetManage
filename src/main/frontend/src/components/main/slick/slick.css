@@ -93,7 +93,11 @@
 }
 .slick-slide img
 {
-    display: block;
+    /*tmp*/
+    /*display: block;*/
+    display: inline-block;
+    margin: 30px;
+    float:left;
 }
 .slick-slide.slick-loading img
 {

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 
 const Login = () => {
-    const [inputEmail, setInputEmail] = useState('');
-    const [inputPw, setInputPw] = useState('');
+    const [inputEmail, setInputEmail] = useState('dat92501a2h.@gmail.com');
+    const [inputPw, setInputPw] = useState('password1!');
     const navigate = useNavigate();
 
     const onClickLogin = (email, pw) => {
@@ -40,7 +40,7 @@ const Login = () => {
             localStorage.setItem('accessToken', res.data.token);
             axios.defaults.headers.common['Authorization'] = res.data.token;
 
-            navigate('/');
+            navigate('/main');
         }).catch(function (error) {
            alert(error.response.data.message);
         });

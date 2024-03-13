@@ -4,67 +4,85 @@ import Slider from 'react-slick';
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-
+// import styles from "./Main2.module.css";
+import styles from "./Main.module.css";
+// slick css custom 을 위해 별도 파일로 작업
 import "../main/slick/slick.css";
 import "../main/slick/slick-theme.css";
-import styles from "./Main.module.css";
 
 
 import Header from '../common/header/Header';
 // import ProductRecmdPopup from '../product-recmd-popup/ProductRecmdPopup';
 // import ProductRecmdPopup2 from '../product-recmd-popup/ProductRecmdPopup2';
-// import SelectBox from "../sign-up/component/SelectBox";
 
 const Main = () => {
     const navigate = useNavigate();
+
     // 0. 로그인 여부 체크
-    const token = localStorage.getItem('accessToken');
-    console.log('token :: ', token);
-    /*
-    * Storage {accessToken: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBlbWFpbC5jb…TUzfQ.Qqq3R9sY7n4VA4vj92idk5c33PHHKRK7wlmBENuuuKU', length: 1}
-accessToken
-:
-"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBlbWFpbC5jb20iLCJyb2xlcyI6WyJVU0VSIl0sImlhdCI6MTcwOTYxODM1MywiZXhwIjoxNzA5NjIwMTUzfQ.Qqq3R9sY7n4VA4vj92idk5c33PHHKRK7wlmBENuuuKU"
-length
-:
-1
-    * */
-    console.log('localStorage :: ', localStorage);
-    // 비회원
-    const [actKindCdList, setActKindCdList] = useState([]); // 상품분류코드(act_kind_cd)
-    const [ageCdList, setAgeCdList] = useState([]); // 연령대(age_cd)
-    // 회원
-    const [prdtRcmdItemCdList, setPrdtRcmdItemCdList] = useState([]); // 상품추천항목코드(prdt_rcmd_item_cd)
-
-    const [productList, setProductList] = useState([]);
-
-    // 객체 stat
-    const [cnsmpInclnCd, setCnsmpInclnCd] = useState("AT");
-    let [actKindCd, setActKindCd] = useState("DP");
-    const [ageCd, setAgeCd] = useState(20);
-    const [prdtRcmdItemCd, setPrdtRcmdItemCd] = useState("");
+    // const isin = localStorage.getItem('accessToken') == null ? false : true;
+    // tmp
+    // const isin = false;
+    const isin = true;
 
     // slick 슬라이드
     const settings = {
-        dots: true,
-        infinite: true,
+        dots: !isin,
+        infinite: !isin,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3,
-        arrows: true,
-        autoplay: true,
+        arrows: !isin,
+        autoplay: !isin,
         autoplaySpeed: 5000,
+        // prevArrow: "", // .lArrowIcon
     };
 
-    const handleSelect = (e) => {
-        actKindCd = e.target.value;
-        // TO-DO :: 왜 해당 함수 호출하면 이전값으로 세팅되는지 원인 파악
-        // setActKindCd(e.target.value);
-        // console.log("actKindCd :: ", actKindCd);
-        getProductList();
-    };
+    // variables
+    const [cnsmpInclnCd, setCnsmpInclnCd] = useState("AT"); // 소비유형코드
+    const [limit, setLimit]  = useState(); // 상품 조회 갯수 제한
 
-    function getCodeList(grpCodeId){
+    const [param1, setParam1] = useState({});
+    const [param2, setParam2] = useState({});
+
+    const [comboList1, setComboList1] = useState([]);
+    const [comboList2, setComboList2] = useState([]);
+
+    const [productList1, setProductList1] = useState([]);
+    const [productList2, setProductList2] = useState([]);
+
+    // function
+    // init
+    const init = () => {
+        // let init1 = {'actKindCd':'DP'};
+        // let init2 = {'ageCd':'20'};
+        if(isin){
+            axios.get('/st/user/selectUserSimple', {
+            })
+            .then(res => {
+                const info = res.data.data;
+                console.log('info :: ', info);
+
+                setCnsmpInclnCd(info.cnsmpInclnCd);
+                setLimit(3);
+                // 회원 상품추천항목, 회원 연령대, 회원 소득범위, 상품분류
+                setParam1({'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'actKindCd':'DP'});
+                setParam2({'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'actKindCd':'SV'});
+                getComboList('prdt_rcmd_item_cd', 1);
+                getComboList('prdt_rcmd_item_cd', 2);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        }else{
+            setParam1({'key':'actKindCd', 'actKindCd':'DP'});
+            setParam2({'key':'ageCd', 'prdtRcmdItemCd':'AG', 'ageCd':'20'});
+
+            getComboList('act_kind_cd', 1);
+            getComboList('age_cd', 2);
+        }
+    }
+
+    const getCodeList = (grpCodeId) => {
         return axios.get('/st/code/selectCodeList', {
             params : {
                 'groupCode': grpCodeId,
@@ -72,78 +90,82 @@ length
         })
     }
 
-    function getProductList(){
-        axios.get('/st/product/selectProductListWithOpt', {
-            params : {
-                'cnsmpInclnCd': cnsmpInclnCd,
-                'actKindCd' : actKindCd,
-                // 'limit': 3
+    function getComboList(grpCodeId, div){
+        getCodeList(grpCodeId).then(res => {
+            const list = res.data.list;
+            if(div == 1){
+                setComboList1(list);
+            }else{
+                setComboList2(list);
             }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    useEffect(() => {
+        init();
+        console.log('param1 :: ', param1);
+        console.log('param2 :: ', param2);
+        console.log('comboList1 :: ', comboList1);
+        console.log('comboList2 :: ', comboList2);
+
+        getProductList(1, param1);
+        getProductList(2, param2);
+    }, []);
+
+    // event
+    const changeCombo = (e, div) => {
+        let param;
+        /*
+        // TO-DO :: 정석인데 왜 이전값으로 넘어가는지 확인
+        if(div == 1){
+            param = {...param1};
+            setParam1((current) => {
+                param[param.key] = e.target.value;
+                return param;
+            });
+        }else{
+            param = {...param2};
+            setParam2((current) => {
+                param[param.key] = e.target.value;
+                return param;
+            });
+        }
+         */
+        if(div == 1){
+            param = param1;
+        }else{
+            param = param2;
+        }
+        param[param.key] = e.target.value;
+        getProductList(div, param);
+    };
+
+    const getProductList = (area, params) => {
+
+        // 공통 파라미터
+        params.cnsmpInclnCd = cnsmpInclnCd;
+        params.limit = limit;
+
+        console.log('area :: ', area);
+        console.log('params :: ', params);
+
+        axios.get('/st/product/selectProductListWithOpt', {
+            params : params
         })
             .then(res => {
-                // console.log("selectProductListWithOpt :: ", res.data.list);
-                setProductList(res.data.list);
+                const list = res.data.list;
+                if(area == 1){
+                    setProductList1(list);
+                }else{
+                    setProductList2(list);
+                }
             })
             .catch(err => {
                 console.log(err);
             });
     }
-
-    useEffect(() => {
-        async function getActKindCdList(grpCodeId) {
-
-            const response = getCodeList(grpCodeId).then(res => {
-                const list = res.data.list;
-                // 받아온 데이터를 map 해주어 rowData 별로 optionList 선언
-                // list.map( (data, index) => {
-                //      let ret = [];
-                //     ret.push(
-                //         <option key={grpCodeId+"_"+data.codeId} value={data.codeId}>{data.codeNm}</option>
-                //     )
-                // })
-                // list.map( (data, index) => {
-                //     ret.push(
-                //         {
-                //             name : data.codeNm
-                //             , value : data.codeId
-                //         }
-                //     )
-                // })
-                setActKindCdList(list);
-            })
-            .catch(err => {
-                    console.log(err);
-            });
-        }
-        getActKindCdList("act_kind_cd");
-    }, []);
-    useEffect(() => {
-        async function getAgeCdList(grpCodeId) {
-
-            const response = getCodeList(grpCodeId).then(res => {
-                const list = res.data.list;
-                setAgeCdList(list);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-        }
-        getAgeCdList("age_cd");
-    }, []);
-
-    useEffect(() => {
-        async function getPrdtRcmdItemCdList(grpCodeId) {
-
-            const response = getCodeList(grpCodeId).then(res => {
-                const list = res.data.list;
-                setPrdtRcmdItemCdList(list);
-            })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
-        getPrdtRcmdItemCdList("prdt_rcmd_item_cd");
-    }, []);
 
     /*
     * 메인(MFDB001-M001) 4번 :: MFDB001-M001-4
@@ -184,9 +206,9 @@ length
     * 2-3. default param :: cnsmpInclnCd(로그인 회원의 소비성향코드), actKindCd(AP(예금)), prdtRcmdItemCd(로그인 회원이 회원가입시 입력한 항목), limit(3)
     * 2-4. 구현 컴포넌트 :: combo(상품추천항목코드)
     * */
-    useEffect(() => {
-        getProductList();
-    }, []);
+
+    // 로그인 사용자 정보 조회
+    // TO-DO :: 현재 토큰값으로는 로그인 사용자가 누구인지 판단 x, 로그인 후 후처리 사용자 식별 가능한 필드 및 토큰값 별도 처리 필요
 
     /*
     * 메인(MFDB001-M001) 5번 :: MFDB001-M001-5-2
@@ -207,19 +229,6 @@ length
     * 2-4. 구현 컴포넌트 :: combo(상품추천항목코드)
     * */
 
-    function ChangeValue(e){
-        console.log(e.target.value)
-        /*
-        for(let i = 0; i < Array_Data[e.target.value].length; ++i){
-            props.setArray(lists => [...lists, {
-                id: Array_Data[e.target.value][i].id,
-                name: Array_Data[e.target.value][i].name,
-                count: Array_Data[e.target.value][i].count,
-                type: Array_Data[e.target.value][i].type
-            }])
-        }
-         */
-    }
 
     return (
         <div className={styles.main1}>
@@ -248,51 +257,28 @@ length
                     </div>
                     <img className={styles.icon} alt="" src="/group-57.png"/>
                 </div>
-                {/* combo(상품분류코드) */}
-                <div className={styles.div1}>
-                    <span className={styles.txt}>
-                        <p className={styles.p2}>{`전체 `}</p>
-                        <p className={styles.p2}>예·적금 상품</p>
-                    </span>
-                </div>
-                {/*<SelectBox*/}
-                {/*    selectWrapperStyle={styles.seltBox}*/}
-                {/*    options={actKindCdList}*/}
-                {/*    // defaultValue={inputJobCategory}*/}
-                {/*    // onChange={(e) => setInputJobCategory(e.target.value) }*/}
-                {/*/>*/}
-                <select className={styles.seltBox} onChange={handleSelect}>
-                    {actKindCdList.map((e) => {
-                            return (
-                                <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
-                            );
-                        })
+                <ProductTitle1/>
+                <select className={styles.seltBox} onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
+                    {comboList1.map((e) => {
+                        return (
+                            <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
+                        );
+                    })
                     }
                 </select>
-                {/*<div className={styles.seltBox}>*/}
-                {/*    <div className={styles.inBox}/>*/}
-                {/*    <div className={styles.div2}>예금</div>*/}
-                {/*    <img className={styles.seltBoxChild} alt="" src="/polygon-1.svg"/>*/}
-                {/*</div>*/}
-                <div className={styles.moreView} onClick={(e) => {
-                    navigate('/product-detail');
-                }}>
-                    <div className={styles.div3}>모든 상품 전체 보기</div>
-                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                    <div className={styles.wLine}/>
-                </div>
+
                 <Slider {...settings}>
-                {
-                    productList.map((e, idx) => {
-                        return (
-                            <div className={styles.bgBox}>
-                                <img className={styles.shinhanIcoIcon} alt="" src={e.finCoNoImgUrl}/>
-                                <div className={styles.sTit}>
-                                    <div className={styles.db}>{e.korCoNm}</div>
-                                    <div className={styles.m}>{e.finPrdtNm}</div>
-                                </div>
-                                <b className={styles.b1}>최고금리</b>
-                                <div className={styles.div6}>
+                    {
+                        productList1.map((e, idx) => {
+                            return (
+                                <div className={styles.bgBox}>
+                                    <img className={styles.shinhanIcoIcon} alt="" src={e.finCoNoImgUrl}/>
+                                    <div className={styles.sTit}>
+                                        <div className={styles.db}>{e.korCoNm}</div>
+                                        <div className={styles.m}>{e.finPrdtNm}</div>
+                                    </div>
+                                    <b className={styles.b1}>최고금리</b>
+                                    <div className={styles.div6}>
                                         <span className={styles.txt}>
                                             <span className={styles.span3}>{` `}</span>
                                             <span className={styles.span4}>
@@ -306,119 +292,62 @@ length
                                                 <span>(세전)</span>
                                             </span>
                                         </span>
+                                    </div>
+                                    <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
                                 </div>
-                                <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
-                            </div>
-                        );
-                    })
-                }
+                            );
+                        })
+                    }
                 </Slider>
+
                 <img className={styles.lArrowIcon} alt="" src="/larrow.svg"/>
-                <div className={styles.hit}>
-                    <span className={styles.txt}>
-                        <p className={styles.p4}>연령대별</p>
-                        <p className={styles.p2}>
-                            <span className={styles.span}>{`예·적금 `}</span>
-                            <b className={styles.hit2}>
-                                <span className={styles.hit3}>HIT</span>
-                                <span className={styles.span21}>{` `}</span>
-                            </b>
-                            <span className={styles.span21}>
-                                <span className={styles.span23}>상품</span>
-                            </span>
-                        </p>
-                    </span>
-                </div>
-                <select className={styles.seltBox1}>
-                    {ageCdList.map((e) => {
+
+                <select className={styles.seltBox1} onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
+                    {comboList2.map((e) => {
                         return (
                             <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
                         );
                     })
                     }
                 </select>
-                {/*<div className={styles.seltBox1}>*/}
-                {/*    <div className={styles.inBox}/>*/}
-                {/*    <div className={styles.div2}>30대</div>*/}
-                {/*    <img className={styles.seltBoxChild} alt="" src="/polygon-1.svg"/>*/}
-                {/*</div>*/}
-                <div className={styles.moreView1}>
-                    <div className={styles.div3}>인기 상품 전체 보기</div>
-                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                    <div className={styles.wLine}/>
-                </div>
-                <div className={styles.bgBox3}/>
-                <img className={styles.shinhanIcoIcon1} alt="" src="/shinhanico@2x.png"/>
-                <div className={styles.sTit3}>
-                    <div className={styles.db}>DB저축은행</div>
-                    <div className={styles.m}>M-정기예금</div>
-                </div>
-                <b className={styles.b6}>최고금리</b>
-                <div className={styles.div17}>
-                    <span className={styles.txt}>
-                        <span className={styles.span3}>{` `}</span>
-                        <span className={styles.span4}>
-                            <span className={styles.span5}>
-                                <b className={styles.b2}>4.3</b>
-                                <span className={styles.span6}>%</span>
-                            </span>
-                            <span className={styles.span6}>
-                                <span className={styles.span8}>{` `}</span>
-                            </span>
-                            <span>(세전)</span>
-                        </span>
-                    </span>
-                </div>
-                <div className={styles.div18}>(12개월 / 온라인가입 기준)</div>
-                <div className={styles.bgBox4}/>
-                <img className={styles.kbIcoIcon1} alt="" src="/kbico@2x.png"/>
-                <div className={styles.sTit4}>
-                    <div className={styles.db}>토스뱅크</div>
-                    <div className={styles.m}>먼저이자받는정기예금</div>
-                </div>
-                <b className={styles.b8}>최고금리</b>
-                <div className={styles.div21}>
-                    <span className={styles.txt}>
-                        <span className={styles.span3}>{` `}</span>
-                        <span className={styles.span4}>
-                            <span className={styles.span5}>
-                                <b className={styles.b2}>3.5</b>
-                                <span className={styles.span6}>%</span>
-                            </span>
-                            <span className={styles.span6}>
-                                <span className={styles.span8}>{` `}</span>
-                            </span>
-                            <span>(세전)</span>
-                        </span>
-                    </span>
-                </div>
-                <div className={styles.div22}>( 6개월 / 온라인가입 기준)</div>
-                <div className={styles.bgBox5}/>
-                <img className={styles.kakaoIcoIcon1} alt="" src="/kakaoico@2x.png"/>
-                <div className={styles.sTit5}>
-                    <div className={styles.ibk}>IBK기업은행</div>
-                    <div className={styles.m}>IBK평생한가족통장</div>
-                </div>
-                <b className={styles.b10}>최고금리</b>
-                <div className={styles.div23}>
-                    <span className={styles.txt}>
-                        <span className={styles.span36}>{` `}</span>
-                        <span className={styles.span37}>{` `}</span>
-                        <span className={styles.span4}>
-                            <span className={styles.span5}>
-                                <b className={styles.b2}>3.8</b>
-                                <span className={styles.span40}>%</span>
-                            </span>
-                            <span className={styles.span40}>
-                                <span className={styles.span8}>{` `}</span>
-                            </span>
-                            <span>(세전)</span>
-                        </span>
-                    </span>
-                </div>
-                <div className={styles.div24}>( 36개월 / 온라인가입 기준)</div>
+
+                <ProductTitle2 />
+                <Slider {...settings}>
+                    {
+                        productList2.map((e, idx) => {
+                            return (
+                                // <div className={styles.bgBox3}>
+                                <div>
+                                    <img className={styles.shinhanIcoIcon} alt="" src={e.finCoNoImgUrl}/>
+                                    <div className={styles.sTit3}>
+                                        <div className={styles.db}>{e.korCoNm}</div>
+                                        <div className={styles.m}>{e.finPrdtNm}</div>
+                                    </div>
+                                    <b className={styles.b1}>최고금리</b>
+                                    <div className={styles.div17}>
+                                        <span className={styles.txt}>
+                                            <span className={styles.span3}>{` `}</span>
+                                            <span className={styles.span4}>
+                                                <span className={styles.span5}>
+                                                    <b className={styles.b2}>{e.intrRate2}</b>
+                                                    <span className={styles.span6}>%</span>
+                                                </span>
+                                                <span className={styles.span6}>
+                                                    <span className={styles.span8}>{` `}</span>
+                                                </span>
+                                                <span>(세전)</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
+                                </div>
+                            );
+                        })
+                    }
+                </Slider>
                 <img className={styles.lArrowIcon1} alt="" src="/larrow.svg"/>
             </div>
+
             {/* 예적금 추천 상품 팝업(입력) */}
             {/*
             <ProductRecmdPopup />
@@ -427,9 +356,92 @@ length
             {/*
             <ProductRecmdPopup2 />
             */}
-
         </div>
+
+
     );
+
+    function ProductTitle1() {
+        if(isin) {
+            return <>
+                    <div className={styles.top3}>
+                        <p className={styles.p2}>나의</p>
+                        <p className={styles.p}>
+                            <span className={styles.span}>{`추천 예금 `}</span>
+                            <b className={styles.top32}>TOP3</b>
+                        </p>
+                    </div>
+                    <div className={styles.moreView}>
+                        <div className={styles.div5}>추천 상품 전체 보기</div>
+                        <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                        <div className={styles.wLine}/>
+                    </div>
+                </>
+        } else {
+            return <>
+                        <div className={styles.div1}>
+                            <span className={styles.txt}>
+                                <p className={styles.p2}>{`전체 `}</p>
+                                <p className={styles.p2}>예·적금 상품</p>
+                            </span>
+                        </div>
+                        <div className={styles.moreView} onClick={(e) => {
+                            navigate('/product-detail');
+                        }}>
+                            <div className={styles.div3}>모든 상품 전체 보기</div>
+                            <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                            <div className={styles.wLine}/>
+                        </div>
+            </>
+        }
+    }
+
+    function ProductTitle2() {
+        if (isin) {
+            return <>
+                <div className={styles.top33}>
+                        <span className={styles.txt}>
+                            <p className={styles.p2}>나의</p>
+                            <p className={styles.p}>
+                                <span className={styles.span}>{`추천 적금 `}</span>
+                                <b className={styles.top32}>TOP3</b>
+                            </p>
+                        </span>
+                        <div className={styles.moreView1}>
+                            <div className={styles.div5}>추천 상품 전체 보기</div>
+                            <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                            <div className={styles.wLine}/>
+                        </div>
+                </div>
+            </>
+        } else {
+            return <>
+                <div className={styles.hit}>
+                            <span className={styles.txt}>
+                                <p className={styles.p4}>연령대별</p>
+                                <p className={styles.p2}>
+                                    <span className={styles.span}>{`예·적금 `}</span>
+                                    <b className={styles.hit2}>
+                                        <span className={styles.hit3}>HIT</span>
+                                        <span className={styles.span21}>{` `}</span>
+                                    </b>
+                                    <span className={styles.span21}>
+                                        <span className={styles.span23}>상품</span>
+                                    </span>
+                                </p>
+                            </span>
+                    </div>
+                    <div className={styles.moreView1}>
+                        <div className={styles.div3}>인기 상품 전체 보기</div>
+                        <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                        <div className={styles.wLine}/>
+                    </div>
+                </>
+        }
+    }
+
+
 };
+
 
 export default Main;

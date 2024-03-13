@@ -36,7 +36,7 @@ public class ProductExpression {
     }
     // 가입방법코드 Expression
     public static BooleanExpression eqJoinWayCd(QProduct qProduct, String joinWayCd) {
-        if (StringUtils.isEmpty(joinWayCd)) return qProduct.joinWayCd.eq("A");
+        if (StringUtils.isEmpty(joinWayCd)) return null;
         return qProduct.joinWayCd.in(joinWayCd, "A");
     }
     // 금융회사코드 파라미터 목록 조건절 세팅
@@ -70,13 +70,14 @@ public class ProductExpression {
                 .innerJoin(qUserComuteIncome)
                 .on(
                         qUserComuteIncome.userSeq.eq(qUser.userSeq)
-                        , UserComputeIncomeExpression.eqCnsmpInclnCd(qUserComuteIncome, cnsmpInclnCd)
                 )
                 .where( qUserAccount.finPrdtCd.eq(qProduct.finPrdtCd)
                         , qUserAccount.finCoNo.eq(qProduct.finCoNo)
                         , qUserAccount.dclsMonth.eq(qProduct.dclsMonth)
+                        , UserComputeIncomeExpression.eqCnsmpInclnCd(qUserComuteIncome, cnsmpInclnCd)
                 )
-                .groupBy(qUserAccount.finCoNo, qUserAccount.finPrdtCd, qUserAccount.dclsMonth);
+                // .groupBy(qUserAccount.finCoNo, qUserAccount.finPrdtCd, qUserAccount.dclsMonth)
+        ;
     }
     // 내부 회원 중 특정 소득범위의 해당 상품 보유 갯수 subquery
     public static Expression retProductCntIncomeScopeCd(QProduct qProduct, String incomeScopeCd, String cnsmpInclnCd){
@@ -97,7 +98,8 @@ public class ProductExpression {
                         , qUserAccount.finCoNo.eq(qProduct.finCoNo)
                         , qUserAccount.dclsMonth.eq(qProduct.dclsMonth)
                 )
-                .groupBy(qUserAccount.finCoNo, qUserAccount.finPrdtCd, qUserAccount.dclsMonth);
+                // .groupBy(qUserAccount.finCoNo, qUserAccount.finPrdtCd, qUserAccount.dclsMonth)
+                ;
     }
 
     // 추천항목코드에 따른 상품 목록 갯수 subquery 분기

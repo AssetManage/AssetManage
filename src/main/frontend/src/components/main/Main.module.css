@@ -358,7 +358,12 @@
 	height: 48px;
 	text-align: left;
 	/*tmp*/
-	margin-bottom: 50px;
+	margin-bottom: 80px;
+	display: inline-block;
+	float:left;
+	margin-top:15px;
+	margin-left:-18px;
+
 }
 .b1 {
 	top: 828px;
@@ -888,4 +893,32 @@
 	font-size: var(--font-size-mini);
 	color: var(--color-gray);
 	font-family: var(--font-pretendard);
+}
+
+/* main2 */
+.top3 {
+	top: 706px;
+	left: 130px;
+	letter-spacing: -0.01em;
+	line-height: 40px;
+	font-size: var(--font-size-9xl);
+}
+.top3 {
+	position: absolute;
+}
+
+.top33 {
+	position: absolute;
+	display: flex;
+	align-items: center;
+}
+.top33 {
+	letter-spacing: -0.01em;
+}
+.top33 {
+	top: 1106px;
+	left: 130px;
+	line-height: 40px;
+	width: 227px;
+	font-size: var(--font-size-9xl);
 }
