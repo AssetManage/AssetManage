@@ -3,11 +3,14 @@ package com.project.assetManage.controller;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.project.assetManage.dto.UserDto;
 import com.project.assetManage.service.UserService;
+import com.project.assetManage.util.exception.CustomException;
+import com.project.assetManage.util.exception.ErrorCode;
 import com.project.assetManage.util.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +39,9 @@ public class UserController {
 
         String stat = "SUCCESS";
 
-        if(null != user) param.setUserSeq(user.getUser().getUserSeq());
+        if(!ObjectUtils.isEmpty(user)) param.setUserSeq(user.getUser().getUserSeq());
+        if(ObjectUtils.isEmpty(param.getUserSeq())) throw new CustomException(ErrorCode.USER_SEQ_IS_NULL);
+
         UserDto.ResponseSimple ret = userService.selectUserSimple(param);
 
         return new UserDto.ResultOne(stat, ret);
@@ -49,7 +54,9 @@ public class UserController {
 
         String stat = "SUCCESS";
 
-        if(null != user) param.setUserSeq(user.getUser().getUserSeq());
+        if(!ObjectUtils.isEmpty(user)) param.setUserSeq(user.getUser().getUserSeq());
+        if(ObjectUtils.isEmpty(param.getUserSeq())) throw new CustomException(ErrorCode.USER_SEQ_IS_NULL);
+
         UserDto.ResponseAll ret = userService.selectUserAll(param);
 
         return new UserDto.ResultOne(stat, ret);
@@ -62,7 +69,6 @@ public class UserController {
 
         String stat = "SUCCESS";
 
-        // if(null != user) param.setUserSeq(user.getUser().getUserSeq());
         List<UserDto.ResponseCustom> list = userService.selectUserListWithComputeIncome(param);
 
         return new UserDto.Result(stat, list);

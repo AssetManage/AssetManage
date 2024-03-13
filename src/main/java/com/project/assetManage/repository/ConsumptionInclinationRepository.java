@@ -11,6 +11,7 @@ public interface ConsumptionInclinationRepository extends JpaRepository<Consumpt
 
     Optional<ConsumptionInclination> findByOverCnsmpIncln(Double overCnsmpIncln);
 
+    Optional<ConsumptionInclination> findAllByCnsmpInclnCd(String cnsmpInclnCd);
 }
 
 
