@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [inputEmail, setInputEmail] = useState('');
     const [inputPw, setInputPw] = useState('');
-    const navigate = useNavigate();
 
     const onClickLogin = (email, pw) => {
         if(email === ''){
@@ -40,7 +41,7 @@ const Login = () => {
             localStorage.setItem('accessToken', res.data.token);
             axios.defaults.headers.common['Authorization'] = res.data.token;
 
-            navigate('/');
+            navigate('/main');
         }).catch(function (error) {
            alert(error.response.data.message);
         });
@@ -53,6 +54,12 @@ const Login = () => {
     return (
         <div className={styles.login}>
             <div className={styles.login1}>
+                <img
+                    className={styles.bultIcon}
+                    alt=""
+                    src="/bult.svg"
+                    onClick={()=>navigate("/main")}
+                />
                 <form>
                     <div className={styles.login2}>Login</div>
                     <div className={styles.myFinancialPocket}>My Financial Pocket</div>
