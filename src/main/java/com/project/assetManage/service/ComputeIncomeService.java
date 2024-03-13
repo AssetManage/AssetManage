@@ -84,8 +84,10 @@ public class ComputeIncomeService{
                 .fetchOne());
 
         if (count != null && count >= 12) {
-            // count가 12 이상인 경우에만 12로 나눈 값을 저장
-            yearAvgIncome /= 12;
+            // count가 12 이상인 경우에만 12로 나눈 값을 저장 (월평균소득)
+            yearAvgIncome = yearAvgIncome / 12;
+        }else if (count>=1){
+            yearAvgIncome = yearAvgIncome / count;
         }
 
 
@@ -159,6 +161,10 @@ public class ComputeIncomeService{
     private void setIncomeScopeCode(UserComuteIncome computeIncome) {
 
         Integer yearAvgIncome = computeIncome.getYearIncome();
+
+        System.out.println("yearAvgIncome::: "+ yearAvgIncome);
+
+
         if (yearAvgIncome > 100000000) {
             computeIncome.setIncomeScopeCd("A");
         } else if (yearAvgIncome <= 100000000 && yearAvgIncome > 70000000) {
@@ -172,9 +178,10 @@ public class ComputeIncomeService{
         }
     }
 
-    // session 체크 비회원이면 => 월저축액을 비율로 받아옴. 회원
+    // 회원
     private void setConsumptionInclinationCode(Long yearAvgIncome, UserComuteIncome computeIncome) {
 
+        //소득이 없으면 빈값저장
         if(yearAvgIncome == 0){
             computeIncome.setCnsmpInclnCd("");
             return;
@@ -191,7 +198,7 @@ public class ComputeIncomeService{
         QConsumptionInclination qConsumptionInclination = QConsumptionInclination.consumptionInclination;
         ConsumptionInclination inclination = queryFactory
                 .selectFrom(qConsumptionInclination)
-                .where(qConsumptionInclination.overCnsmpIncln.gt(ratio))
+                .where(qConsumptionInclination.overCnsmpIncln.goe(ratio))
                 .orderBy(qConsumptionInclination.dispSeq.asc())
                 .limit(1)
                 .fetchOne();
@@ -204,7 +211,7 @@ public class ComputeIncomeService{
         return (a != null ? a : 0) + (b != null ? b : 0);
     }
 
-    // 비회원
+    // 비회원 (월저축액을 비율로 받아옴)
     @Transactional
     public String selectVisitorComputeIncome(Long yearIncome, Integer savingRatios) {
         // 연소득을 월 단위로 변환
