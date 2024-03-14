@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 
 const Login = () => {
-    const [inputEmail, setInputEmail] = useState('dat92501a2h.@gmail.com');
-    const [inputPw, setInputPw] = useState('password1!');
     const navigate = useNavigate();
+
+    const [inputEmail, setInputEmail] = useState('');
+    const [inputPw, setInputPw] = useState('');
 
     const onClickLogin = (email, pw) => {
         if(email === ''){
@@ -53,6 +54,12 @@ const Login = () => {
     return (
         <div className={styles.login}>
             <div className={styles.login1}>
+                <img
+                    className={styles.bultIcon}
+                    alt=""
+                    src="/bult.svg"
+                    onClick={()=>navigate("/main")}
+                />
                 <form>
                     <div className={styles.login2}>Login</div>
                     <div className={styles.myFinancialPocket}>My Financial Pocket</div>
