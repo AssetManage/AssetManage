@@ -20,9 +20,9 @@ const Main = () => {
     const navigate = useNavigate();
 
     // 0. 로그인 여부 체크
-    // const isin = localStorage.getItem('accessToken') == null ? false : true;
+    const isin = localStorage.getItem('accessToken') == null ? false : true;
     // tmp
-    const isin = true;
+    // const isin = true;
 
     // slick 슬라이드
     const settings = {
@@ -54,6 +54,9 @@ const Main = () => {
     const init = () => {
         if(isin){
             axios.get('/st/user/selectUserSimple', {
+                    headers:{
+                        Authorization : localStorage.getItem('accessToken') // 로그인 사용자 token
+                    }
                 })
                 .then(res => {
                     const info = res.data.data;
@@ -69,7 +72,6 @@ const Main = () => {
                     getProductList(2, def2);
                     getCnsmpInclnCd("cnsmp_incln_cd", info.cnsmpInclnCd, info.cnsmpInclnNm);
 
-                    // TO-DO :: 소비유형 정보 조회
                 })
                 .catch(err => {
                     console.log(err);
