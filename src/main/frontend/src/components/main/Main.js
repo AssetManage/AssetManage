@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Slider from 'react-slick';
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 // import styles from "./Main2.module.css";
@@ -12,6 +12,7 @@ import "../main/slick/slick-theme.css";
 
 
 import Header from '../common/header/Header';
+// TO-DO :: 팝업 호출
 // import ProductRecmdPopup from '../product-recmd-popup/ProductRecmdPopup';
 // import ProductRecmdPopup2 from '../product-recmd-popup/ProductRecmdPopup2';
 
@@ -21,8 +22,7 @@ const Main = () => {
     // 0. 로그인 여부 체크
     // const isin = localStorage.getItem('accessToken') == null ? false : true;
     // tmp
-    // const isin = false;
-    const isin = true;
+    const isin = false;
 
     // slick 슬라이드
     const settings = {
@@ -38,9 +38,6 @@ const Main = () => {
     };
 
     // variables
-    const [cnsmpInclnCd, setCnsmpInclnCd] = useState("AT"); // 소비유형코드
-    const [limit, setLimit]  = useState(); // 상품 조회 갯수 제한
-
     const [param1, setParam1] = useState({});
     const [param2, setParam2] = useState({});
 
@@ -51,37 +48,41 @@ const Main = () => {
     const [productList2, setProductList2] = useState([]);
 
     // function
-    // init
+    // TO-DO :: useState 기본값 설정 후 바로 사용할 수 있는 방법 찾기
     const init = () => {
-        // let init1 = {'actKindCd':'DP'};
-        // let init2 = {'ageCd':'20'};
         if(isin){
             axios.get('/st/user/selectUserSimple', {
             })
-            .then(res => {
-                const info = res.data.data;
-                console.log('info :: ', info);
+                .then(res => {
+                    const info = res.data.data;
+                    const def = {'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'limit':3, 'cnsmpInclnCd':info.cnsmpInclnCd};
+                    const def1 = {...def, 'actKindCd':'DP'};
+                    const def2 = {...def, 'actKindCd':'SV'};
 
-                setCnsmpInclnCd(info.cnsmpInclnCd);
-                setLimit(3);
-                // 회원 상품추천항목, 회원 연령대, 회원 소득범위, 상품분류
-                setParam1({'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'actKindCd':'DP'});
-                setParam2({'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'actKindCd':'SV'});
-                getComboList('prdt_rcmd_item_cd', 1);
-                getComboList('prdt_rcmd_item_cd', 2);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+                    setParam1(def1);
+                    setParam2(def2);
+                    getComboList('prdt_rcmd_item_cd', 1);
+                    getComboList('prdt_rcmd_item_cd', 2);
+                    getProductList(1, def1);
+                    getProductList(2, def2);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }else{
-            setParam1({'key':'actKindCd', 'actKindCd':'DP'});
-            setParam2({'key':'ageCd', 'prdtRcmdItemCd':'AG', 'ageCd':'20'});
+            const def1 = {'key':'actKindCd', 'actKindCd':'DP'};
+            const def2 = {'key':'ageCd', 'prdtRcmdItemCd':'AG', 'ageCd':'20'};
 
+            setParam1(def1);
+            setParam2(def2);
             getComboList('act_kind_cd', 1);
             getComboList('age_cd', 2);
+            getProductList(1, def1);
+            getProductList(2, def2);
         }
     }
 
+    // axios
     const getCodeList = (grpCodeId) => {
         return axios.get('/st/code/selectCodeList', {
             params : {
@@ -90,7 +91,7 @@ const Main = () => {
         })
     }
 
-    function getComboList(grpCodeId, div){
+    const getComboList = (grpCodeId, div) => {
         getCodeList(grpCodeId).then(res => {
             const list = res.data.list;
             if(div == 1){
@@ -103,52 +104,8 @@ const Main = () => {
         });
     }
 
-    useEffect(() => {
-        init();
-        console.log('param1 :: ', param1);
-        console.log('param2 :: ', param2);
-        console.log('comboList1 :: ', comboList1);
-        console.log('comboList2 :: ', comboList2);
-
-        getProductList(1, param1);
-        getProductList(2, param2);
-    }, []);
-
-    // event
-    const changeCombo = (e, div) => {
-        let param;
-        /*
-        // TO-DO :: 정석인데 왜 이전값으로 넘어가는지 확인
-        if(div == 1){
-            param = {...param1};
-            setParam1((current) => {
-                param[param.key] = e.target.value;
-                return param;
-            });
-        }else{
-            param = {...param2};
-            setParam2((current) => {
-                param[param.key] = e.target.value;
-                return param;
-            });
-        }
-         */
-        if(div == 1){
-            param = param1;
-        }else{
-            param = param2;
-        }
-        param[param.key] = e.target.value;
-        getProductList(div, param);
-    };
-
     const getProductList = (area, params) => {
 
-        // 공통 파라미터
-        params.cnsmpInclnCd = cnsmpInclnCd;
-        params.limit = limit;
-
-        console.log('area :: ', area);
         console.log('params :: ', params);
 
         axios.get('/st/product/selectProductListWithOpt', {
@@ -166,6 +123,30 @@ const Main = () => {
                 console.log(err);
             });
     }
+
+    // event
+    const changeCombo = (e, div) => {
+        let param;
+        if(div == 1){
+            param = {...param1};
+            setParam1((prev) => {
+                param[param.key] = e.target.value;
+                return param;
+            });
+        }else{
+            param = {...param2};
+            setParam2((prev) => {
+                param[param.key] = e.target.value;
+                return param;
+            });
+        }
+        getProductList(div, param);
+    };
+
+    // init
+    useEffect(() => {
+        init();
+    }, []);
 
     /*
     * 메인(MFDB001-M001) 4번 :: MFDB001-M001-4
@@ -185,7 +166,7 @@ const Main = () => {
     * TO-DO :: MFDB001-M001-5는 actKindCd(상품분류코드) 파라미터만 상이하고 5-1, 5-2 컴포넌트 생성 프로세스가 동일함
     * a. 공통코드 중 groupCode가 act_kind_cd에 해당하는 목록 조회
     * b. act_kind_cd에 해당하는 목록 size 만큼 컴포넌트 생성 프로세스 사용자 함수 호출
-    * 
+    *
     * 사전 작업 :: 5-1 5-2 영역 div css 생성 후 시스템 스크롤로 제어 가능하게 사용
     * */
     /*
@@ -267,7 +248,7 @@ const Main = () => {
                     }
                 </select>
 
-                <Slider {...settings}>
+                <Slider {...settings} >
                     {
                         productList1.map((e, idx) => {
                             return (
@@ -364,34 +345,34 @@ const Main = () => {
     function ProductTitle1() {
         if(isin) {
             return <>
-                    <div className={styles.top3}>
-                        <p className={styles.p2}>나의</p>
-                        <p className={styles.p}>
-                            <span className={styles.span}>{`추천 예금 `}</span>
-                            <b className={styles.top32}>TOP3</b>
-                        </p>
-                    </div>
-                    <div className={styles.moreView}>
-                        <div className={styles.div5}>추천 상품 전체 보기</div>
-                        <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                        <div className={styles.wLine}/>
-                    </div>
-                </>
+                <div className={styles.top3}>
+                    <p className={styles.p2}>나의</p>
+                    <p className={styles.p}>
+                        <span className={styles.span}>{`추천 예금 `}</span>
+                        <b className={styles.top32}>TOP3</b>
+                    </p>
+                </div>
+                <div className={styles.moreView}>
+                    <div className={styles.div5}>추천 상품 전체 보기</div>
+                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                    <div className={styles.wLine}/>
+                </div>
+            </>
         } else {
             return <>
-                        <div className={styles.div1}>
+                <div className={styles.div1}>
                             <span className={styles.txt}>
                                 <p className={styles.p2}>{`전체 `}</p>
                                 <p className={styles.p2}>예·적금 상품</p>
                             </span>
-                        </div>
-                        <div className={styles.moreView} onClick={(e) => {
-                            navigate('/product-detail');
-                        }}>
-                            <div className={styles.div3}>모든 상품 전체 보기</div>
-                            <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                            <div className={styles.wLine}/>
-                        </div>
+                </div>
+                <div className={styles.moreView} onClick={(e) => {
+                    navigate('/product-detail');
+                }}>
+                    <div className={styles.div3}>모든 상품 전체 보기</div>
+                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                    <div className={styles.wLine}/>
+                </div>
             </>
         }
     }
@@ -407,11 +388,11 @@ const Main = () => {
                                 <b className={styles.top32}>TOP3</b>
                             </p>
                         </span>
-                        <div className={styles.moreView1}>
-                            <div className={styles.div5}>추천 상품 전체 보기</div>
-                            <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                            <div className={styles.wLine}/>
-                        </div>
+                    <div className={styles.moreView1}>
+                        <div className={styles.div5}>추천 상품 전체 보기</div>
+                        <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                        <div className={styles.wLine}/>
+                    </div>
                 </div>
             </>
         } else {
@@ -430,13 +411,13 @@ const Main = () => {
                                     </span>
                                 </p>
                             </span>
-                    </div>
-                    <div className={styles.moreView1}>
-                        <div className={styles.div3}>인기 상품 전체 보기</div>
-                        <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                        <div className={styles.wLine}/>
-                    </div>
-                </>
+                </div>
+                <div className={styles.moreView1}>
+                    <div className={styles.div3}>인기 상품 전체 보기</div>
+                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
+                    <div className={styles.wLine}/>
+                </div>
+            </>
         }
     }
 
