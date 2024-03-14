@@ -36,7 +36,7 @@ public class ProductOptionExpression {
     }
     // 소비유형코드에 따른 상품옵션시퀀스 Expression
     public static NumberExpression<Long> retPrdOptionSeq(QProductOption qProductOption, String cnsmpInclnCd) {
-
+        if(StringUtils.isEmpty(cnsmpInclnCd)) cnsmpInclnCd = "";
         return switch (cnsmpInclnCd) {
             case "GH" -> qProductOption.prdOptionSeq.min();
             case "YL" -> qProductOption.prdOptionSeq.min();
@@ -115,7 +115,7 @@ public class ProductOptionExpression {
                            and p.dcls_month = t.dcls_month
              order by p.fin_prdt_nm
         * */
-
+        if(StringUtils.isEmpty(cnsmpInclnCd)) cnsmpInclnCd = "";
         cnsmpInclnCd = switch (cnsmpInclnCd) {
             case "GH" -> "GH|YL";
             case "YL" -> "GH|YL";
@@ -152,6 +152,7 @@ public class ProductOptionExpression {
         // 정렬 선순위조건 :: 소비유형
         // 1. save_trm
         // 배짱이형, 욜로형 :: save_trm 낮은 순, 그 외 :: save_trm 높은 순
+        if(StringUtils.isEmpty(cnsmpInclnCd)) cnsmpInclnCd = "";
         switch (cnsmpInclnCd) {
             case "GH" -> orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, qProductOption.saveTrm)); // order by apo.save_trm asc, apo.maturity_amt desc, field(apo.intr_rate_type, 'M')
             case "YL" -> orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, qProductOption.saveTrm)); // order by apo.save_trm asc, apo.maturity_amt desc, field(apo.intr_rate_type, 'M')

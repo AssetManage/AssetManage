@@ -24,19 +24,16 @@ public class ProductOptionService {
     }
 
     public List<ProductOptionDto.ResponseAll> selectProductOptionList(ProductOptionDto.Request param){
-        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         List<ProductOptionDto.ResponseAll> ret = productOptionRepository.selectProductOptionList(param);
         return ret;
     }
 
     public ProductOptionDto.ResponseSimple selectProductOption(ProductOptionDto.Request param){
-        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         ProductOptionDto.ResponseSimple ret = productOptionRepository.selectProductOption(param);
         return ret;
     }
 
     public List<ProductOptionDto.ResponseSimple> selectProductOptionListSub(ProductOptionDto.Request param){
-        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         List<ProductOptionDto.ResponseSimple> ret = productOptionRepository.selectProductOptionListSub(param);
         return ret;
     }

@@ -29,10 +29,7 @@ public class ProductService {
     
     // 상품 목록 조회
     public List<ProductDto.ResponseAll> selectProductList(ProductOptionDto.Request param){
-        List<ProductDto.ResponseAll> ret = null;
-        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
-
-        // limit 존재하는 경우, 반환 목록 갯수 제한
+        List<ProductDto.ResponseAll> ret = null;// limit 존재하는 경우, 반환 목록 갯수 제한
         if(0<param.getLimit()){
             ret = productRepository.selectProductListLimit(param);
         }else{
@@ -56,7 +53,6 @@ public class ProductService {
     public List<ProductDto.ResponseCustom> selectProductListWithOpt(ProductOptionDto.Request param){
         List<ProductDto.ResponseCustom> ret = null;
         // 특정 상품 옵션 순번 목록 조회
-        if(StringUtils.isEmpty(param.getCnsmpInclnCd())) param.setCnsmpInclnCd("AT");
         List<ProductOptionDto.ResponseSimple> prdOptList = productOptionRepository.selectProductOptionListSub(param);
         param.setPrdOptList(prdOptList);
         // limit 존재하는 경우, 반환 목록 갯수 제한
