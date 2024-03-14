@@ -2,6 +2,7 @@ package com.project.assetManage.repository;
 
 import com.project.assetManage.dto.CodeDto;
 import com.project.assetManage.entity.common.Code;
+import com.project.assetManage.entity.common.ConsumptionInclination;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
