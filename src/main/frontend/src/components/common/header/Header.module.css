@@ -79,22 +79,21 @@
 }
 .groupIcon {
 	position: absolute;
-	height: 100%;
-	width: 13.61%;
+	height: 28px;
+	width: 28px;
+	object-fit: cover;
+	overflow: hidden;
+	border-radius: 50%;
 	top: 0;
 	right: 50.34%;
 	bottom: 0;
 	left: 36.05%;
-	max-width: 100%;
-	overflow: hidden;
-	max-height: 100%;
 }
 .kimsw1245 {
 	top: 11px;
 	left: 154px;
 	font-weight: 600;
 	display: inline-block;
-	width: 140px;
 }
 .div,
 .kimsw1245 {
