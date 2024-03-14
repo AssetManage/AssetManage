@@ -922,3 +922,62 @@
 	width: 227px;
 	font-size: var(--font-size-9xl);
 }
+.mian2Child {
+	position: absolute;
+	top: 147px;
+	left: 148px;
+	border-radius: var(--br-154xl);
+	background-color: var(--color-aliceblue);
+	filter: blur(70px);
+	width: 448px;
+	height: 367px;
+}
+.mian2Child,
+.ellipseIcon,
+.icon {
+	position: absolute;
+	top: 498px;
+	left: 268px;
+	width: 130px;
+	height: 36px;
+}
+.mian2Child,
+.icon {
+	top: 304px;
+	left: 242px;
+	width: 150px;
+	height: 220.6px;
+	object-fit: contain;
+}
+.mian2Child,
+.div1,
+.div2 {
+	position: absolute;
+	left: 757px;
+	font-weight: 600;
+}
+.mian2Child,
+.div1 {
+	top: 250px;
+	font-size: 46px;
+	letter-spacing: -0.02em;
+	line-height: 55px;
+}
+.mian2Child,
+.div2 {
+	top: 311px;
+	font-size: 42px;
+	line-height: 46px;
+	color: var(--color-mediumslateblue);
+}
+.mian2Child,
+.p {
+	margin: 0;
+}
+.mian2Child,
+.div3 {
+	top: 369px;
+	left: 757px;
+	font-size: var(--font-size-lg);
+	line-height: 26px;
+}

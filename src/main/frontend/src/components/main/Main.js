@@ -22,7 +22,7 @@ const Main = () => {
     // 0. 로그인 여부 체크
     // const isin = localStorage.getItem('accessToken') == null ? false : true;
     // tmp
-    const isin = false;
+    const isin = true;
 
     // slick 슬라이드
     const settings = {
@@ -38,6 +38,8 @@ const Main = () => {
     };
 
     // variables
+    const [cnsmpInclnCdInfo, setCnsmpInclnCdInfo] = useState({});
+
     const [param1, setParam1] = useState({});
     const [param2, setParam2] = useState({});
 
@@ -52,7 +54,7 @@ const Main = () => {
     const init = () => {
         if(isin){
             axios.get('/st/user/selectUserSimple', {
-            })
+                })
                 .then(res => {
                     const info = res.data.data;
                     const def = {'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'limit':3, 'cnsmpInclnCd':info.cnsmpInclnCd};
@@ -65,6 +67,9 @@ const Main = () => {
                     getComboList('prdt_rcmd_item_cd', 2);
                     getProductList(1, def1);
                     getProductList(2, def2);
+                    getCnsmpInclnCd("cnsmp_incln_cd", info.cnsmpInclnCd, info.cnsmpInclnNm);
+
+                    // TO-DO :: 소비유형 정보 조회
                 })
                 .catch(err => {
                     console.log(err);
@@ -83,27 +88,28 @@ const Main = () => {
     }
 
     // axios
-    const getCodeList = (grpCodeId) => {
+    const getCodeList = (grpCodeId, codeId) => {
         return axios.get('/st/code/selectCodeList', {
             params : {
-                'groupCode': grpCodeId,
+                'groupCode' : grpCodeId,
+                'codeId' : codeId,
                 'useYn' : 'Y'}
         })
     }
 
     const getComboList = (grpCodeId, div) => {
-        getCodeList(grpCodeId).then(res => {
-            const list = res.data.list;
-            if(div == 1){
-                setComboList1(list);
-            }else{
-                setComboList2(list);
-            }
-        }).catch(err => {
-            console.log(err);
-        });
+        getCodeList(grpCodeId)
+            .then(res => {
+                const list = res.data.list;
+                if(div == 1){
+                    setComboList1(list);
+                }else{
+                    setComboList2(list);
+                }
+            }).catch(err => {
+                console.log(err);
+            });
     }
-
     const getProductList = (area, params) => {
 
         console.log('params :: ', params);
@@ -118,6 +124,17 @@ const Main = () => {
                 }else{
                     setProductList2(list);
                 }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    const getCnsmpInclnCd = (grpCodeId, codeId, codeNm) => {
+        getCodeList(grpCodeId, codeId)
+            .then(res => {
+                const info = res.data.list[0].info;
+                setCnsmpInclnCdInfo({...info, cnsmpInclnNm:codeNm});
             })
             .catch(err => {
                 console.log(err);
@@ -215,29 +232,7 @@ const Main = () => {
         <div className={styles.main1}>
             <div className={styles.main}>
                 <Header/>
-                <div className={styles.main1Child}/>
-                <div className={styles.myFinancialPocketParent}>
-                    <b className={styles.myFinancialPocket}>My Financial Pocket</b>
-                    <div className={styles.div}>
-                        <p className={styles.p}>나의 아름다운 인생을 위한</p>
-                        <p className={styles.p1}>
-                            <span className={styles.span}>{`맞춤 자산 보장! `}</span>
-                            <span className={styles.span1}>
-                                <span className={styles.span2}>무엇이 좋을까?</span>
-                            </span>
-                        </p>
-                        <p className={styles.blankLine}>
-                            <span className={styles.span1}>
-                                <span>&nbsp;</span>
-                            </span>
-                        </p>
-                    </div>
-                    <div className={styles.btn}>
-                        <div className={styles.btnBox}/>
-                        <b className={styles.b}>나에게 맞는 예·적금 추천받기</b>
-                    </div>
-                    <img className={styles.icon} alt="" src="/group-57.png"/>
-                </div>
+                <Banner/>
                 <ProductTitle1/>
                 <select className={styles.seltBox} onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
                     {comboList1.map((e) => {
@@ -342,8 +337,51 @@ const Main = () => {
 
     );
 
-    function ProductTitle1() {
+    // component
+    function Banner(){
         if(isin) {
+            return <>
+                <div className={styles.mian2Child}/>
+                <img className={styles.ellipseIcon} alt="" src="/ellipse1.svg"/>
+                <img className={styles.icon} alt="" src={cnsmpInclnCdInfo.cnsmpInclnImgUrl}/>
+                <div className={styles.div1}>나의 소비유형은?</div>
+                <div className={styles.div2}>:: {cnsmpInclnCdInfo.cnsmpInclnNm}</div>
+                <div className={styles.div3}>
+                    <p className={styles.p}>{cnsmpInclnCdInfo.cnsmpInclnTitle}</p>
+                    <p className={styles.p}>{cnsmpInclnCdInfo.cnsmpInclnContents}</p>
+                </div>
+            </>
+        } else {
+            return <>
+                <div className={styles.main1Child}/>
+                <div className={styles.myFinancialPocketParent}>
+                    <b className={styles.myFinancialPocket}>My Financial Pocket</b>
+                    <div className={styles.div}>
+                        <p className={styles.p}>나의 아름다운 인생을 위한</p>
+                        <p className={styles.p1}>
+                            <span className={styles.span}>{`맞춤 자산 보장! `}</span>
+                            <span className={styles.span1}>
+                                <span className={styles.span2}>무엇이 좋을까?</span>
+                            </span>
+                        </p>
+                        <p className={styles.blankLine}>
+                            <span className={styles.span1}>
+                                <span>&nbsp;</span>
+                            </span>
+                        </p>
+                    </div>
+                    <div className={styles.btn}>
+                        <div className={styles.btnBox}/>
+                        <b className={styles.b}>나에게 맞는 예·적금 추천받기</b>
+                    </div>
+                    <img className={styles.icon} alt="" src="/group-57.png"/>
+                </div>
+            </>
+        }
+    }
+
+    function ProductTitle1() {
+        if (isin) {
             return <>
                 <div className={styles.top3}>
                     <p className={styles.p2}>나의</p>
@@ -369,7 +407,7 @@ const Main = () => {
                 <div className={styles.moreView} onClick={(e) => {
                     navigate('/product-detail');
                 }}>
-                    <div className={styles.div3}>모든 상품 전체 보기</div>
+                <div className={styles.div3}>모든 상품 전체 보기</div>
                     <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
                     <div className={styles.wLine}/>
                 </div>
