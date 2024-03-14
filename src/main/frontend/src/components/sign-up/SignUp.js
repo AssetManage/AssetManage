@@ -302,13 +302,11 @@ const SignUp = () => {
                 zipDetailAddr1: inputAddress,
                 zipDetailAddr2: inputAddressDetail,
                 indvdlinfoAgreeYn: 'Y',
-                profileImgUrl: '',
+                profileImgUrl: null,
             }).then(function (res) {
-                console.log(res);
-                alert('회원가입 완료되었습니다.');
+                alert('회원가입이 완료되었습니다.');
                 navigate('/login');
             }).catch(function (error) {
-                console.log(error);
                alert(error.response.data.message);
             });
 

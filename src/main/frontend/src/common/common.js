@@ -1,19 +1,18 @@
 import axios from 'axios';
 
 // 로그인 상태 확인
-const checkLoginState = () => {
+const checkLoginState = async () => {
     const token = localStorage.getItem('accessToken');
 
-    return axios.post('/api/sign/logout', {
+    return await axios.post('/api/sign/logout', {
         token: token
     }).then(function (res) {
-        if(res.data == true){
+        if(res.data !== true){
+            return false;
+        } else{
             return true;
         }
-
-        return false;
     }).catch(function (error) {
-        console.log(error);
         return false;
     });
 }
