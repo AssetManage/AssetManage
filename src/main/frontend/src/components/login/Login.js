@@ -12,6 +12,7 @@ const Login = () => {
     const [inputPw, setInputPw] = useState('');
 
     const onClickLogin = (email, pw) => {
+
         if(email === ''){
             alert('이메일을 입력해 주세요.');
             return;
@@ -41,7 +42,8 @@ const Login = () => {
             localStorage.setItem('accessToken', res.data.token);
             axios.defaults.headers.common['Authorization'] = res.data.token;
 
-            navigate('/main');
+            const preLoginPath = sessionStorage.getItem('preLoginPath') || '/main';
+            navigate(preLoginPath);
         }).catch(function (error) {
            alert(error.response.data.message);
         });
