@@ -12,17 +12,18 @@ import "../main/slick/slick-theme.css";
 
 
 import Header from '../common/header/Header';
+
 // TO-DO :: 팝업 호출
 // import ProductRecmdPopup from '../product-recmd-popup/ProductRecmdPopup';
 // import ProductRecmdPopup2 from '../product-recmd-popup/ProductRecmdPopup2';
 
-const Main = () => {
+const Main = ({ className, ...props }) => {
     const navigate = useNavigate();
 
     // 0. 로그인 여부 체크
-    const isin = localStorage.getItem('accessToken') == null ? false : true;
+    // const isin = localStorage.getItem('accessToken') == null ? false : true;
     // tmp
-    // const isin = true;
+    const isin = false;
 
     // slick 슬라이드
     const settings = {
@@ -54,10 +55,10 @@ const Main = () => {
     const init = () => {
         if(isin){
             axios.get('/st/user/selectUserSimple', {
-                    headers:{
-                        Authorization : localStorage.getItem('accessToken') // 로그인 사용자 token
-                    }
-                })
+                headers:{
+                    Authorization : localStorage.getItem('accessToken') // 로그인 사용자 token
+                }
+            })
                 .then(res => {
                     const info = res.data.data;
                     const def = {'key':'prdtRcmdItemCd', 'prdtRcmdItemCd':info.prdtRcmdItemCd, 'ageCd':info.ageCd, 'incomeScopeCd': info.incomeScopeCd, 'limit':3, 'cnsmpInclnCd':info.cnsmpInclnCd};
@@ -109,8 +110,8 @@ const Main = () => {
                     setComboList2(list);
                 }
             }).catch(err => {
-                console.log(err);
-            });
+            console.log(err);
+        });
     }
     const getProductList = (area, params) => {
 
@@ -229,154 +230,85 @@ const Main = () => {
     * 2-4. 구현 컴포넌트 :: combo(상품추천항목코드)
     * */
 
-
     return (
-        <div className={styles.main1}>
-            <div className={styles.main}>
-                <Header/>
-                <Banner/>
-                <ProductTitle1/>
-                <select className={styles.seltBox} onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
-                    {comboList1.map((e) => {
-                        return (
-                            <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
-                        );
-                    })
-                    }
-                </select>
+        <div className={styles.main11920 + " " + className}>
+            <div className={styles.frame49}>
+                <div className={styles.frame48}>
+                    {/* header*/}
+                    <Header/>
 
-                <Slider {...settings} >
-                    {
-                        productList1.map((e, idx) => {
-                            return (
-                                <div className={styles.bgBox}>
-                                    <img className={styles.shinhanIcoIcon} alt="" src={e.finCoNoImgUrl}/>
-                                    <div className={styles.sTit}>
-                                        <div className={styles.db}>{e.korCoNm}</div>
-                                        <div className={styles.m}>{e.finPrdtNm}</div>
-                                    </div>
-                                    <b className={styles.b1}>최고금리</b>
-                                    <div className={styles.div6}>
-                                        <span className={styles.txt}>
-                                            <span className={styles.span3}>{` `}</span>
-                                            <span className={styles.span4}>
-                                                <span className={styles.span5}>
-                                                    <b className={styles.b2}>{e.intrRate2}</b>
-                                                    <span className={styles.span6}>%</span>
-                                                </span>
-                                                <span className={styles.span6}>
-                                                    <span className={styles.span8}>{` `}</span>
-                                                </span>
-                                                <span>(세전)</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
-                                </div>
-                            );
-                        })
-                    }
-                </Slider>
+                    {/* banner */}
+                    <Banner/>
 
-                <img className={styles.lArrowIcon} alt="" src="/larrow.svg"/>
+                    {/*  TO-DO :: dataset 제외하고 area1, area2 호출 방법 동일하므로 합칠 수 있는 방법 찾기 */}
+                    {/* productList */}
+                    <div className={styles.productArea}>
+                        <ProductTitle1/>
+                        <ProductList1/>
+                        {/*<img className={styles.lArrow} src="/larrow.svg"/>*/}
+                    </div>
 
-                <select className={styles.seltBox1} onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
-                    {comboList2.map((e) => {
-                        return (
-                            <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
-                        );
-                    })
-                    }
-                </select>
-
-                <ProductTitle2 />
-                <Slider {...settings}>
-                    {
-                        productList2.map((e, idx) => {
-                            return (
-                                // <div className={styles.bgBox3}>
-                                <div>
-                                    <img className={styles.shinhanIcoIcon} alt="" src={e.finCoNoImgUrl}/>
-                                    <div className={styles.sTit3}>
-                                        <div className={styles.db}>{e.korCoNm}</div>
-                                        <div className={styles.m}>{e.finPrdtNm}</div>
-                                    </div>
-                                    <b className={styles.b1}>최고금리</b>
-                                    <div className={styles.div17}>
-                                        <span className={styles.txt}>
-                                            <span className={styles.span3}>{` `}</span>
-                                            <span className={styles.span4}>
-                                                <span className={styles.span5}>
-                                                    <b className={styles.b2}>{e.intrRate2}</b>
-                                                    <span className={styles.span6}>%</span>
-                                                </span>
-                                                <span className={styles.span6}>
-                                                    <span className={styles.span8}>{` `}</span>
-                                                </span>
-                                                <span>(세전)</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div className={styles.div7}>({e.saveTrm}개월 / 온라인가입 기준)</div>
-                                </div>
-                            );
-                        })
-                    }
-                </Slider>
-                <img className={styles.lArrowIcon1} alt="" src="/larrow.svg"/>
+                    <div className={styles.productArea}>
+                        <ProductTitle2/>
+                        <ProductList2/>
+                        {/*<img className={styles.lArrow} src="/larrow.svg"/>*/}
+                    </div>
+                </div>
             </div>
-
-            {/* 예적금 추천 상품 팝업(입력) */}
-            {/*
-            <ProductRecmdPopup />
-            */}
-            {/* 예적금 추천 상품 팝업(결과) */}
-            {/*
-            <ProductRecmdPopup2 />
-            */}
         </div>
 
-
-    );
+        //     {/* 예적금 추천 상품 팝업(입력) */}
+        //     {/*
+        //         <ProductRecmdPopup />
+        //         */}
+        //     {/* 예적금 추천 상품 팝업(결과) */}
+        //     {/*
+        //         <ProductRecmdPopup2 />
+        //         */}
+)
+    ;
 
     // component
-    function Banner(){
-        if(isin) {
+    function Banner() {
+        if (isin) {
             return <>
-                <div className={styles.mian2Child}/>
-                <img className={styles.ellipseIcon} alt="" src="/ellipse1.svg"/>
-                <img className={styles.icon} alt="" src={cnsmpInclnCdInfo.cnsmpInclnImgUrl}/>
-                <div className={styles.div1}>나의 소비유형은?</div>
-                <div className={styles.div2}>:: {cnsmpInclnCdInfo.cnsmpInclnNm}</div>
-                <div className={styles.div3}>
-                    <p className={styles.p}>{cnsmpInclnCdInfo.cnsmpInclnTitle}</p>
-                    <p className={styles.p}>{cnsmpInclnCdInfo.cnsmpInclnContents}</p>
+                <div className={styles.bannerArea}>
+                    <img className={styles.img} src={cnsmpInclnCdInfo.cnsmpInclnImgUrl}/>
+                    <div className={`${styles.bannerContents}`}>
+                        <div
+                            className={`${styles.bannerTitle} ${styles.font48} ${styles.colorBlack} ${styles.bold700}`}>
+                            나의 소비 유형은?
+                        </div>
+                        <span className={`${styles.font48} ${styles.colorBlue} ${styles.bold600}`}>:: {cnsmpInclnCdInfo.cnsmpInclnNm}</span>
+                        <span className={`${styles.font18} ${styles.bold600}`} >{cnsmpInclnCdInfo.cnsmpInclnTitle}</span>
+                        <span className={`${styles.font18} ${styles.bold400}`} >{cnsmpInclnCdInfo.cnsmpInclnContents}</span>
+                    </div>
                 </div>
             </>
         } else {
             return <>
-                <div className={styles.main1Child}/>
-                <div className={styles.myFinancialPocketParent}>
-                    <b className={styles.myFinancialPocket}>My Financial Pocket</b>
-                    <div className={styles.div}>
-                        <p className={styles.p}>나의 아름다운 인생을 위한</p>
-                        <p className={styles.p1}>
-                            <span className={styles.span}>{`맞춤 자산 보장! `}</span>
-                            <span className={styles.span1}>
-                                <span className={styles.span2}>무엇이 좋을까?</span>
+                <div className={styles.bannerArea}>
+                    <img className={styles.img} src="/group-570.svg"/>
+                    <div className={`${styles.bannerContents}`}>
+                        <div
+                            className={`${styles.bannerTitle} ${styles.font48} ${styles.colorBlack} ${styles.bold700}`}>My
+                            Financial Pocket
+                        </div>
+                        <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold500}`}>
+                              나의 아름다운 인생을 위한
                             </span>
-                        </p>
-                        <p className={styles.blankLine}>
-                            <span className={styles.span1}>
-                                <span>&nbsp;</span>
-                            </span>
-                        </p>
+                        <br/>
+                        <span className={`${styles.font48} ${styles.colorBlue} ${styles.bold600}`}>맞춤 자산 보장! </span>
+                        <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold500}`}>
+                                  무엇이 좋을까?
+                                  <br/>
+                                </span>
                     </div>
-                    <div className={styles.btn}>
-                        <div className={styles.btnBox}/>
-                        <b className={styles.b}>나에게 맞는 예·적금 추천받기</b>
+                    <div className={`${styles.bannerBtnArea}`}>
+                        <button className={`${styles.btnNavy} ${styles.bold700}`}>
+                            나에게 맞는 예·적금 추천받기
+                        </button>
                     </div>
-                    <img className={styles.icon} alt="" src="/group-57.png"/>
                 </div>
             </>
         }
@@ -385,83 +317,168 @@ const Main = () => {
     function ProductTitle1() {
         if (isin) {
             return <>
-                <div className={styles.top3}>
-                    <p className={styles.p2}>나의</p>
-                    <p className={styles.p}>
-                        <span className={styles.span}>{`추천 예금 `}</span>
-                        <b className={styles.top32}>TOP3</b>
-                    </p>
-                </div>
-                <div className={styles.moreView}>
-                    <div className={styles.div5}>추천 상품 전체 보기</div>
-                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                    <div className={styles.wLine}/>
-                </div>
-            </>
-        } else {
-            return <>
-                <div className={styles.div1}>
-                            <span className={styles.txt}>
-                                <p className={styles.p2}>{`전체 `}</p>
-                                <p className={styles.p2}>예·적금 상품</p>
+                <div className={styles.title}>
+                            <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
+                                나의 <br/>
+                                추천 예금 TOP3
                             </span>
-                </div>
-                <div className={styles.moreView} onClick={(e) => {
-                    navigate('/product-detail');
-                }}>
-                <div className={styles.div3}>모든 상품 전체 보기</div>
-                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                    <div className={styles.wLine}/>
-                </div>
-            </>
-        }
-    }
-
-    function ProductTitle2() {
-        if (isin) {
-            return <>
-                <div className={styles.top33}>
-                        <span className={styles.txt}>
-                            <p className={styles.p2}>나의</p>
-                            <p className={styles.p}>
-                                <span className={styles.span}>{`추천 적금 `}</span>
-                                <b className={styles.top32}>TOP3</b>
-                            </p>
-                        </span>
-                    <div className={styles.moreView1}>
-                        <div className={styles.div5}>추천 상품 전체 보기</div>
-                        <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                        <div className={styles.wLine}/>
+                    <br/>
+                    <select onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
+                        {comboList1.map((e) => {
+                            return (
+                                <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
+                            );
+                        })
+                        }
+                    </select>
+                    <div className={styles.moreView}>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기</span>
                     </div>
                 </div>
             </>
         } else {
             return <>
-                <div className={styles.hit}>
-                            <span className={styles.txt}>
-                                <p className={styles.p4}>연령대별</p>
-                                <p className={styles.p2}>
-                                    <span className={styles.span}>{`예·적금 `}</span>
-                                    <b className={styles.hit2}>
-                                        <span className={styles.hit3}>HIT</span>
-                                        <span className={styles.span21}>{` `}</span>
-                                    </b>
-                                    <span className={styles.span21}>
-                                        <span className={styles.span23}>상품</span>
-                                    </span>
-                                </p>
+                <div className={styles.title}>
+                            <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
+                                전체 <br/>
+                                예·적금 상품
                             </span>
-                </div>
-                <div className={styles.moreView1}>
-                    <div className={styles.div3}>인기 상품 전체 보기</div>
-                    <img className={styles.sArrIcoIcon} alt="" src="/sarrico.svg"/>
-                    <div className={styles.wLine}/>
+                    <br/>
+                    <select onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
+                        {comboList1.map((e) => {
+                            return (
+                                <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
+                            );
+                        })
+                        }
+                    </select>
+                    <div className={styles.moreView}>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>모든 상품 전체 보기</span>
+                    </div>
                 </div>
             </>
         }
     }
 
+    function ProductList1() {
+        return <div className={styles.productList}><Slider {...settings} >
+            {
+                productList1.map((e, idx) => {
+                    return (
+                        <div className={`${styles.product}`}>
+                            <div className={styles.tit}>
+                                <img className={styles.ico} src={e.finCoNoImgUrl}/>
+                                <div className={styles.nm}>
+                                    <span className={`${styles.font14} ${styles.bold500}`}>{e.korCoNm}</span>
+                                    <span className={`${styles.font18} ${styles.bold600}`}>{e.finPrdtNm}</span>
+                                </div>
+                            </div>
+                            <div className={styles.cnts}>
+                                <div className={styles.intrRate}>
+                                    <div
+                                        className={`${styles.tit} ${styles.font16} ${styles.colorOrange} ${styles.bold700}`}>최고금리
+                                    </div>
+                                    <div className={styles.cnts}>
+                                            <span
+                                                className={`${styles.font36} ${styles.colorNavy} ${styles.bold700}`}>{e.intrRate2}</span>
+                                        <span
+                                            className={`${styles.font20} ${styles.colorNavy} ${styles.bold700}`}>%</span>
+                                        <span className={`${styles.font16}`}>(세전)</span>
+                                    </div>
+                                </div>
+                                <div className={styles.trms}>
+                                    <span className={`${styles.font14}`}>({e.saveTrm} / 온라인가입 기준)</span>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            }
+        </Slider></div>
+    }
 
+    function ProductTitle2() {
+        if (isin) {
+            return <>
+                <div className={styles.title}>
+                            <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
+                                나의 <br/>
+                                추천 적금 TOP3
+                            </span>
+                    <br/>
+                    <select onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
+                            {comboList2.map((e) => {
+                                return (
+                                    <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
+                                );
+                            })
+                        }
+                    </select>
+                    <div className={styles.moreView}>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기</span>
+                    </div>
+                </div>
+            </>
+        } else {
+            return <>
+                <div className={styles.title}>
+                            <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
+                                연령대별 <br/>
+                                예·적금 상품
+                            </span>
+                    <br/>
+                    <select onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
+                        {comboList2.map((e) => {
+                                return (
+                                    <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
+                                );
+                            })
+                        }
+                    </select>
+                    <div className={styles.moreView}>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>인기 상품 전체 보기</span>
+                    </div>
+                </div>
+            </>
+        }
+    }
+
+    function ProductList2() {
+        return <div className={styles.productList}><Slider {...settings} >
+            {
+                productList2.map((e, idx) => {
+                    return (
+                        <div className={`${styles.product}`}>
+                            <div className={styles.tit}>
+                                <img className={styles.ico} src={e.finCoNoImgUrl}/>
+                                <div className={styles.nm}>
+                                    <span className={`${styles.font14} ${styles.bold500}`}>{e.korCoNm}</span>
+                                    <span className={`${styles.font18} ${styles.bold600}`}>{e.finPrdtNm}</span>
+                                </div>
+                            </div>
+                            <div className={styles.cnts}>
+                                <div className={styles.intrRate}>
+                                    <div
+                                        className={`${styles.tit} ${styles.font16} ${styles.colorOrange} ${styles.bold700}`}>최고금리
+                                    </div>
+                                    <div className={styles.cnts}>
+                                            <span
+                                                className={`${styles.font36} ${styles.colorNavy} ${styles.bold700}`}>{e.intrRate2}</span>
+                                        <span
+                                            className={`${styles.font20} ${styles.colorNavy} ${styles.bold700}`}>%</span>
+                                        <span className={`${styles.font16}`}>(세전)</span>
+                                    </div>
+                                </div>
+                                <div className={styles.trms}>
+                                    <span className={`${styles.font14}`}>({e.saveTrm} / 온라인가입 기준)</span>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            }
+        </Slider></div>
+    }
 };
 
 
