@@ -174,7 +174,7 @@
 }
 .product .tit .nm {
 	text-align: left;
-	width: auto;
+	width: calc(100% - 57px);
 	height: auto;
 	display: inline-block;
 	margin-left: 15px;
