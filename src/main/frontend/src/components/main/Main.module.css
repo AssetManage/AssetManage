@@ -154,7 +154,7 @@
 	position: inherit;
 	border-radius: 12px;
 	display: inline-block;
-	background: var(--color-ghostwhite);
+	/*background: var(--color-ghostwhite);*/
 	margin: 5px;
 }
 .moreView {
@@ -213,4 +213,25 @@
 .product .cnts .trms {
 	position: relative;
 	text-align: right;
+}
+
+/* background */
+/* TO-DO :: 다양한 색깔 구현한 방법 찾기 */
+.bgrColor1{
+	background: var(--color-aliceblue-100);
+}
+.bgrColor2{
+	background: #f7f3ff;
+}
+.bgrColor3{
+	background: var(--color-azure);
+}
+.bgrColor4{
+	background: #f2fef5;
+}
+.bgrColor5{
+	background: #fefbf2;
+}
+.bgrColor6{
+	background: #fff5f3;
 }

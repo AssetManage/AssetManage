@@ -10,7 +10,6 @@ import styles from "./Main.module.css";
 import "../main/slick/slick.css";
 import "../main/slick/slick-theme.css";
 
-
 import Header from '../common/header/Header';
 
 // TO-DO :: 팝업 호출
@@ -142,6 +141,10 @@ const Main = ({ className, ...props }) => {
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    function getColor(){
+        return "bgrColor"+(Math.floor(Math.random() * 5)+1);
     }
 
     // event
@@ -365,7 +368,7 @@ const Main = ({ className, ...props }) => {
             {
                 productList1.map((e, idx) => {
                     return (
-                        <div className={`${styles.product}`}>
+                        <div className={`${styles.product} ${styles[getColor()]}`}>
                             <div className={styles.tit}>
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>
                                 <div className={styles.nm}>
@@ -387,7 +390,7 @@ const Main = ({ className, ...props }) => {
                                     </div>
                                 </div>
                                 <div className={styles.trms}>
-                                    <span className={`${styles.font14}`}>({e.saveTrm} / 온라인가입 기준)</span>
+                                    <span className={`${styles.font14}`}>({e.saveTrm}개월 / 온라인가입 기준)</span>
                                 </div>
                             </div>
                         </div>
@@ -448,7 +451,7 @@ const Main = ({ className, ...props }) => {
             {
                 productList2.map((e, idx) => {
                     return (
-                        <div className={`${styles.product}`}>
+                        <div className={`${styles.product} ${styles[getColor()]}`}>
                             <div className={styles.tit}>
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>
                                 <div className={styles.nm}>
@@ -470,7 +473,7 @@ const Main = ({ className, ...props }) => {
                                     </div>
                                 </div>
                                 <div className={styles.trms}>
-                                    <span className={`${styles.font14}`}>({e.saveTrm} / 온라인가입 기준)</span>
+                                    <span className={`${styles.font14}`}>({e.saveTrm} 개월 / 온라인가입 기준)</span>
                                 </div>
                             </div>
                         </div>
