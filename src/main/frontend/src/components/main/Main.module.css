@@ -83,6 +83,10 @@
 .bold700{
 	font-weight: 700;
 }
+/* tmp */
+.marginM5{
+	margin-top: -5px;
+}
 
 /* banner */
 .bannerArea {
@@ -142,6 +146,9 @@
 }
 .productArea .title {
 	display: inline-block;
+	width: 20%;
+	position: inherit;
+	top: -50px;
 }
 .productList {
 	display: inline-block;
@@ -149,18 +156,21 @@
 	height: 100%;
 }
 .product {
-	width: 280px;
+	width: 295px!important;
 	height: 100%;
 	position: inherit;
 	border-radius: 12px;
 	display: inline-block;
-	/*background: var(--color-ghostwhite);*/
-	margin: 5px;
+	cursor : pointer;
 }
 .moreView {
 	width: 144px;
 	height: 24px;
 	position: relative;
+}
+.moreView > span {
+	text-decoration: underline;
+	cursor : pointer;
 }
 .product > .tit {
 	display: inline-block;
@@ -215,6 +225,13 @@
 	text-align: right;
 }
 
+.seltBox {
+	top: 804px;
+	left: 130px;
+	width: 140px;
+	height: 36px;
+	text-align: left;
+}
 /* background */
 /* TO-DO :: 다양한 색깔 구현한 방법 찾기 */
 .bgrColor1{

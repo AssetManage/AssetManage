@@ -20,9 +20,9 @@ const Main = ({ className, ...props }) => {
     const navigate = useNavigate();
 
     // 0. 로그인 여부 체크
-    // const isin = localStorage.getItem('accessToken') == null ? false : true;
+    const isin = localStorage.getItem('accessToken') == null ? false : true;
     // tmp
-    const isin = false;
+    // const isin = false;
 
     // slick 슬라이드
     const settings = {
@@ -34,7 +34,7 @@ const Main = ({ className, ...props }) => {
         arrows: !isin,
         autoplay: !isin,
         autoplaySpeed: 5000,
-        // prevArrow: "", // .lArrowIcon
+        prevArrow: "", // .lArrowIcon
     };
 
     // variables
@@ -268,8 +268,7 @@ const Main = ({ className, ...props }) => {
         //     {/*
         //         <ProductRecmdPopup2 />
         //         */}
-)
-    ;
+    );
 
     // component
     function Banner() {
@@ -305,7 +304,7 @@ const Main = ({ className, ...props }) => {
                         <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold500}`}>
                                   무엇이 좋을까?
                                   <br/>
-                                </span>
+                        </span>
                     </div>
                     <div className={`${styles.bannerBtnArea}`}>
                         <button className={`${styles.btnNavy} ${styles.bold700}`}>
@@ -322,11 +321,12 @@ const Main = ({ className, ...props }) => {
             return <>
                 <div className={styles.title}>
                             <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
-                                나의 <br/>
-                                추천 예금 TOP3
+                                나의
+                                <div className={styles.marginM5}></div>
+                                추천 예금 <p style={{'display':'inline-block', 'margin':'3px'}} className={`${styles.colorBlue} ${styles.bold700}`}>TOP3</p>
                             </span>
                     <br/>
-                    <select onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
+                    <select className={styles.seltBox} onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
                         {comboList1.map((e) => {
                             return (
                                 <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
@@ -335,7 +335,7 @@ const Main = ({ className, ...props }) => {
                         }
                     </select>
                     <div className={styles.moreView}>
-                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기</span>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기 -></span>
                     </div>
                 </div>
             </>
@@ -347,7 +347,7 @@ const Main = ({ className, ...props }) => {
                                 예·적금 상품
                             </span>
                     <br/>
-                    <select onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
+                    <select className={styles.seltBox} onChange={(e) => changeCombo(e, 1)} value={param1[param1.key]}>
                         {comboList1.map((e) => {
                             return (
                                 <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
@@ -356,7 +356,7 @@ const Main = ({ className, ...props }) => {
                         }
                     </select>
                     <div className={styles.moreView}>
-                        <span className={`${styles.font16} ${styles.colorBlue}`}>모든 상품 전체 보기</span>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>모든 상품 전체 보기 -></span>
                     </div>
                 </div>
             </>
@@ -405,11 +405,13 @@ const Main = ({ className, ...props }) => {
             return <>
                 <div className={styles.title}>
                             <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
-                                나의 <br/>
-                                추천 적금 TOP3
+                                나의
+                                <div className={styles.marginM5}></div>
+                                추천 적금 <p style={{'display': 'inline-block', 'margin': '3px'}}
+                                         className={`${styles.colorBlue} ${styles.bold700}`}>TOP3</p>
                             </span>
                     <br/>
-                    <select onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
+                    <select className={styles.seltBox} onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
                             {comboList2.map((e) => {
                                 return (
                                     <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
@@ -418,7 +420,7 @@ const Main = ({ className, ...props }) => {
                         }
                     </select>
                     <div className={styles.moreView}>
-                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기</span>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기 -></span>
                     </div>
                 </div>
             </>
@@ -427,10 +429,12 @@ const Main = ({ className, ...props }) => {
                 <div className={styles.title}>
                             <span className={`${styles.font28} ${styles.colorBlack} ${styles.bold600}`}>
                                 연령대별 <br/>
-                                예·적금 상품
+                                예·적금
+                                <p style={{'display': 'inline-block', 'margin':'3px'}} className={`${styles.colorBlue}`}>HIT</p>
+                                상품
                             </span>
                     <br/>
-                    <select onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
+                    <select className={styles.seltBox} onChange={(e) => changeCombo(e, 2)} value={param2[param2.key]}>
                         {comboList2.map((e) => {
                                 return (
                                     <option key={e.groupCode + "_" + e.codeId} value={e.codeId}>{e.codeNm}</option>
@@ -439,7 +443,7 @@ const Main = ({ className, ...props }) => {
                         }
                     </select>
                     <div className={styles.moreView}>
-                        <span className={`${styles.font16} ${styles.colorBlue}`}>인기 상품 전체 보기</span>
+                        <span className={`${styles.font16} ${styles.colorBlue}`}>인기 상품 전체 보기 -></span>
                     </div>
                 </div>
             </>
