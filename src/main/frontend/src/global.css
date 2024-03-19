@@ -50,6 +50,19 @@ body {
   --color-azure: #f2fdfe;
   --color-white: #fff;
   --color-ghostwhite: #f6f7fb;
+  --color-white: #fff;
+  --color-gray-100: #061237;
+  --color-gray-200: #080808;
+  --color-mediumslateblue-100: #2a66ff;
+  --color-mediumslateblue-200: #1355ff;
+  --color-midnightblue: #0b3399;
+  --color-darkorange: #ff8126;
+  --color-aliceblue-100: #eaf8ff;
+  --color-aliceblue-200: #eff4ff;
+  --color-azure: #f2fdfe;
+  --color-ghostwhite-100: #f6f7fb;
+  --color-ghostwhite-200: rgba(243, 246, 255, 0.84);
+  --color-lavender: #d7e2ff;
 
   /* Border radiuses */
   --br-8xs: 5px;

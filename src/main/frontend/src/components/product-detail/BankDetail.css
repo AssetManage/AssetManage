@@ -1,0 +1,246 @@
+
+.bg-box11,
+.shinhan-ico-icon3 {
+/*    position: absolute;
+    top: 0;
+    left: 0;*/
+}
+.bg-box11 {
+    border-radius: var(--br-xs);
+    background-color: var(--color-ghostwhite-200);
+    border: 1px solid var(--color-lavender);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+.shinhan-ico-icon3 {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}
+.div47,
+.s-tit6 {
+    left: 40%;
+    width: 100%;
+    height: 100%;
+}
+.div47 {
+    top: 0;
+    left: 0;
+    letter-spacing: -0.01em;
+    line-height: 42px;
+    font-weight: 600;
+}
+.s-tit6 {
+    margin-left:2.5%;
+}
+.s-logo,
+.s-logo-wrapper {
+    position: relative;
+}
+.s-logo-wrapper {
+    margin-left: 2%;
+    margin-top: 2%;
+    display: grid;
+    grid-template-columns: 3% 20%;
+    grid-template-rows: 100%;
+    height: 15%
+}
+
+.group-child {
+    width: 56px;
+    height: 56px;
+}
+
+.div48 {
+    line-height: 26px;
+    font-weight: 500;
+}
+.span74 {
+    font-size: var(--font-size-9xl);
+    font-weight: 600;
+    color: var(--color-gray-200);
+}
+
+.group-div {
+    position: absolute;
+    top: 5px;
+    left: 68px;
+    width: 126px;
+    height: 48px;
+}
+
+
+.group-parent{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 */
+    gap: 20px; /* 그리드 아이템 간격 */
+}
+
+.group-parent0,
+.group-parent1,
+.group-parent2 {
+    padding: 20px; /* 내부 여백 */
+}
+
+
+.group-item {
+    top: 0;
+    width: 56px;
+}
+.div48, .div50, .div52 {
+    right: 70%;
+    position: relative;
+    line-height: 26px;
+    font-weight: 500;
+    bottom: 100%;
+}
+
+.span76 {
+    color: var(--color-gray-200);
+}
+
+.span75 {
+    font-weight: 600;
+}
+
+.div49, .div51, .high_interest_section{
+    position: relative;
+    line-height: 46px;
+    font-size: var(--font-size-11xl);
+    color: var(--color-mediumslateblue-200);
+    margin-top: 8%;
+}
+.high_interest_section {
+    display: flex; /* Flexbox 레이아웃 사용 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.b21,
+.b22,
+.div53 {
+    white-space: nowrap; /* 줄 바꿈 방지 */
+}
+
+.div53 {
+    margin-right: 25%; /* div53의 오른쪽 마진을 0으로 설정하여 b21, b22와 붙도록 합니다 */
+}
+
+.group-parent0 {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 10%;
+}
+
+.group-parent1{
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 10%;
+}
+
+
+.group-parent2{
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 10%;
+}
+
+.b21 {
+    top: 2px;
+    left: 0;
+}
+.b22 {
+    top: 2px;
+    left: 20px;
+    font-size: var(--font-size-11xl);
+    line-height: 46px;
+}
+
+.div53 {
+    top: 0;
+    left: 97px;
+    line-height: 26px;
+    font-weight: 500;
+    color: var(--color-gray-200);
+}
+
+
+
+
+.group-parent0,
+.group-parent1,
+.group-parent2 {
+    display: flex; /* Flexbox 레이아웃 사용 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.group-child,
+.group-item,
+.group-interest {
+    margin-right: 10px; /* 요소들 사이의 간격 조절 */
+    margin-top:4%;
+}
+
+.div49,
+.div51,
+.high_interest_section {
+    flex: 1; /* 각 요소가 동일한 너비를 가지도록 설정 */
+}
+
+.div48,
+.div50,
+.b21,
+.b22 {
+    flex: none; /* 요소들의 너비는 고정으로 설정 */
+}
+
+
+.group-parent0 {
+    grid-column: 1; /* 첫 번째 열에 배치 */
+}
+
+.group-parent1 {
+    grid-column: 2; /* 두 번째 열에 배치 */
+}
+
+.group-parent2 {
+    grid-column: 3; /* 세 번째 열에 배치 */
+}
+.b23,
+.div54,
+.group-parent {
+    position: relative;
+}
+.b23 {
+    top: 0;
+    letter-spacing: -0.02em;
+    line-height: 55px;
+}
+.div54 {
+    top: 20%;
+    left: 0;
+    font-size: var(--font-size-base);
+    line-height: 26px;
+}
+
+.parent2 {
+    position: relative;
+    height: 45%;
+    font-size: 48px;
+    text-align : center;
+}
+
+.bg-box-parent {
+    position: absolute;
+    margin-top: 8%;
+    margin-left:8%;
+    width: 80%;
+    height: 360px;
+    text-align: left;
+    font-size: var(--font-size-base);
+    color: var(--color-gray-200);
+    font-family: var(--font-pretendard);
+}

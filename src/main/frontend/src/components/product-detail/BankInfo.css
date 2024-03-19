@@ -1,0 +1,33 @@
+
+.div29 {
+    top: 0;
+    left: 2px;
+    letter-spacing: -0.01em;
+    line-height: 42px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+.bg-box6,
+.div28,
+.wrapper {
+    position: relative;
+    left: 0;
+    width: 880px;
+}
+.bg-box6 {
+    top: 34px;
+    background-color: var(--color-gray-200);
+    height: 1px;
+}
+.div28,
+.wrapper {
+    width: 40%;
+}
+.wrapper {
+    top: 395px;
+    left: 267px;
+    width: 901px;
+    height: 812px;
+    font-size: 21px;
+}
