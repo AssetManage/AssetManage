@@ -76,6 +76,7 @@ public class CodeDto {
         // custom
         @Setter
         private Object info;
+        private String groupCodeNm;
 
         public ResponseAll(String groupCode, String codeId, String codeNm
                 , Integer dispSeq
@@ -84,7 +85,8 @@ public class CodeDto {
                 , String etc2
                 , String etc3
                 , Character useYn
-                , Object info) {
+                , Object info
+                , String groupCodeNm) {
             this.groupCode = groupCode;
             this.codeId = codeId;
             this.codeNm = codeNm;
@@ -95,6 +97,7 @@ public class CodeDto {
             this.etc3 = etc3;
             this.useYn = useYn;
             this.info = info;
+            this.info = groupCodeNm;
         }
     }
 
