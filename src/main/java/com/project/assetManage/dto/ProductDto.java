@@ -50,6 +50,7 @@ public class ProductDto {
         private String joinWayNm;
         private String joinWayElCnts;
         private String cnsmpInclnCdListStr;
+        private String finCoNoImgUrl;
 
         // option
         @Setter
@@ -75,6 +76,7 @@ public class ProductDto {
                 , String joinWayNm
                 , String joinWayElCnts
                 , String cnsmpInclnCdListStr
+                , String finCoNoImgUrl
                 , List<ProductOptionDto.ResponseAll> productOptionList) {
             this.finCoNo = finCoNo;
             this.finPrdtCd = finPrdtCd;
@@ -99,6 +101,7 @@ public class ProductDto {
             this.joinWayNm = joinWayNm;
             this.joinWayElCnts = joinWayElCnts;
             this.cnsmpInclnCdListStr = cnsmpInclnCdListStr;
+            this.finCoNoImgUrl = finCoNoImgUrl;
 
             // option
             this.productOptionList = productOptionList;
