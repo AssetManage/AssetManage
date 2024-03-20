@@ -36,6 +36,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         System.out.println(param.toString());
 
         QProduct qProduct = QProduct.product;
+        QCode qCode = QCode.code;
+
         List<ProductDto.ResponseAll> list = null;
 
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseAll.class
@@ -63,8 +65,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
+                        , ExpressionUtils.as(qCode.etc1, "finCoNoImgUrl")
                 ))
                 .from(qProduct)
+                .leftJoin(qCode)
+                .on(
+                        qCode.groupCode.eq("fin_co_no")
+                        , qProduct.finCoNo.eq(qCode.codeId)
+                )
                 .where(
                         ProductExpression.eqFinCoNo(qProduct, param.getFinCoNo())
                         , ProductExpression.eqFinPrdtCd(qProduct, param.getFinPrdtCd())
@@ -171,6 +179,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         System.out.println(param.toString());
 
         QProduct qProduct = QProduct.product;
+        QCode qCode = QCode.code;
         List<ProductDto.ResponseAll> list = null;
 
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseAll.class
@@ -198,8 +207,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 .otherwise(Expressions.constant("")).as("joinWayElCnts")
                         , CodeExpression.retCodeNm(qProduct.actKindCd, "act_kind_cd").as("actKindNm")
                         , CodeExpression.retCodeNm(qProduct.joinWayCd, "join_way_cd").as("joinWayNm")
+                        , ExpressionUtils.as(qCode.etc1, "finCoNoImgUrl")
                 ))
                 .from(qProduct)
+                .leftJoin(qCode)
+                .on(
+                        qCode.groupCode.eq("fin_co_no")
+                        , qProduct.finCoNo.eq(qCode.codeId)
+                )
                 .where(
                         ProductExpression.eqFinCoNo(qProduct, param.getFinCoNo())
                         , ProductExpression.eqFinPrdtCd(qProduct, param.getFinPrdtCd())
