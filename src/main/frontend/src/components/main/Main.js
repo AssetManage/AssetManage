@@ -2,7 +2,7 @@ import axios from 'axios';
 import Slider from 'react-slick';
 
 import { useEffect, useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // import styles from "./Main2.module.css";
 import styles from "./Main.module.css";
@@ -74,6 +74,7 @@ const Main = ({ className, ...props }) => {
 
                 })
                 .catch(err => {
+                    // TO-DO :: 토큰은 존재하나 백단에서 user 정보가 null로 조회되는 경우, 에러 처리 추가
                     console.log(err);
                 });
         }else{
@@ -152,19 +153,50 @@ const Main = ({ className, ...props }) => {
         let param;
         if(div == 1){
             param = {...param1};
+            param[param.key] = e.target.value;
             setParam1((prev) => {
-                param[param.key] = e.target.value;
                 return param;
             });
         }else{
             param = {...param2};
+            param[param.key] = e.target.value;
             setParam2((prev) => {
-                param[param.key] = e.target.value;
                 return param;
             });
         }
         getProductList(div, param);
     };
+
+    const clickProduct = (idx, div) => {
+        let product;
+        if(div == 1){
+            product = productList1[idx];
+        }else{
+            product = productList2[idx];
+        }
+        // console.log('product :: ', product);
+
+        navigate('/product-detail', {
+            state: {
+                'finCoNo' : product.finCoNo,
+                'finPrdtCd' : product.finPrdtCd,
+                'dclsMonth' : product.dclsMonth,
+            }
+        });
+    }
+
+    const clickMoreView = (div) => {
+        let param;
+        if(div == 1){
+            param = param1;
+        }else{
+            param = param2;
+        }
+        console.log('param :: ', param);
+        navigate('/product-list', {
+            state: param
+        });
+    }
 
     // init
     useEffect(() => {
@@ -235,10 +267,11 @@ const Main = ({ className, ...props }) => {
 
     return (
         <div className={styles.main11920 + " " + className}>
+
             <div className={styles.frame49}>
+                {/* header*/}
+                <Header/>
                 <div className={styles.frame48}>
-                    {/* header*/}
-                    <Header/>
 
                     {/* banner */}
                     <Banner/>
@@ -252,8 +285,8 @@ const Main = ({ className, ...props }) => {
                     </div>
 
                     <div className={styles.productArea}>
-                        <ProductTitle2/>
-                        <ProductList2/>
+                        <ProductTitle2 />
+                        <ProductList2 />
                         {/*<img className={styles.lArrow} src="/larrow.svg"/>*/}
                     </div>
                 </div>
@@ -281,7 +314,7 @@ const Main = ({ className, ...props }) => {
                             className={`${styles.bannerTitle} ${styles.font48} ${styles.colorBlack} ${styles.bold700}`}>
                             나의 소비 유형은?
                         </div>
-                        <span className={`${styles.font48} ${styles.colorBlue} ${styles.bold600}`}>:: {cnsmpInclnCdInfo.cnsmpInclnNm}</span>
+                        <span className={`${styles.font48} ${styles.colorBlue} ${styles.bold600}`}>{cnsmpInclnCdInfo.cnsmpInclnNm}</span>
                         <span className={`${styles.font18} ${styles.bold600}`} >{cnsmpInclnCdInfo.cnsmpInclnTitle}</span>
                         <span className={`${styles.font18} ${styles.bold400}`} >{cnsmpInclnCdInfo.cnsmpInclnContents}</span>
                     </div>
@@ -334,8 +367,8 @@ const Main = ({ className, ...props }) => {
                         })
                         }
                     </select>
-                    <div className={styles.moreView}>
-                        <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기 -></span>
+                    <div className={styles.moreView} onClick={(e) => clickMoreView(1)}>
+                        <span className={`${styles.font16} ${styles.colorBlue}`} >추천 상품 전체 보기 -></span>
                     </div>
                 </div>
             </>
@@ -355,7 +388,7 @@ const Main = ({ className, ...props }) => {
                         })
                         }
                     </select>
-                    <div className={styles.moreView}>
+                    <div className={styles.moreView} onClick={(e) => clickMoreView(1)}>
                         <span className={`${styles.font16} ${styles.colorBlue}`}>모든 상품 전체 보기 -></span>
                     </div>
                 </div>
@@ -368,7 +401,7 @@ const Main = ({ className, ...props }) => {
             {
                 productList1.map((e, idx) => {
                     return (
-                        <div className={`${styles.product} ${styles[getColor()]}`}>
+                        <div className={`${styles.product} ${styles[getColor()]}`} onClick={(e) => clickProduct(idx, 1)}>
                             <div className={styles.tit}>
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>
                                 <div className={styles.nm}>
@@ -419,7 +452,7 @@ const Main = ({ className, ...props }) => {
                             })
                         }
                     </select>
-                    <div className={styles.moreView}>
+                    <div className={styles.moreView} onClick={(e) => clickMoreView(2)}>
                         <span className={`${styles.font16} ${styles.colorBlue}`}>추천 상품 전체 보기 -></span>
                     </div>
                 </div>
@@ -442,7 +475,7 @@ const Main = ({ className, ...props }) => {
                             })
                         }
                     </select>
-                    <div className={styles.moreView}>
+                    <div className={styles.moreView} onClick={(e) => clickMoreView(2)}>
                         <span className={`${styles.font16} ${styles.colorBlue}`}>인기 상품 전체 보기 -></span>
                     </div>
                 </div>
@@ -455,7 +488,7 @@ const Main = ({ className, ...props }) => {
             {
                 productList2.map((e, idx) => {
                     return (
-                        <div className={`${styles.product} ${styles[getColor()]}`}>
+                        <div className={`${styles.product} ${styles[getColor()]}`} onClick={(e) => clickProduct(idx, 2)}>
                             <div className={styles.tit}>
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>
                                 <div className={styles.nm}>

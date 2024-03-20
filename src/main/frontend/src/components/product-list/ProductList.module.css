@@ -163,7 +163,9 @@
 .selectedArea {
     width: 95%;
     height: auto;
-    margin : 30px;
+    margin : 0px 30px 0px 30px;
+    position: relative;
+    top: -8px;
 }
 .selectedArea > .selected {
     width: 130px;
@@ -175,7 +177,8 @@
     border-width: 1px;
     padding: 10px;
     display: inline-block;
-    position: inherit;
+    position: relative;
+    top: -19px;
     margin: 3px;
 }
 .selected > .cnt {
@@ -191,6 +194,24 @@
     float: right;
     padding: 5px;
     cursor: pointer;
+}
+
+.selectedArea > .reset {
+    display: inline-block;
+    cursor: pointer;
+}
+.reset > .ico {
+    width: 43.5px;
+    height: auto;
+    background: #ffffff;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #7f879e;
+    border-width: 1px;
+    padding: 10px;
+    display: inline-block;
+    position: relative;
+    margin: 3px;
 }
 .conditionBtnArea {
     width: 100%;

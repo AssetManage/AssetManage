@@ -1,13 +1,18 @@
 import axios from 'axios';
 
 import { useEffect, useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Sheet from 'react-modal-sheet';
 
 import styles from "./ProductList.module.css";
 
 import Header from '../common/header/Header';
 
 const ProductList = ({ className, ...props }) => {
+
+    // 이전 화면에서 넘어온 파라미터
+    const location = useLocation();
+    const prev = { ...location.state };
 
     const navigate = useNavigate();
 
@@ -16,12 +21,14 @@ const ProductList = ({ className, ...props }) => {
     // tmp
     // const isin = false;
 
-
-    const [param, setParam] = useState({'actKindCd':'DP', 'joinWayCd':'N', 'cnsmpInclnCd':'AT'});
+    // variables
+    const initParam = {'actKindCd':'DP', 'joinWayCd':'N', 'cnsmpInclnCd':'AT'};
+    const [param, setParam] = useState(initParam);
     const [conditionList, setCondtionList] = useState({});
-
     const [productList, setProductList] = useState([]);
 
+    // modal
+    const [isOpen, setOpen] = useState(false);
 
     const init = async() => {
 
@@ -38,6 +45,10 @@ const ProductList = ({ className, ...props }) => {
                 'rsrvType' : rsrvTypeList,
             }
         );
+        
+        // TO-DO :: 이전 화면에서 넘어온 파라미터 세팅에 반영 (prev)
+        // 넘어온 파라미터를 사용하면 user 정보 안불러와도 됨
+        console.log('prev :: ', prev);
 
         // setParam
         // 소비유형(개미형(AT)), 상품분류(예금(DP)), 가입방식(비대면(N))
@@ -55,9 +66,9 @@ const ProductList = ({ className, ...props }) => {
                     getProductList(def);
                 })
                 .catch(err => {
-                // TO-DO :: 토큰은 존재하나 백단에서 user 정보가 null로 조회되는 경우, 에러 처리 추가
-                console.log(err);
-            });
+                    // TO-DO :: 토큰은 존재하나 백단에서 user 정보가 null로 조회되는 경우, 에러 처리 추가
+                    console.log(err);
+                });
         }else getProductList(param);
         // console.log('conditionList :: ', conditionList);
         // console.log('param :: ', param);
@@ -74,7 +85,7 @@ const ProductList = ({ className, ...props }) => {
         }).then(res => {
             return res.data.list;
         }).catch(err => {
-                console.log(err);
+            console.log(err);
         });
     }
 
@@ -94,10 +105,9 @@ const ProductList = ({ className, ...props }) => {
 
     // event
     const clickParam = (e) => {
-
         let def = {...param};
-        
-        // TO-DO :: 변경한 param이 아니라 이전값으로 넘어가는 것 수정
+
+        // 재렌더링 될 때 set됨
         setParam((prev) => {
             def[e.key] = e.codeId;
 
@@ -105,14 +115,30 @@ const ProductList = ({ className, ...props }) => {
             if(def.actKindCd == 'DP'){
                 delete def.rsrvType;
             }else{
-                if(null == def.rsrvType) def['rsrvType'] = 'S';
+                if(null == def.rsrvType) def = {...def, 'rsrvType': 'S'};
             }
+            getProductList(def);
             return def;
         });
+    }
 
-        // console.log('def :: ', def);
+    const clickReset = (e) => {
+        setParam((prev) => {
+            getProductList(initParam);
+            return initParam;
+        });
+    }
 
-        getProductList(def);
+    const clickProduct = (idx) => {
+        const product = productList[idx];
+        // console.log('product :: ', product);
+        navigate('/product-detail', {
+            state: {
+                'finCoNo' : product.finCoNo,
+                'finPrdtCd' : product.finPrdtCd,
+                'dclsMonth' : product.dclsMonth,
+            }
+        });
     }
 
     // init
@@ -123,90 +149,94 @@ const ProductList = ({ className, ...props }) => {
     return (
         <div className={styles.productDetail + " " + className}>
             <div className={styles.product1}>
-                {/* header */}
-                <Header />
                 <div className={styles.frame71}>
+                    {/* header */}
+                    <Header />
                     <div className={styles.frame72}>
-                        <div className={`${styles.font28} ${styles.bold700} `} >예·적금 상품</div>
-
+                        {/* title */}
+                        <div className={`${styles.font28} ${styles.bold700} `}>예·적금 상품</div>
                         {/* condition */}
                         <div className={styles.conditionArea}>
-                            <ConditionArea />
-
-                            {/* selected condition */}
-                            <div className={styles.selectedArea}>
-                                <div className={styles.selected}>
-                                    <span className={styles.cnt}>깨진장독대형</span>
-                                    <img className={styles.x} src="vector2.svg"/>
-                                </ div>
-                            </div>
-                            {/* 초기화 */}
-                            {/*<div className={styles.group95}>*/}
-                            {/*    <div className={styles.btnBox5}></div>*/}
-                            {/*    <img className={styles.group35} src="group-350.svg"/>*/}
-                            {/*</div>*/}
+                            <ConditionArea/>
+                            <ConditionSelectedArea/>
                         </div>
                         {/* bottom sheet button */}
-                        <div className={styles.conditionBtnArea}>
-                            <button className={` ${styles.colorBlack} ${styles.backgroundWhite} `}>소득 · 연령</button>
-                            <button className={` ${styles.colorWhite} ${styles.backgroundNavy}`}>은행선택</button>
-                            {/*<img className={styles.polygon3} src="polygon-30.svg"/>*/}
-                        </div>
-
+                        <ConditionBtnArea/>
                         {/*  productList */}
-                        <ProductArea />
-
-
-
+                        <ProductArea/>
                     </div>
                 </div>
             </div>
         </div>
     )
 
-    function ConditionArea(){
+    // component
+    function ConditionArea() {
         const keys = Object.keys(conditionList);
         let cnt = keys.length;
         return <div className={styles.conditionList}>
-                        { keys.map((e, idx) => {
-                            if(keys[idx] == "rsrvType"){
-                                if(param.actKindCd == 'SV') return CondtionList({"key":keys[idx], "list":conditionList[keys[idx]]});
-                            } else return CondtionList({"key":keys[idx], "list":conditionList[keys[idx]]});
-                        })}
+            {keys.map((e, idx) => {
+                if (keys[idx] == "rsrvType"){
+                    if(param.actKindCd == 'SV') return CondtionList({"key":keys[idx], "list":conditionList[keys[idx]]});
+                } else return CondtionList({"key":keys[idx], "list":conditionList[keys[idx]]});
+            })}
         </div>;
     }
 
-    // TO-DO :: 선택된 파라미터 파란 박스 display 기능, 검색 조건 초기화 기능
+    // 복수 선택 조건 display 되도록 구현
+    // TO-DO :: 소비성향코드를 옵션대로 임의로 추출해서 검색 조건으로 복수 설정되도록 사용할 것인지 협의
     function CondtionList(data){
         return <div className={styles.condition}>
-                    {/* 조건 타이틀 */}
-                    <div className={styles.conditionTit}>
-                        <div className={styles.ellipse}></div>
-                        {/* TO-DO :: 코드 테이블에 표시명을 따로 설정하기 전까지는 해당 처리 불가피 */}
-                        <div className={styles.nm}> {data.list[0].groupCodeNm.replace('코드', '')} </div>
-                    </div>
-                    {   data.list.map((e, idx) => {
-                        return (
-                            <>
-                                <div className={styles.conditionCnts}>
-                                    {/* 파라미터로 선택된 경우, selected css 적용 */}
-                                    <div className={`${styles.cnt} ${param[data.key] == e.codeId ? styles.selected : ''}`} onClick={() => clickParam({...e, "key":data.key})}>
-                                        {e.codeNm}
-                                    </div>
-                                </div>
-                            </>
-                        );
-                    })
+            {/* 조건 타이틀 */}
+            <div className={styles.conditionTit}>
+                <div className={styles.ellipse}></div>
+                {/* TO-DO :: 코드 테이블에 표시명을 따로 설정하기 전까지는 해당 처리 불가피 */}
+                <div className={styles.nm}> {data.list[0].groupCodeNm.replace('코드', '')} </div>
+            </div>
+            {   data.list.map((e, idx) => {
+                return (
+                    <>
+                        <div className={styles.conditionCnts}>
+                            {/* 파라미터로 선택된 경우, selected css 적용 */}
+                            <div className={`${styles.cnt} ${param[data.key] == e.codeId ? styles.selected : ''}`} onClick={() => clickParam({...e, "key":data.key})}>
+                                {e.codeNm}
+                            </div>
+                        </div>
+                    </>
+                );
+            })
             } </div>
+    }
+
+    function ConditionSelectedArea() {
+        return <div className={styles.selectedArea}>
+            <div className={styles.selected}>
+                {/* selected condition */}
+                <span className={styles.cnt}>깨진장독대형</span>
+                <img className={styles.x} src="vector2.svg"/>
+            </ div>
+            <div className={styles.reset} onClick={() => clickReset()}>
+                <img className={styles.ico} src="group-350.svg"/>
+            </div>
+        </div>;
+    }
+
+    function ConditionBtnArea() {
+        return <div className={styles.conditionBtnArea}>
+            <button className={` ${styles.colorBlack} ${styles.backgroundWhite} `}>소득 · 연령</button>
+            <button className={` ${styles.colorWhite} ${styles.backgroundNavy}`}>은행선택</button>
+            {/*<img className={styles.polygon3} src="polygon-30.svg"/>*/}
+        </div>;
     }
 
     // TO-DO :: top3인 경우 좌측에 rank 표시, 상품이 속하는 소비성향목록 아이콘 표시
     function ProductArea() {
-
         return <div className={styles.productListArea}>
-            { productList.map((e, idx) => {
+            {productList.map((e, idx) => {
                 return (<>
-                        <div className={styles.product}>
+                        <div className={styles.product} onClick={(e) => clickProduct(idx)}>
+                            {/* rank */}
+                            {/*<div style={{'display':'inline-block'}}>{idx}</div>*/}
                             {/* productTit*/}
                             <div className={styles.productTit}>
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>
@@ -218,9 +248,9 @@ const ProductList = ({ className, ...props }) => {
                             {/* productCnts*/}
                             <div className={styles.productCnts}>
                                 <div className={styles.rate}>
-                                                <span
-                                                    className={` ${styles.font18} ${styles.colorOrange} ${styles.bold800} `}
-                                                    style={{"margin-right": "10px"}}>최고</span>
+                                    <span
+                                        className={` ${styles.font18} ${styles.colorOrange} ${styles.bold800} `}
+                                        style={{"margin-right": "10px"}}>최고</span>
                                     <span
                                         className={` ${styles.font32} ${styles.colorNavy} ${styles.bold700} `}>{e.intrRate2}</span>
                                     <span
