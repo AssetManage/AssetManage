@@ -22,6 +22,7 @@ public class CodeRepositoryImpl implements CodeRepositoryCustom {
         List<CodeDto.ResponseAll> list =
                 jpaQueryFactory.select(Projections.fields(CodeDto.ResponseAll.class
                                 , qCode.groupCode
+                                , CodeExpression.retCodeNm(qCode.groupCode, "*").as("groupCodeNm")
                                 , qCode.codeId
                                 , qCode.codeNm
                                 , qCode.etc1
