@@ -52,10 +52,6 @@
     height: 56px;
 }
 
-.div48 {
-    line-height: 26px;
-    font-weight: 500;
-}
 .span74 {
     font-size: var(--font-size-9xl);
     font-weight: 600;
@@ -75,6 +71,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 */
     gap: 20px; /* 그리드 아이템 간격 */
+    text-align:center;
 }
 
 .group-parent0,
@@ -89,7 +86,7 @@
     width: 56px;
 }
 .div48, .div50, .div52 {
-    right: 70%;
+    right: 50%;
     position: relative;
     line-height: 26px;
     font-weight: 500;
@@ -109,7 +106,7 @@
     line-height: 46px;
     font-size: var(--font-size-11xl);
     color: var(--color-mediumslateblue-200);
-    margin-top: 8%;
+    padding: 15% 0% 0% 0%;
 }
 .high_interest_section {
     display: flex; /* Flexbox 레이아웃 사용 */
@@ -180,14 +177,9 @@
 .group-child,
 .group-item,
 .group-interest {
+    padding: 10% 0 0 10%;
     margin-right: 10px; /* 요소들 사이의 간격 조절 */
     margin-top:4%;
-}
-
-.div49,
-.div51,
-.high_interest_section {
-    flex: 1; /* 각 요소가 동일한 너비를 가지도록 설정 */
 }
 
 .div48,

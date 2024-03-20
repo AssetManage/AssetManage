@@ -27,7 +27,7 @@ const ProductRecmdPopup2 = () => {
           <img
             className={styles.shinhanIcoIcon}
             alt=""
-            src="/shinhanico@2x.png"
+            src="/bank-icons/shinhanico@2x.png"
           />
           <div className={styles.sTit}>
             <div className={styles.div4}>신한은행</div>
