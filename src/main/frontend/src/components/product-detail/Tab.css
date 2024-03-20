@@ -1,10 +1,7 @@
 .tab-menu {
-    position: fixed;
-    left: 8%;
-    top: 60%;
     width: 20%;
-    transition: top 0.9s ease;
-    height: 50%;
+    height: 100%;
+    margin-top: 5%;
 }
 
 .tab-menu.scrolled {

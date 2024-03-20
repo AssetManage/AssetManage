@@ -140,35 +140,30 @@ const BankDetail = () => {
                     </div>
                 </div>
                 <div className="group-parent">
-                    <div className="group-parent0">
-                        <img className="group-child" alt="" src="/group-15.svg"/>
-                        <div className="div49">
-                            <b>{minRegiPeriod}~{maxRegiPeriod}</b>
-                            <span className="span74">개월</span>
+                    <div className="group-contents">
+                        <div className="title_section">가입기간</div>
+                        <div className="data_section">
+                            <img className="group-img" alt="" src="/group-15.svg"/>
+                            <b className="detail_number">{minRegiPeriod}~{maxRegiPeriod}</b>
+                            <span className="end_section">개월</span>
                         </div>
-                        <div className="div48">가입기간</div>
                     </div>
-                    <div className="group-parent1">
-                        <img className="group-item" alt="" src="/group-14.svg"/>
+                    <div className="group-contents">
+                        <div className="title_section">가입금액</div>
+                        <div className="data_section">
+                            <img className="group-img" alt="" src="/group-14.svg"/>
+                            <b className="detail_number">{regiAmount_num}</b>
+                            <div className="end_section"> {regiAmount}</div>
+                        </div>
+                    </div>
+                    <div className="group-contents">
+                        <div className="title_section">최고금리</div>
+                        <div className="data_section">
+                            <img className="group-img" alt="" src="/group-8.svg"/>
+                            <b className="detail_number">연 {highestInterestRate}%</b>
+                            <div className="end_section">(세전)</div>
+                        </div>
 
-                        <div className="div51">
-                            <span>
-                              <b>{regiAmount_num}</b>
-                            </span>
-                            <span className="span75">
-                              <span className="span76"> {regiAmount}</span>
-                            </span>
-                        </div>
-                        <div className="div50">가입금액</div>
-                    </div>
-                    <div className="group-parent2">
-                        <img className="group-interest" alt="" src="/group-8.svg"/>
-                        <div className="high_interest_section">
-                            <b className="b21">연</b>
-                            <b className="b22">{highestInterestRate} %</b>
-                            <div className="div53">(세전)</div>
-                        </div>
-                        <div className="div52">최고금리</div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,46 @@
+.detail11920,
+.detail11920 * {
+	box-sizing: border-box;
+	font-family: var(--font-pretendard);
+}
+.detail11920 {
+	background: #ffffff;
+	height: 1440px;
+	position: relative;
+	overflow: hidden;
+}
+
+.detail11920-2{
+	width: 1440px;
+	height: 1316px;
+	position: absolute;
+	left: calc(50% - 720px);
+	top: 39px;
+}
+
+.detail11920-3 {
+	width: 1180px;
+	height: 1207px;
+	position: absolute;
+	left: calc(50% - 590px);
+	top: 109px;
+}
+
+.header-wrapper{
+	width:100%;
+	height:10%;
+}
+
+.tab-menu-wrapper {
+	position: relative;
+	font-size: var(--font-size-lg);
+}
+
+
+.group-wrapper {
+	position: relative; /* 부모 요소의 위치를 상대적으로 설정 */
+}
+
+.info-wrapper{
+	display: flex; /* 자식 요소를 수평으로 배치하기 위해 flexbox를 사용합니다. */
+}

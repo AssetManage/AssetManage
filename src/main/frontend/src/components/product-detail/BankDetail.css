@@ -1,3 +1,15 @@
+.group-parent {
+    display: flex; /* 자식 요소들을 수평으로 배치하기 위해 flexbox를 사용합니다. */
+    justify-content: space-between; /* 요소들을 왼쪽과 오른쪽 끝에 정렬하고 중간에 공간을 만듭니다. */
+    height: 30%;
+    padding: 0% 10% 0% 10%;
+}
+
+.group-contents {
+    width: 30%;
+    height: 100%;
+}
+
 
 .bg-box11,
 .shinhan-ico-icon3 {
@@ -52,7 +64,7 @@
     height: 56px;
 }
 
-.span74 {
+.end_section {
     font-size: var(--font-size-9xl);
     font-weight: 600;
     color: var(--color-gray-200);
@@ -66,31 +78,15 @@
     height: 48px;
 }
 
-
-.group-parent{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 */
-    gap: 20px; /* 그리드 아이템 간격 */
-    text-align:center;
-}
-
-.group-parent0,
-.group-parent1,
-.group-parent2 {
-    padding: 20px; /* 내부 여백 */
-}
-
-
 .group-item {
     top: 0;
     width: 56px;
 }
-.div48, .div50, .div52 {
-    right: 50%;
+.title_section{
     position: relative;
     line-height: 26px;
-    font-weight: 500;
-    bottom: 100%;
+    font-weight: 600;
+    left: 30%;
 }
 
 .span76 {
@@ -101,12 +97,11 @@
     font-weight: 600;
 }
 
-.div49, .div51, .high_interest_section{
+.detail_number{
     position: relative;
     line-height: 46px;
     font-size: var(--font-size-11xl);
     color: var(--color-mediumslateblue-200);
-    padding: 15% 0% 0% 0%;
 }
 .high_interest_section {
     display: flex; /* Flexbox 레이아웃 사용 */
@@ -114,8 +109,9 @@
 }
 
 .b21,
-.b22,
-.div53 {
+.detail_number,
+.div53,
+.end_section{
     white-space: nowrap; /* 줄 바꿈 방지 */
 }
 
@@ -123,38 +119,12 @@
     margin-right: 25%; /* div53의 오른쪽 마진을 0으로 설정하여 b21, b22와 붙도록 합니다 */
 }
 
-.group-parent0 {
-    position: relative;
-    top: 0;
-    width: 100%;
-    height: 10%;
-}
-
-.group-parent1{
-    position: relative;
-    top: 0;
-    width: 100%;
-    height: 10%;
-}
-
-
-.group-parent2{
-    position: relative;
-    top: 0;
-    width: 100%;
-    height: 10%;
-}
 
 .b21 {
     top: 2px;
     left: 0;
 }
-.b22 {
-    top: 2px;
-    left: 20px;
-    font-size: var(--font-size-11xl);
-    line-height: 46px;
-}
+
 
 .div53 {
     top: 0;
@@ -164,22 +134,9 @@
     color: var(--color-gray-200);
 }
 
+.group-img{
+    padding: 0% 0 0 10%;
 
-
-
-.group-parent0,
-.group-parent1,
-.group-parent2 {
-    display: flex; /* Flexbox 레이아웃 사용 */
-    align-items: center; /* 수직 가운데 정렬 */
-}
-
-.group-child,
-.group-item,
-.group-interest {
-    padding: 10% 0 0 10%;
-    margin-right: 10px; /* 요소들 사이의 간격 조절 */
-    margin-top:4%;
 }
 
 .div48,
@@ -189,23 +146,6 @@
     flex: none; /* 요소들의 너비는 고정으로 설정 */
 }
 
-
-.group-parent0 {
-    grid-column: 1; /* 첫 번째 열에 배치 */
-}
-
-.group-parent1 {
-    grid-column: 2; /* 두 번째 열에 배치 */
-}
-
-.group-parent2 {
-    grid-column: 3; /* 세 번째 열에 배치 */
-}
-.b23,
-.div54,
-.group-parent {
-    position: relative;
-}
 .b23 {
     top: 0;
     letter-spacing: -0.02em;
@@ -226,13 +166,13 @@
 }
 
 .bg-box-parent {
-    position: absolute;
-    margin-top: 8%;
-    margin-left:8%;
-    width: 80%;
     height: 360px;
     text-align: left;
     font-size: var(--font-size-base);
     color: var(--color-gray-200);
     font-family: var(--font-pretendard);
+}
+.data_section{
+    display: flex; /* 자식 요소들을 수평으로 배치하기 위해 flexbox를 사용합니다. */
+    justify-content: space-between; /* 요소들을 왼쪽과 오른쪽 끝에 정렬하고 중간에 공간을 만듭니다. */
 }
