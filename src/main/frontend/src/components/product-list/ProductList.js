@@ -5,8 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Sheet from 'react-modal-sheet';
 
 import styles from "./ProductList.module.css";
-
 import Header from '../common/header/Header';
+
+// B/S
+import * as BS from "./bottomSheet/BS";
 
 const ProductList = ({ className, ...props }) => {
 
@@ -27,8 +29,9 @@ const ProductList = ({ className, ...props }) => {
     const [conditionList, setCondtionList] = useState({});
     const [productList, setProductList] = useState([]);
 
-    // modal
-    const [isOpen, setOpen] = useState(false);
+    // TO-DO :: 외부 컴포넌트와 연동해서 이벤트 호출 및 리턴 데이터 가져오는 방법 찾기
+    const [isOpen1, setOpen1] = useState(false);
+    const [isOpen2, setOpen2] = useState(false);
 
     const init = async() => {
 
@@ -149,9 +152,9 @@ const ProductList = ({ className, ...props }) => {
     return (
         <div className={styles.productDetail + " " + className}>
             <div className={styles.product1}>
+                {/* header */}
+                <Header />
                 <div className={styles.frame71}>
-                    {/* header */}
-                    <Header />
                     <div className={styles.frame72}>
                         {/* title */}
                         <div className={`${styles.font28} ${styles.bold700} `}>예·적금 상품</div>
@@ -166,6 +169,14 @@ const ProductList = ({ className, ...props }) => {
                         <ProductArea/>
                     </div>
                 </div>
+                {/*<BottomSheet />*/}
+                {/* TO-DO :: 임시 */}
+                {isOpen1 && (
+                    <BS.BankBS></BS.BankBS>
+                )}
+                {isOpen2 && (
+                    <BS.ConditionsBS></BS.ConditionsBS>
+                )}
             </div>
         </div>
     )
@@ -197,8 +208,8 @@ const ProductList = ({ className, ...props }) => {
                 return (
                     <>
                         <div className={styles.conditionCnts}>
-                            {/* 파라미터로 선택된 경우, selected css 적용 */}
-                            <div className={`${styles.cnt} ${param[data.key] == e.codeId ? styles.selected : ''}`} onClick={() => clickParam({...e, "key":data.key})}>
+                            <div className={`${styles.cnt} ${param[data.key] == e.codeId ? styles.selected : ''}`}
+                                 onClick={() => clickParam({...e, "key":data.key})}>
                                 {e.codeNm}
                             </div>
                         </div>
@@ -223,8 +234,8 @@ const ProductList = ({ className, ...props }) => {
 
     function ConditionBtnArea() {
         return <div className={styles.conditionBtnArea}>
-            <button className={` ${styles.colorBlack} ${styles.backgroundWhite} `}>소득 · 연령</button>
-            <button className={` ${styles.colorWhite} ${styles.backgroundNavy}`}>은행선택</button>
+            <button className={` ${styles.colorBlack} ${styles.backgroundWhite}`} onClick={() => setOpen2(true) } >소득 · 연령</button>
+            <button className={` ${styles.colorWhite} ${styles.backgroundNavy}`} onClick={() => setOpen1(true) }>은행선택</button>
             {/*<img className={styles.polygon3} src="polygon-30.svg"/>*/}
         </div>;
     }
