@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SignService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     public SignService(UserRepository userRepository, PasswordEncoder passwordEncoder,

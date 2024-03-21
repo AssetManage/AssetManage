@@ -22,6 +22,8 @@ public enum ErrorCode {
     AGE_CD_IS_NULL(HttpStatus.BAD_REQUEST, "PARAM-002", "연령대는 필수 파라미터입니다."),
     INCOME_SCOPE_CD_IS_NULL(HttpStatus.BAD_REQUEST, "PARAM-003", "소득범위코드는 필수 파라미터입니다."),
 
+    DUPLICATE_TELNUM(HttpStatus.BAD_REQUEST, "USER-002", "이미 가입된 번호입니다.")
+
     ;
 
 
