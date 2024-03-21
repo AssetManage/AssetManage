@@ -62,7 +62,7 @@ function Header() {
 	}, []);
 
 	return (
-		<div>
+		<div className={styles.header}>
 			<div className={styles.logo} onClick={() => navigate('/main')}>LOGO</div>
 			<div className={styles.menu}>
 				<div className={styles.menu01} onClick={() => navigate('/main')}>예금</div>
@@ -73,7 +73,7 @@ function Header() {
 			{!loginState &&
 			<div className={styles.vectorParent}>
 				<div className={styles.vectorDiv} onClick={() => login()}>
-					<img className={styles.vectorIcon2} alt='' src='/vector.svg' />
+					<img className={styles.vectorIcon} alt='' src='/vector.svg' />
 					<b className={styles.logIn}>Log in</b>
 				</div>
 				<div className={styles.vectorDiv} onClick={() => navigate('/sign-up')}>
@@ -84,7 +84,7 @@ function Header() {
 			}
 			{/* 로그인 상태 */}
 			{loginState &&
-            <div className={styles.div}>
+            <div className={styles.vectorParent}>
 				<div className={styles.vectorDiv} onClick={() => logout()}>
                     <img className={styles.vectorIcon} alt='' src='/vector.svg' />
                     <b className={styles.logOut}>Log out</b>
