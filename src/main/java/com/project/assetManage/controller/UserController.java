@@ -12,18 +12,16 @@ import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Tag(name = "User", description = "사용자 정보 조회")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @RestController
-@RequestMapping("st/user")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -72,6 +70,23 @@ public class UserController {
         List<UserDto.ResponseCustom> list = userService.selectUserListWithComputeIncome(param);
 
         return new UserDto.Result(stat, list);
+    }
+
+    @Operation(summary = "마이페이지 정보 조회", description = "해당 유저의 마이페이지 정보를 조회한다.")
+    @GetMapping("/myInfo")
+    public UserDto.ResultOne getMyInfo( @AuthenticationPrincipal CustomUserDetails user){
+        UserDto.Request param = new UserDto.Request(user.getUser().getUserSeq());
+        UserDto.UserMyInfoResponseDTO ret = userService.getUserMyInfo(param);
+        String stat = "SUCCESS";
+        return new UserDto.ResultOne(stat, ret);
+    }
+
+
+    @PostMapping("/update")
+    public UserDto.ResultOne updateUserInfo(@AuthenticationPrincipal CustomUserDetails user, @RequestBody UserDto.Request request){
+        UserDto.UpdateDTO ret = userService.updateUserInfo(user, request);
+        String stat = "SUCCESS";
+        return new UserDto.ResultOne(stat, ret);
     }
 
 }
