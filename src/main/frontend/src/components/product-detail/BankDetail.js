@@ -1,18 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import "./BankDetail.css";
 import ProductDetailContext, { useProductDetail } from './Context/ProductDetailContext'; // ProductDetailProvider에서 생성한 Context를 가져옵니다.
+import { useLocation } from 'react-router-dom';
 
 const BankDetail = () => {
-    // ProductDetailContext에서 productData를 가져옵니다.
     const { productData } = useContext(ProductDetailContext);
-
-    // console.log('productData:', JSON.stringify(productData));
-
     const { getProduct } = useProductDetail();
+    const location = useLocation();
 
     useEffect(() => {
-        getProduct('0014807', '10141114300011', '202402');
+        const { finCoNo, finPrdtCd, dclsMonth } = location.state;
+        getProduct(finCoNo, finPrdtCd, dclsMonth);
     }, []);
+
 
     let bankLogo = '';
         const finCoNo = productData?.list[0]?.finCoNo;
@@ -134,7 +134,7 @@ const BankDetail = () => {
                 </div>
                 <div className="parent2">
                     <b className="b23">{finPrdtNm}</b>
-                    <div className="div54">
+                    <div className="product_detail_section">
                         회전주기(매1년)마다 영업점 방문 없이 변동금리로 자동 회전되는 장기
                         목돈굴리기 상품
                     </div>
@@ -144,24 +144,33 @@ const BankDetail = () => {
                         <div className="title_section">가입기간</div>
                         <div className="data_section">
                             <img className="group-img" alt="" src="/group-15.svg"/>
-                            <b className="detail_number">{minRegiPeriod}~{maxRegiPeriod}</b>
-                            <span className="end_section">개월</span>
+                            <div className="group_detail_section">
+                                <b className="detail_number">{minRegiPeriod}~{maxRegiPeriod}</b>
+                                <span className="end_section">개월</span>
+                            </div>
                         </div>
                     </div>
                     <div className="group-contents">
-                        <div className="title_section">가입금액</div>
+                        <div className="title_section_second">가입금액</div>
                         <div className="data_section">
                             <img className="group-img" alt="" src="/group-14.svg"/>
-                            <b className="detail_number">{regiAmount_num}</b>
-                            <div className="end_section"> {regiAmount}</div>
+                            <div className="group_detail_section">
+                                {regiAmount !== '해당없음' ? (
+                                    <b className="amount_section1">{regiAmount_num}</b>
+                                ) : (
+                                    <div className="amount_section2">{regiAmount}</div>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="group-contents">
-                        <div className="title_section">최고금리</div>
+                        <div className="title_section_last">최고금리</div>
                         <div className="data_section">
                             <img className="group-img" alt="" src="/group-8.svg"/>
-                            <b className="detail_number">연 {highestInterestRate}%</b>
-                            <div className="end_section">(세전)</div>
+                            <div className="group_detail_section">
+                                <b className="detail_number">연 {highestInterestRate}%</b>
+                                <div className="end_section">(세전)</div>
+                            </div>
                         </div>
 
                     </div>
