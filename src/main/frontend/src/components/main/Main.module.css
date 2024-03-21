@@ -9,6 +9,12 @@
 	position: relative;
 	overflow: hidden;
 }
+.header-wrapper{
+	position: absolute;
+	height: 80px;
+	width: 1180px;
+	left: calc(50% - 590px);
+}
 
 .frame49 {
 	width: 1440px;

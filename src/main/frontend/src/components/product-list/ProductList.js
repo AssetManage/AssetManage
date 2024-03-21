@@ -24,12 +24,12 @@ const ProductList = ({ className, ...props }) => {
     // const isin = false;
 
     // variables
-    const initParam = {'actKindCd':'DP', 'joinWayCd':'N', 'cnsmpInclnCd':'AT'};
+    const initParam = {'actKindCd':'DP', 'joinWayCd':'N', 'cnsmpInclnCd':'AT', 'finCoNoList':[]};
     const [param, setParam] = useState(initParam);
     const [conditionList, setCondtionList] = useState({});
     const [productList, setProductList] = useState([]);
 
-    // TO-DO :: 외부 컴포넌트와 연동해서 이벤트 호출 및 리턴 데이터 가져오는 방법 찾기
+    // TO-DO :: 하나로 사용하는 방법 찾기
     const [isOpen1, setOpen1] = useState(false);
     const [isOpen2, setOpen2] = useState(false);
 
@@ -97,6 +97,10 @@ const ProductList = ({ className, ...props }) => {
 
         axios.get('/st/product/selectProductListWithOpt', {
             params : params
+            // TO-DO :: list 파라미터 parsing
+            // , paramsSerializer: params => {
+            //     return qs.stringify(params, { arrayFormat : 'brackets' })
+            // }
         })
             .then(res => {
                 setProductList(res.data.list);
@@ -144,6 +148,16 @@ const ProductList = ({ className, ...props }) => {
         });
     }
 
+    const callBack1 = (ret) => {
+        setOpen1(false);
+        console.log('ret :: ', ret);
+    }
+
+    const callBack2 = (ret) => {
+        setOpen2(false);
+        console.log('ret :: ', ret);
+    }
+
     // init
     useEffect(() => {
         init();
@@ -172,10 +186,10 @@ const ProductList = ({ className, ...props }) => {
                 {/*<BottomSheet />*/}
                 {/* TO-DO :: 임시 */}
                 {isOpen1 && (
-                    <BS.BankBS></BS.BankBS>
+                    <BS.BankBS open={isOpen1} param={param} callback={callBack1}></BS.BankBS>
                 )}
                 {isOpen2 && (
-                    <BS.ConditionsBS></BS.ConditionsBS>
+                    <BS.ConditionsBS open={isOpen2} param={param} callback={callBack2}></BS.ConditionsBS>
                 )}
             </div>
         </div>
@@ -247,7 +261,7 @@ const ProductList = ({ className, ...props }) => {
                 return (<>
                         <div className={styles.product} onClick={(e) => clickProduct(idx)}>
                             {/* rank */}
-                            {/*<div style={{'display':'inline-block'}}>{idx}</div>*/}
+                            {/*<span style={{'display': 'inline-block'}}>{idx + 1}</span>*/}
                             {/* productTit*/}
                             <div className={styles.productTit}>
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>

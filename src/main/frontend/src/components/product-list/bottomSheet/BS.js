@@ -20,12 +20,13 @@ const getCodeList = async (grpCodeId, codeId) => {
     });
 }
 
-export const BankBS = () => {
-    const [isOpen, setOpen] = useState(false);
+export const BankBS = ({className, ...props}) => {
+    // 부모에서 넘어온 param
+    // console.log('props :: ', props);
 
     // variables
     const [bankList, setBankList] = useState([]);
-    const [selectedList, setSelectedList] = useState([]);
+    const [selectedList, setSelectedList] = useState(props.param['finCoNoList']);
     const init = async() => {
         setBankList(await getCodeList('fin_co_no'));
     }
@@ -39,8 +40,9 @@ export const BankBS = () => {
     }
 
     const clickBtnConfirm = (e) => {
-        console.log('selectedList :: ', selectedList);
-        setOpen(false);
+        // console.log('selectedList :: ', selectedList);
+        props.callback(selectedList);
+        // setOpen(false);
     }
 
     useEffect(() => {
@@ -49,8 +51,8 @@ export const BankBS = () => {
 
     return (
         <Sheet
-            isOpen={true}
-            onClose={() => setOpen(false)}
+            isOpen={props.open}
+            onClose={() => props.callback(selectedList) }
             snapPoints={[750, 750, 100, 0]}
             initialSnap={1}
         >
@@ -94,12 +96,13 @@ export const BankBS = () => {
 }
 
 export const ConditionsBS = ({className, ...props}) => {
-    const [isOpen, setOpen] = useState(false);
+    // 부모에서 넘어온 param
+    // console.log('props :: ', props);
 
     // variables
     const [ageCdList, setAgeCdList] = useState([]);
     const [incomeScopeCdList, setIncomeScopeCdList] = useState([]);
-    const [selected, setSelected] = useState({});
+    const [selected, setSelected] = useState({'ageCd':props.param.ageCd, 'incomeScopeCd':props.param.incomeScopeCd});
 
     const init = async() => {
         setAgeCdList(await getCodeList('age_cd'));
@@ -119,8 +122,8 @@ export const ConditionsBS = ({className, ...props}) => {
     }
 
     const clickBtnConfirm = (e) => {
-        console.log('selected :: ', selected);
-        setOpen(false);
+        // console.log('selected :: ', selected);
+        props.callback(selected);
     }
 
     useEffect(() => {
@@ -129,8 +132,8 @@ export const ConditionsBS = ({className, ...props}) => {
 
     return (
         <Sheet
-            isOpen={true}
-            onClose={() => setOpen(false)}
+            isOpen={props.open}
+            onClose={() => props.callback(selected)}
             snapPoints={[550, 550, 100, 0]}
             initialSnap={1}
         >
@@ -140,18 +143,10 @@ export const ConditionsBS = ({className, ...props}) => {
                     <div className={conditionsStyles.frame74 + " " + className}>
                         <div className={conditionsStyles.frame77}>
                             <div className={conditionsStyles.conditionList}>
-                                <div className={conditionsStyles.condition}>
-                                    <div className={conditionsStyles.tit}>소득</div>
-                                    <div className={conditionsStyles.cnts}>
-                                        <AgeList />
-                                    </div>
-                                </div>
-                                <div className={conditionsStyles.condition}>
-                                    <div className={conditionsStyles.tit}>연령</div>
-                                    <div className={conditionsStyles.cnts}>
-                                        <IncomeScopeList />
-                                    </div>
-                                </div>
+                                {/* 소득 */}
+                                <IncomeScopeList />
+                                {/* 연령 */}
+                                <AgeList />
                                 <div className={conditionsStyles.btnArea}>
                                     <button
                                         className={conditionsStyles.btnConfirm} onClick={(e) => clickBtnConfirm(e)}>
@@ -169,24 +164,30 @@ export const ConditionsBS = ({className, ...props}) => {
     );
 
     function AgeList(){
-        return ageCdList.map((e, idx) => {
-            return (
-                    <div className={` ${conditionsStyles.cnt} ${selected['ageCd'] === e.codeId ? conditionsStyles.selected : ''}`}
-                         onClick={() => clickCondition({...e, 'key':'ageCd'})}>
-                        {e.codeNm}
-                    </div>
-                );
-        })
+        return (<div className={conditionsStyles.condition}>
+            <div className={conditionsStyles.tit}>연령</div>
+            <div className={conditionsStyles.cnts}>
+                {ageCdList.map((e, idx) => {
+            return <div className={` ${conditionsStyles.cnt} ${selected['ageCd'] === e.codeId ? conditionsStyles.selected : ''}`}
+                             onClick={() => clickCondition({...e, 'key':'ageCd'})}>
+                            {e.codeNm}
+                        </div>
+            })}
+            </div>
+        </div>)
     }
 
     function IncomeScopeList(){
-        return incomeScopeCdList.map((e, idx) => {
-            return (
-                <div className={` ${conditionsStyles.cnt} ${selected['incomeScopeCd'] === e.codeId ? conditionsStyles.selected : ''}`}
-                     onClick={() => clickCondition({...e, 'key':'incomeScopeCd'})}>
-                    {e.codeNm}
-                </div>
-            );
-        })
+        return (<div className={conditionsStyles.condition}>
+            <div className={conditionsStyles.tit}>소득</div>
+            <div className={conditionsStyles.cnts}>
+                {incomeScopeCdList.map((e, idx) => {
+                    return <div className={` ${conditionsStyles.cnt} ${selected['incomeScopeCd'] === e.codeId ? conditionsStyles.selected : ''}`}
+                                onClick={() => clickCondition({...e, 'key':'incomeScopeCd'})}>
+                        {e.codeNm}
+                    </div>
+                })}
+            </div>
+        </div>)
     }
 };

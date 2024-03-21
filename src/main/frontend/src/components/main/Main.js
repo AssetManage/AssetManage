@@ -270,7 +270,9 @@ const Main = ({ className, ...props }) => {
 
             <div className={styles.frame49}>
                 {/* header*/}
-                <Header/>
+                <div className="header-wrapper">
+                    <Header/>
+                </div>
                 <div className={styles.frame48}>
 
                     {/* banner */}
@@ -285,8 +287,8 @@ const Main = ({ className, ...props }) => {
                     </div>
 
                     <div className={styles.productArea}>
-                        <ProductTitle2 />
-                        <ProductList2 />
+                        <ProductTitle2/>
+                        <ProductList2/>
                         {/*<img className={styles.lArrow} src="/larrow.svg"/>*/}
                     </div>
                 </div>
