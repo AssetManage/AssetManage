@@ -68,6 +68,21 @@
     font-size: var(--font-size-9xl);
     font-weight: 600;
     color: var(--color-gray-200);
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.amount_section1{
+    position: relative;
+    line-height: 46px;
+    font-size: var(--font-size-11xl);
+    color: var(--color-mediumslateblue-200);
+}
+
+.amount_section2{
+    font-size: var(--font-size-9xl);
+    font-weight: 600;
+    color: var(--color-gray-200);
+    margin-top:6%;
 }
 
 .group-div {
@@ -83,6 +98,20 @@
     width: 56px;
 }
 .title_section{
+    position: relative;
+    line-height: 26px;
+    font-weight: 600;
+    left: 37%;
+}
+
+.title_section_second{
+    position: relative;
+    line-height: 26px;
+    font-weight: 600;
+    left: 48%;
+}
+
+.title_section_last{
     position: relative;
     line-height: 26px;
     font-weight: 600;
@@ -110,8 +139,7 @@
 
 .b21,
 .detail_number,
-.div53,
-.end_section{
+.div53{
     white-space: nowrap; /* 줄 바꿈 방지 */
 }
 
@@ -151,9 +179,8 @@
     letter-spacing: -0.02em;
     line-height: 55px;
 }
-.div54 {
-    top: 20%;
-    left: 0;
+.product_detail_section {
+    margin-top: 2%;
     font-size: var(--font-size-base);
     line-height: 26px;
 }
@@ -172,7 +199,18 @@
     color: var(--color-gray-200);
     font-family: var(--font-pretendard);
 }
+
+.group_detail_section {
+    margin-top: 4%;
+    margin-left: 3%;
+    display: flex; /* flexbox 레이아웃 사용 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.detail_number {
+    margin-right: 5px; /* detail_number와 end_section 사이의 간격 조절 */
+}
 .data_section{
-    display: flex; /* 자식 요소들을 수평으로 배치하기 위해 flexbox를 사용합니다. */
-    justify-content: space-between; /* 요소들을 왼쪽과 오른쪽 끝에 정렬하고 중간에 공간을 만듭니다. */
+    display:flex;
+    justify-content: center;
 }

@@ -2,15 +2,16 @@ import "./BankInfo.css";
 import React, { useContext, useEffect } from "react";
 import { useTable } from "react-table";
 import ProductDetailContext, { useProductDetail } from "./Context/ProductDetailContext";
+import {useLocation} from "react-router-dom";
 
 const BankInfo = () => {
-    // ProductDetailContext에서 productData를 가져옵니다.
     const { productData } = useContext(ProductDetailContext);
-
     const { getProduct } = useProductDetail();
+    const location = useLocation();
 
     useEffect(() => {
-        getProduct('0014807', '10141114300011', '202402');
+        const { finCoNo, finPrdtCd, dclsMonth } = location.state;
+        getProduct(finCoNo, finPrdtCd, dclsMonth);
     }, []);
 
 
@@ -28,6 +29,25 @@ const BankInfo = () => {
         ],
         []
     );
+    const formatStringWithLineBreaks = (str) => {
+        if (!str) return null; // str이 없으면 null 반환
+        return (
+            <>
+                {str.split(/\n\*|\n/).map((line) => (
+                    <div key={line}>
+                         {line}
+                         {/*{line.startsWith('*') ? [line, <br />] : line}*/}
+                        <br />
+                    </div>
+                ))}
+            </>
+        );
+    };
+
+    const etcNote = formatStringWithLineBreaks(productData?.list[0]?.etcNote);
+    const mtrtInt = formatStringWithLineBreaks(productData?.list[0]?.mtrtInt);
+    const spclCnd = formatStringWithLineBreaks(productData?.list[0]?.spclCnd);
+
 
     // react-table 훅을 사용하여 테이블 데이터 생성
     const { getTableProps, getTableBodyProps, rows, prepareRow } = useTable({
@@ -35,12 +55,14 @@ const BankInfo = () => {
         data: productData ? [
             { Item: '상품명', Content: productData.list[0]?.finPrdtNm },
             { Item: '가입대상', Content: productData.list[0]?.joinMember },
-            { Item: '가입기간', Content: `${productData.list[0]?.productOptionList[0]?.saveTrm}개월 ~ ${productData.list[0]?.productOptionList[productData.list[0]?.productOptionList.length - 1]?.saveTrm}개월` },
-            { Item: '가입금액', Content: productData.list[0]?.etcNote },
-            { Item: '이자 지급 시기', Content: productData.list[0]?.mtrtInt },
-            { Item: '비과세 종합저축', Content: productData.list[0]?.actKindCd },
+            { Item: '가입기간', Content: `${productData.list[0]?.productOptionList[productData.list[0]?.productOptionList.length - 1]?.saveTrm}개월 ~ ${productData.list[0]?.productOptionList[0]?.saveTrm}개월` },
+            { Item: '가입금액', Content: etcNote },
+            { Item: '만기 후 이자율', Content: mtrtInt },
+            { Item: '우대조건', Content: spclCnd },
+            { Item: '가입방법', Content: productData.list[0]?.joinWay },
         ] : [],
     });
+
 
     return (
         <div className="div28">
@@ -95,7 +117,8 @@ const BankInfo = () => {
             </div>
             <div className="product-info" id="notice-detail">
                 <b className= "notice-title">※ 계약 체결 전 상품설명서 및 약관을 확인하시기 바랍니다.</b>
-                <div className="notice-detail"></div>
+                <div className="notice-detail">{etcNote}</div>
+
             </div>
             <div className="product-info-footer">
                 <div className="logo-img">
@@ -105,7 +128,7 @@ const BankInfo = () => {
                     <b className="semi-title">예금자 보호 안내</b>
                     <br/>
                     <span className="protect-detail">이 예금은 예금자보호법에 따라 예금보험공사가 보호하되, 보호 한도는 본 저축은행에 있는 귀하의 모든 예금보호 대상 금융상품의
-원금과 소정의 이자를 합하여 1인당 “최고 5천만원”이며, 5천만원을초과하는 나머지 금액은 보호하지 않습니다.</span>
+원금과 소정의 이자를 합하여 1인당 “최고 5천만원”이며, 5천만원을 초과하는 나머지 금액은 보호하지 않습니다.</span>
                 </div>
             </div>
         </div>

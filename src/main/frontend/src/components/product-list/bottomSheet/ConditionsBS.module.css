@@ -1,0 +1,90 @@
+.frame74,
+.frame74 * {
+    box-sizing: border-box;
+    font-family: var(--font-pretendard);
+}
+.frame74 {
+    height: 611px;
+    position: relative;
+}
+.frame77 {
+    width: 1180px;
+    height: auto;
+    position: absolute;
+    left: calc(50% - 590px);
+    top: 0px;
+    /*border: 1px solid black;*/
+}
+
+.conditionList {
+    width: 800px;
+    height: 530px;
+    position: relative;
+    left: 190px;
+    /*border: 1px solid red;*/
+}
+
+.conditionList > .condition {
+    height: auto;
+    /*border: 1px solid pink;*/
+}
+
+.condition > .tit {
+    color: #080808;
+    text-align: left;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    width: 100%;
+    padding: 10px 0px 0px 13px;
+    position: relative;
+    left: 0px;
+    height: 50px;
+    display: block;
+    /*border: 1px solid blue;*/
+}
+.condition > .cnts {
+    width: 100%;
+    height: auto;
+    /*border: 1px solid aqua;*/
+}
+.condition > .cnts > .cnt {
+    margin: 5px 0px 5px 10px;
+    background: #f4f5f7;
+    border-radius: 5px;
+    width: 188px;
+    height: 48px;
+    color: #080808;
+    text-align: center;
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+}
+.condition > .cnts > .cnt.selected, .condition > .cnts > .cnt:hover {
+    background: rgba(6, 18, 55, 0.84);
+    color: #ffffff;
+}
+.btnArea {
+    display: block;
+    position: relative;
+    text-align: center;
+    overflow: auto;
+    /*border: 1px solid orange;*/
+}
+.btnConfirm {
+    background: #1355ff;
+    border-radius: 5px;
+    width: 400px;
+    height: 54px;
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    margin: 10px;
+    cursor: pointer;
+}
