@@ -24,6 +24,8 @@ public class JwtProvider {
     // 만료시간 : 30min
     private final long exp = 1000L * 60 * 30;
 
+    public static final String HEADER = "Authorization";
+
     private final CustomUserDetailService userDetailService;
 
     public JwtProvider(CustomUserDetailService userDetailService) {

@@ -1,5 +1,6 @@
 package com.project.assetManage.entity;
 
+import com.project.assetManage.dto.UserDto;
 import com.project.assetManage.util.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -112,7 +113,17 @@ public class User extends BaseDateTimeEntity {
     }
 
 
-/*    public void updateConsumtionCode(Long code){
-        this.consumptionCode = code;
-    }*/
+    public void updateInfo(UserDto.Request request){
+        this.userNm = request.getUserNm();
+        this.age = request.getAge();
+        this.ageCd = String.valueOf(request.getAge()/10*10);
+        this.profileImgUrl = request.getProfileImgUrl();
+        this.sexCd = request.getSexCd();
+        this.occupationCd = request.getOccupationCd();
+        this.mobileTelNum = request.getMobileTelNum();
+        this.zipCd = request.getZipCd();
+        this.zipDetailAddr1 = request.getZipDetailAddr1();
+        this.zipDetailAddr2 = request.getZipDetailAddr2();
+        this.prdtRcmdItemCd = request.getPrdtRcmdItemCd();
+    }
 }

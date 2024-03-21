@@ -1,10 +1,8 @@
 package com.project.assetManage.dto;
 
-import com.project.assetManage.entity.UserAccount;
+import com.project.assetManage.entity.User;
 import com.project.assetManage.entity.UserCard;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -21,16 +19,37 @@ public class UserDto {
         private String loginPw;
         private String ageCd;
 
-        public Request(Long userSeq
-            , String userNm
-            , String loginId
-            , String loginPw
-            , String ageCd) {
+        private String profileImgUrl;
+        private String sexCd;
+        private int age;
+        private String occupationCd;//직업
+
+        private String mobileTelNum;
+        private String zipCd;
+        private String zipDetailAddr1;
+        private String zipDetailAddr2;
+
+        private String prdtRcmdItemCd; //상품추천항목
+
+        public Request(Long userSeq, String userNm, String loginId, String loginPw, String ageCd, String profileImgUrl, String sexCd, int age, String occupationCd, String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2, String prdtRcmdItemCd) {
             this.userSeq = userSeq;
             this.userNm = userNm;
             this.loginId = loginId;
             this.loginPw = loginPw;
             this.ageCd = ageCd;
+            this.profileImgUrl = profileImgUrl;
+            this.sexCd = sexCd;
+            this.age = age;
+            this.occupationCd = occupationCd;
+            this.mobileTelNum = mobileTelNum;
+            this.zipCd = zipCd;
+            this.zipDetailAddr1 = zipDetailAddr1;
+            this.zipDetailAddr2 = zipDetailAddr2;
+            this.prdtRcmdItemCd = prdtRcmdItemCd;
+        }
+
+        public Request(Long userSeq){
+            this.userSeq = userSeq;
         }
     }
 
@@ -272,5 +291,78 @@ public class UserDto {
             this.size = list.size();
         }
     }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UserMyInfoResponseDTO {
+        private Long userSeq;
+        private String userNm;
+        private String email;
+        private String profileImgUrl;
+        private String sexCd;
+        private int age;
+        private String occupationCd;//직업
+
+        private String mobileTelNum;
+        private String zipCd;
+        private String zipDetailAddr1;
+        private String zipDetailAddr2;
+
+        private String prdtRcmdItemCd; //상품추천항목
+
+        private String cnsmpInclnCd; //소비성향
+        private String cnsmpInclnNm;
+
+        @Builder
+        public UserMyInfoResponseDTO(Long userSeq, String userNm, String email, String profileImgUrl, String sexCd, int age, String occupationCd, String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2, String prdtRcmdItemCd, String cnsmpInclnCd, String cnsmpInclnNm) {
+            this.userSeq = userSeq;
+            this.userNm = userNm;
+            this.email = email;
+            this.profileImgUrl = profileImgUrl;
+            this.sexCd = sexCd;
+            this.age = age;
+            this.occupationCd = occupationCd;
+            this.mobileTelNum = mobileTelNum;
+            this.zipCd = zipCd;
+            this.zipDetailAddr1 = zipDetailAddr1;
+            this.zipDetailAddr2 = zipDetailAddr2;
+            this.prdtRcmdItemCd = prdtRcmdItemCd;
+            this.cnsmpInclnCd = cnsmpInclnCd;
+            this.cnsmpInclnNm = cnsmpInclnNm;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateDTO{
+        private Long userSeq;
+        private String userNm;
+        private String profileImgUrl;
+        private String sexCd;
+        private int age;
+        private String occupationCd;//직업
+
+        private String mobileTelNum;
+        private String zipCd;
+        private String zipDetailAddr1;
+        private String zipDetailAddr2;
+
+        private String prdtRcmdItemCd; //상품추천항목
+
+        public UpdateDTO(User userUpdate) {
+            this.userSeq = userUpdate.getUserSeq();
+            this.userNm = userUpdate.getUserNm();
+            this.profileImgUrl = userUpdate.getProfileImgUrl();
+            this.sexCd = userUpdate.getSexCd();
+            this.age = userUpdate.getAge();
+            this.occupationCd = userUpdate.getOccupationCd();
+            this.mobileTelNum = userUpdate.getMobileTelNum();
+            this.zipCd = userUpdate.getZipCd();
+            this.zipDetailAddr1 = userUpdate.getZipDetailAddr1();
+            this.zipDetailAddr2 = userUpdate.getZipDetailAddr2();
+            this.prdtRcmdItemCd = userUpdate.getPrdtRcmdItemCd();
+        }
+    }
+
 
 }
