@@ -86,7 +86,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .on(quser.userSeq.eq(qUserComuteIncome.userSeq))
                 .where(
                         UserExpression.eqUserSeq(quser, param.getUserSeq())
-                        , UserExpression.eqAgeCd(quser, param.getAgeCd())
+//                        , UserExpression.eqAgeCd(quser, param.getAgeCd())
                         , UserExpression.eqSecsnYn(quser, 'N')
                 )
                 .fetchOne();
@@ -142,4 +142,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
         return list;
     }
+
+
 }
