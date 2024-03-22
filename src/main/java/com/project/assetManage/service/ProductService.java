@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,6 +63,13 @@ public class ProductService {
             ret = productRepository.selectProductListWithOpt(param);
         }
 
+        // 소비성향에 해당하는 상품 filter
+        // TO-DO :: 건수 많아지면 과부하오므로 queryDsl로 구현할 수 있는 방법 찾기
+        List<ProductDto.ResponseCustom> realRet = new ArrayList<>();
+        for (ProductDto.ResponseCustom product : ret) {
+            if(product.getCnsmpInclnCdListStr().contains(param.getCnsmpInclnCd())) realRet.add(product);
+        }
+
         // 상품 목록 div 내부 소비유형코드 아이콘 동적 생성을 위한 list 반환
         // TO-DO :: queryDsl 별도의 가공 필요, jpa regexp 사용시 오류 해결 방안
         /*
@@ -71,7 +79,7 @@ public class ProductService {
            and code_id regexp 'BP|AT'
            and use_yn = 'Y'
         * */
-        for (ProductDto.ResponseCustom product : ret) {
+        for (ProductDto.ResponseCustom product : realRet) {
             CodeDto.Request code = new CodeDto.Request();
             code.setGroupCode("cnsmp_incln_cd");
             code.setUseYn('Y');
@@ -79,6 +87,6 @@ public class ProductService {
             List<CodeDto.ResponseAll> codeList = codeRepository.selectCodeList(code);
             product.setCnsmpInclnCdList(codeList);
         }
-        return ret;
+        return realRet;
     }
 }

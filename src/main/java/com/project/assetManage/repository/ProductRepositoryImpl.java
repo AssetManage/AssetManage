@@ -100,6 +100,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         QCode qCode = QCode.code;
 
         NumberPath<Long> cnt = Expressions.numberPath(Long.class, "cnt");
+        StringPath cnsmpInclnCdListStr = Expressions.stringPath("cnsmpInclnCdListStr");
 
         List<ProductDto.ResponseCustom> list = null;
         list = jpaQueryFactory.select(Projections.fields(ProductDto.ResponseCustom.class
