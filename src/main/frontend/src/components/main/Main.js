@@ -53,7 +53,7 @@ const Main = ({ className, ...props }) => {
     // TO-DO :: useState 기본값 설정 후 바로 사용할 수 있는 방법 찾기
     const init = () => {
         if(isin){
-            axios.get('/st/user/selectUserSimple', {
+            axios.get('/user/selectUserSimple', {
                 headers:{
                     Authorization : localStorage.getItem('accessToken') // 로그인 사용자 token
                 }
@@ -115,7 +115,7 @@ const Main = ({ className, ...props }) => {
     }
     const getProductList = (area, params) => {
 
-        console.log('params :: ', params);
+        // console.log('params :: ', params);
 
         axios.get('/st/product/selectProductListWithOpt', {
             params : params
@@ -192,7 +192,6 @@ const Main = ({ className, ...props }) => {
         }else{
             param = param2;
         }
-        console.log('param :: ', param);
         navigate('/product-list', {
             state: param
         });

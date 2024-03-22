@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from "qs";
 
 import { useEffect, useState, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -33,6 +34,9 @@ const ProductList = ({ className, ...props }) => {
     const [isOpen1, setOpen1] = useState(false);
     const [isOpen2, setOpen2] = useState(false);
 
+    const [incomeScopeNm, setIncomeScopeNm] = useState('');
+    const [ageNm, setAgeNm] = useState('');
+
     const init = async() => {
 
         // setConditionList
@@ -57,7 +61,7 @@ const ProductList = ({ className, ...props }) => {
         // 소비유형(개미형(AT)), 상품분류(예금(DP)), 가입방식(비대면(N))
         // 로그인한 경우, 로그인 사용자의 소비유형코드, 소득, 연령대를 기본값으로 설정한다
         if(isin){
-            axios.get('/st/user/selectUserSimple', {
+            axios.get('/user/selectUserSimple', {
                 headers:{
                     Authorization : localStorage.getItem('accessToken') // 로그인 사용자 token
                 }
@@ -93,14 +97,13 @@ const ProductList = ({ className, ...props }) => {
     }
 
     const getProductList = (params) => {
-        console.log('params :: ', params);
+        // console.log('params :: ', params);
 
         axios.get('/st/product/selectProductListWithOpt', {
             params : params
-            // TO-DO :: list 파라미터 parsing
-            // , paramsSerializer: params => {
-            //     return qs.stringify(params, { arrayFormat : 'brackets' })
-            // }
+            , paramsSerializer: params => {
+                return qs.stringify(params, { arrayFormat : 'brackets' });
+            }
         })
             .then(res => {
                 setProductList(res.data.list);
@@ -148,14 +151,35 @@ const ProductList = ({ className, ...props }) => {
         });
     }
 
+    const clickDelete = (idx)=> {
+        setParam((prev) => {
+            let list = param['finCoNoList'].filter(function(_, index) {
+                return index !== idx;
+            });
+            let def = {...param, 'finCoNoList':list};
+            getProductList(def);
+            return def;
+        });
+    }
+
     const callBack1 = (ret) => {
         setOpen1(false);
-        console.log('ret :: ', ret);
+        setParam((prev) => {
+            let def = {...param, 'finCoNoList':ret};
+            getProductList(def);
+            return def;
+        });
     }
 
     const callBack2 = (ret) => {
         setOpen2(false);
-        console.log('ret :: ', ret);
+        setParam((prev) => {
+            let def = {...param};
+            def['incomeScopeCd'] = ret['incomeScopeCd'];
+            def['ageCd'] = ret['ageCd'];
+            getProductList(def);
+            return def;
+        });
     }
 
     // init
@@ -235,26 +259,57 @@ const ProductList = ({ className, ...props }) => {
 
     function ConditionSelectedArea() {
         return <div className={styles.selectedArea}>
-            <div className={styles.selected}>
-                {/* selected condition */}
-                <span className={styles.cnt}>깨진장독대형</span>
-                <img className={styles.x} src="vector2.svg"/>
-            </ div>
+
+                {/* selected condition :: 복수 선택이 가능한 조건 display */}
+                {/* 은행 */}
+                {param['finCoNoList'].map((e, idx) => {
+                    return (<div className={styles.selected}>
+                        <span className={styles.cnt}>{ e }</span>
+                        <img className={styles.x} src="vector2.svg" onClick={(e) => clickDelete(idx) }/>
+                    </ div>)
+                })}
             <div className={styles.reset} onClick={() => clickReset()}>
                 <img className={styles.ico} src="group-350.svg"/>
             </div>
         </div>;
     }
+    //  const fetch = async (ret) => {
+    //     return await getCodeList('income_scope_cd', 'A')
+    //         // .then(v => { return v[0] });
+    // }
+
 
     function ConditionBtnArea() {
+        const cnt = param['finCoNoList'].length;
+        let bankTxt = '은행선택';
+        if (0 < cnt) bankTxt = '은행 ' + cnt + '개 선택';
+
+        let incomeScope = '전 소득';
+        let age = '전 연령';
+
+        const incomeScopeCd = param['incomeScopeCd'];
+        if (null != incomeScopeCd && '' !== incomeScopeCd) {
+            getCodeList('income_scope_cd', incomeScopeCd).then(value => {setIncomeScopeNm(value[0].codeNm)});
+            incomeScope = incomeScopeNm;
+        }
+
+        const ageCd = param['ageCd'];
+        if (null != ageCd && '' !== ageCd) {
+            getCodeList('age_cd', ageCd).then(value => {setAgeNm(value[0].codeNm)});
+            age = ageNm;
+        }
+
+        const conditionTxt = incomeScope + ' · ' + age;
+
         return <div className={styles.conditionBtnArea}>
-            <button className={` ${styles.colorBlack} ${styles.backgroundWhite}`} onClick={() => setOpen2(true) } >소득 · 연령</button>
-            <button className={` ${styles.colorWhite} ${styles.backgroundNavy}`} onClick={() => setOpen1(true) }>은행선택</button>
+            <button className={` ${styles.colorBlack} ${styles.backgroundWhite}`}
+                    onClick={() => {if(!isOpen1) setOpen2(true)}}>{conditionTxt}</button>
+            <button className={` ${styles.colorWhite} ${styles.backgroundNavy}`}
+                    onClick={() => {if(!isOpen2) setOpen1(true)}}>{bankTxt}</button>
             {/*<img className={styles.polygon3} src="polygon-30.svg"/>*/}
         </div>;
     }
 
-    // TO-DO :: top3인 경우 좌측에 rank 표시, 상품이 속하는 소비성향목록 아이콘 표시
     function ProductArea() {
         return <div className={styles.productListArea}>
             {productList.map((e, idx) => {
@@ -264,6 +319,7 @@ const ProductList = ({ className, ...props }) => {
                             {/*<span style={{'display': 'inline-block'}}>{idx + 1}</span>*/}
                             {/* productTit*/}
                             <div className={styles.productTit}>
+                                {(idx + 1) < 4 ? <span className={styles.rank}> {idx + 1} </span> : <></>}
                                 <img className={styles.ico} src={e.finCoNoImgUrl}/>
                                 <div className={styles.tit}>
                                     <span className={` ${styles.font16} ${styles.bold500} `}> {e.korCoNm} </span>
@@ -283,6 +339,12 @@ const ProductList = ({ className, ...props }) => {
                                 </div>
                                 <div className={styles.trms}>
                                     <span className={` ${styles.font14} ${styles.colorBlack} ${styles.bold400}`}>({e.saveTrm}개월 / 세금공제전 / {e.joinWayNm})</span>
+                                </div>
+                                {/* 상품이 속하는 소비성향목록 아이콘 표시 */}
+                                <div className={styles.cnsmpInclnCdListArea}>
+                                    {e.cnsmpInclnCdList.map((c, idx) => {
+                                        return <span className={styles.cnsmpInclnCd}>{c.codeNm}</span>
+                                    })}
                                 </div>
                             </div>
                         </div>
