@@ -25,16 +25,16 @@ function Header() {
         window.location.reload();
     };
 
+    // 페이지가 로드될 때
 	useEffect(() => {
 		const onStart = async () => {
 			const response = await axios
-				.get('/st/user/selectUserAll', {
+				.get('/user/selectUserAll', {
 					headers: {
 						Authorization: localStorage.getItem('accessToken'),
 					},
 				})
 				.then(function (res) {
-				    console.log(res);
 					return res;
 				})
 				.catch(function (error) {
@@ -65,9 +65,9 @@ function Header() {
 		<div className={styles.header}>
 			<div className={styles.logo} onClick={() => navigate('/main')}>LOGO</div>
 			<div className={styles.menu}>
-				<div className={styles.menu01} onClick={() => navigate('/main')}>예금</div>
-				<div className={styles.menu02} onClick={() => navigate('/main')}>적금</div>
-				<div className={styles.menu03} onClick={() => navigate('/main')}>추천</div>
+				<div className={styles.menu01} onClick={() => navigate('/product-list')}>예금</div>
+				<div className={styles.menu02} onClick={() => navigate('/product-list')}>적금</div>
+				<div className={styles.menu03} onClick={() => navigate('/product-list')}>추천</div>
 			</div>
 			{/* 비로그인 상태 */}
 			{!loginState &&
@@ -89,7 +89,7 @@ function Header() {
                     <img className={styles.vectorIcon} alt='' src='/vector.svg' />
                     <b className={styles.logOut}>Log out</b>
                 </div>
-				<div className={styles.vectorDiv} onClick={() => {}}>
+				<div className={styles.vectorDiv} onClick={() => navigate('/mypage')}>
                     <img className={styles.groupIcon} alt='' src={profileImgUrl} />
                     <div className={styles.kimsw1245}>{userName}</div>
                 </div>
