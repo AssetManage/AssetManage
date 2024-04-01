@@ -73,18 +73,13 @@ const SignUp = () => {
     const [inputPolicyCheck, setInputPolicyCheck] = useState(false);
 
     // 직업군
-    const JobCategoryOptions = [
-        { value: "", name: "직업군을 선택해주세요." },
-    	{ value: "2", name: "전문가 및 관련 종사자" },
-    	{ value: "3", name: "사무 종사자" },
-    	{ value: "4", name: "서비스 종사자" },
-    	{ value: "5", name: "판매 종사자" },
-    	{ value: "6", name: "농림/어업 숙련종사자" },
-    	{ value: "7", name: "기능원 및 관련 기능 종사자" },
-    	{ value: "8", name: "장치/기계 조작 및 조립 종사자" },
-    	{ value: "9", name: "단순노무 종사자" },
-    	{ value: "A", name: "군인" },
-    ];
+    const [jobCategoryOptions, setJobCategoryOptions] = useState([]);
+
+    // 성별
+    const [genderOptions, setGenderOptions] = useState([]);
+
+    // 상품 추천 선택 항목
+    const [productRecommendOptions, setProductRecommendOptions] = useState([]);
 
     // 이메일 체크 초기화
     const initEmailCheck = () => {
@@ -108,7 +103,7 @@ const SignUp = () => {
     };
 
     // 이메일 체크
-    const checkEmail = async (email, change) => {
+    const checkEmail = async (email) => {
         setIsEmailValid(false);
 
         // 이메일 형식이 맞지 않을 경우
@@ -138,7 +133,7 @@ const SignUp = () => {
     };
 
     // 비밀번호 체크
-    const checkPw = (pw, change) => {
+    const checkPw = (pw) => {
         setIsPwValid(false);
 
         // 비밀번호 형식이 맞지 않을 경우
@@ -158,7 +153,7 @@ const SignUp = () => {
     };
 
     // 비밀번호 확인 체크
-    const checkPwCf = (pw, originPw, change) => {
+    const checkPwCf = (pw, originPw) => {
         setIsPwCfValid(false);
 
         // 비밀번호가 일치하지 않을 경우
@@ -177,7 +172,7 @@ const SignUp = () => {
     };
 
     // 이름 체크
-    const checkNm = (nm, change) => {
+    const checkNm = (nm) => {
         setIsNmValid(false);
 
         // 이름 형식이 맞지 않을 경우
@@ -196,7 +191,7 @@ const SignUp = () => {
     };
 
     // 나이 체크
-    const checkAge = (age, change) => {
+    const checkAge = (age) => {
         setIsAgeValid(false);
 
         // 나이가 올바르지 않을 경우
@@ -215,7 +210,7 @@ const SignUp = () => {
     };
 
     // 핸드폰 번호 체크
-    const checkPhone = (phone, change) => {
+    const checkPhone = (phone) => {
         setIsPhoneValid(false);
 
         // 핸드폰 번호 형식이 맞지 않을 경우
@@ -314,8 +309,93 @@ const SignUp = () => {
 
     };
 
-    useEffect(() => {
-    }, []);
+    // 페이지가 로드될 때
+	useEffect(() => {
+		const onStart = async () => {
+		    getOccupationOptions();
+		    getGenderOptions();
+		    getProductRecommendOptions();
+		};
+
+		onStart();
+	}, []);
+
+    // 직업군 옵션 세팅
+    const getOccupationOptions = async () => {
+			const response = await axios
+				.get('/st/code/selectCodeList', {
+				    params: {
+				        groupCode : 'occupation_cd'
+				    },
+				})
+				.then(function (res) {
+					return res;
+				})
+				.catch(function (error) {
+					return error;
+				});
+
+            setJobCategoryOptions([{ value: "", name: "직업군을 선택해주세요." }]);
+
+			if(response?.data?.stat === 'SUCCESS'){
+
+                response?.data?.list?.forEach((obj) => {
+                    setJobCategoryOptions(jobCategoryOptions => [...jobCategoryOptions, { value: obj.codeId, name: obj.codeNm }]);
+                });
+			}
+    };
+
+    // 성별 옵션 세팅
+    const getGenderOptions = async () => {
+			const response = await axios
+				.get('/st/code/selectCodeList', {
+				    params: {
+				        groupCode : 'sex_cd'
+				    },
+				})
+				.then(function (res) {
+					return res;
+				})
+				.catch(function (error) {
+					return error;
+				});
+
+            setGenderOptions([]);
+
+			if(response?.data?.stat === 'SUCCESS'){
+
+                response?.data?.list?.forEach((obj) => {
+                    setGenderOptions(genderOptions => [...genderOptions, { value: obj.codeId, name: obj.codeNm }]);
+                });
+
+			}
+    };
+
+    // 상품 추천 선택 항목
+    const getProductRecommendOptions = async () => {
+            const response = await axios
+                .get('/st/code/selectCodeList', {
+                    params: {
+                        groupCode : 'prdt_rcmd_item_cd'
+                    },
+                })
+                .then(function (res) {
+                    return res;
+                })
+                .catch(function (error) {
+                    return error;
+                });
+
+            setProductRecommendOptions([]);
+
+            if(response?.data?.stat === 'SUCCESS'){
+
+                response?.data?.list?.forEach((obj) => {
+                    setProductRecommendOptions(productRecommendOptions => [...productRecommendOptions, { value: obj.codeId, name: obj.codeNm }]);
+                });
+
+            }
+    };
 
 	return (
 		<div className={styles.member2}>
@@ -348,7 +428,7 @@ const SignUp = () => {
                 */}
                 <div
                     className={styles.inBox1}
-                    onClick={() => checkEmail(inputEmail, true)}
+                    onClick={() => checkEmail(inputEmail)}
                 >
                     <b className={styles.b}>중복체크</b>
                 </div>
@@ -370,7 +450,7 @@ const SignUp = () => {
                     placeholder="영문, 숫자, 특수기호 9~16 자리를 입력해 주세요."
                     value={inputPw}
                     onChange={(e) => setInputPw(e.target.value)}
-                    onBlur={() => checkPw(inputPw, true)}
+                    onBlur={() => checkPw(inputPw)}
                 />
                 {pwCheck && <div
                     style={{ color: pwCheckTextColor }}
@@ -390,7 +470,7 @@ const SignUp = () => {
                     placeholder="비밀번호를 다시 입력해 주세요."
                     value={inputPwCf}
                     onChange={(e) => setInputPwCf(e.target.value)}
-                    onBlur={() => checkPwCf(inputPwCf, inputPw, true)}
+                    onBlur={() => checkPwCf(inputPwCf, inputPw)}
                 />
                 {pwCfCheck && <div
                     style={{ color: pwCfCheckTextColor }}
@@ -409,7 +489,7 @@ const SignUp = () => {
                     name="name"
                     value={inputNm}
                     onChange={(e) => setInputNm(e.target.value)}
-                    onBlur={() => checkNm(inputNm, true)}
+                    onBlur={() => checkNm(inputNm)}
                 />
                 {nmCheck && <div
                     style={{ color: nmCheckTextColor }}
@@ -426,8 +506,14 @@ const SignUp = () => {
                     value={inputGender}
                     onChange={setInputGender}
                 >
-                    <Radio radioLabelStyle={styles.genderRadioLabel} value="M">남성</Radio>
-                    <Radio value="F">여성</Radio>
+                    {genderOptions.map((option) => (
+                        <Radio
+                            radioLabelStyle={styles.genderRadioLabel}
+                            value={option.value}
+                        >
+                            {option.name}
+                        </Radio>
+                    ))}
                 </RadioGroup>
                 <label className={styles.div13} htmlFor="age">
                     <span>나이</span>
@@ -440,7 +526,7 @@ const SignUp = () => {
                     name="age"
                     value={inputAge}
                     onChange={(e) => setInputAge(e.target.value)}
-                    onBlur={() => checkAge(inputAge, true)}
+                    onBlur={() => checkAge(inputAge)}
                 />
                 <div className={styles.div14}>(만)</div>
                 {ageCheck && <div
@@ -455,7 +541,7 @@ const SignUp = () => {
                 </div>
                 <SelectBox
                     selectWrapperStyle={styles.jobCategorySelectWrapper}
-                    options={JobCategoryOptions}
+                    options={jobCategoryOptions}
                     defaultValue={inputJobCategory}
                     onChange={(e) => setInputJobCategory(e.target.value)}
                 />
@@ -471,7 +557,7 @@ const SignUp = () => {
                     placeholder="‘-’ 없이 입력해주세요. (ex) 01012341234"
                     value={inputPhoneNumber}
                     onChange={(e) => setInputPhoneNumber(e.target.value)}
-                    onBlur={() => checkPhone(inputPhoneNumber, true)}
+                    onBlur={() => checkPhone(inputPhoneNumber)}
                 />
                 {phoneCheck && <div
                     style={{ color: phoneCheckTextColor }}
@@ -525,9 +611,14 @@ const SignUp = () => {
                     value={inputProductRecommend}
                     onChange={setInputProductRecommend}
                 >
-                    <Radio radioLabelStyle={styles.productRecommendRadioLabel} value="IC">소득별</Radio>
-                    <Radio radioLabelStyle={styles.productRecommendRadioLabel} value="CS">소비유형별</Radio>
-                    <Radio value="AG">연령별</Radio>
+                    {productRecommendOptions.map((option) => (
+                        <Radio
+                            radioLabelStyle={styles.productRecommendRadioLabel}
+                            value={option.value}
+                        >
+                            {option.name}
+                        </Radio>
+                    ))}
                 </RadioGroup>
                 <label>
                     <input
