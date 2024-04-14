@@ -304,7 +304,7 @@ const Mypage = () => {
 	// 회원 정보 가져오기
 	const getUserInfo = async () => {
         const response = await axios
-            .get('/user/selectUserAll', {
+            .get('/user/myInfo', {
                 headers: {
                     Authorization: localStorage.getItem('accessToken'),
                 },
