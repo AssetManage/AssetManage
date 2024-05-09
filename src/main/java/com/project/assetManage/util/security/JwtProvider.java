@@ -19,10 +19,11 @@ import org.springframework.stereotype.Component;
 public class JwtProvider {
 
     @Value("${jwt.secret.key}")
-    private String secretKey;
+    private static String secretKey;
 
     // 만료시간 : 30min
-    private final long exp = 1000L * 60 * 30;
+    private static final long exp = 1000L * 60 * 30;
+    public static final Long REFRESH_EXP = 1000L * 3600 * 24 * 365;
 
     public static final String HEADER = "Authorization";
 
@@ -40,7 +41,7 @@ public class JwtProvider {
     /**
      * token 생성 account : userId
      */
-    public String createToken(String account, List<String> roles) {
+    public static String createToken(String account, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(account); // JWT payload 에 저장되는 정보단위
         claims.put("roles", roles);
         Date now = new Date();
@@ -51,6 +52,19 @@ public class JwtProvider {
             .signWith(SignatureAlgorithm.HS256,
                 secretKey) //사용할 암호화 알고리즘, signature 에 들어갈 secret 값 세팅
             .compact();
+    }
+
+    public static String createRefreshToken(String account, List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(account); // JWT payload 에 저장되는 정보단위
+        claims.put("roles", roles);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims) // 정보 저장
+                .setIssuedAt(now)// 토큰 발행 시간 정보
+                .setExpiration(new Date(now.getTime() + REFRESH_EXP)) // set Expire Time
+                .signWith(SignatureAlgorithm.HS256,
+                        secretKey) //사용할 암호화 알고리즘, signature 에 들어갈 secret 값 세팅
+                .compact();
     }
 
     // JWT 토큰에서 인증 정보 조회

@@ -1,5 +1,7 @@
 package com.project.assetManage.util.security;
 
+import com.project.assetManage.util.security.oauth.CustomOAuthUserService;
+import com.project.assetManage.util.security.oauth.OAuth2LoginSuccessHandler;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +22,15 @@ public class WebSecurityConfig {
     private final JwtProvider jwtProvider;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
+    private final CustomOAuthUserService customOAuthUserService;
+
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     public WebSecurityConfig(JwtProvider jwtProvider,
-        JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+                             JwtAccessDeniedHandler jwtAccessDeniedHandler, CustomOAuthUserService customOAuthUserService, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.jwtProvider = jwtProvider;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.customOAuthUserService = customOAuthUserService;
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     @Bean
@@ -71,7 +78,12 @@ public class WebSecurityConfig {
                         response.setContentType("text/html; charset=UTF-8");
                         response.getWriter().write("인증되지 않은 사용자입니다.");
                     })
-            );
+            )
+                .oauth2Login((oauth2Login) -> oauth2Login
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .userInfoEndpoint(userInfoEndpoint ->userInfoEndpoint.userService(customOAuthUserService))
+                        )
+                    ;
 
         return http.build();
     }

@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @Entity(name = "st_user")
@@ -87,12 +90,17 @@ public class User extends BaseDateTimeEntity {
     @Comment("상세주소2")
     private String zipDetailAddr2;
 
+    @Column(length = 30)
+    @Convert(converter = StringArrayConverter.class)
+    private List<String> roles = new ArrayList<>(); // role은 한 개 이상
+
 
     @Builder
     public User(String userNm, String loginId, String loginPw, String email,
                   String prdtRcmdItemCd, Character lockYn, Character secsnYn, Character indvdlinfoAgreeYn,
                   String profileImgUrl, String sexCd, String ageCd, Integer age, String occupationCd,
-                  String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2) {
+                  String mobileTelNum, String zipCd, String zipDetailAddr1, String zipDetailAddr2
+                  ,List<String> roles) {
         this.userNm = userNm;
         this.loginId = loginId;
         this.loginPw = loginPw;
@@ -110,6 +118,7 @@ public class User extends BaseDateTimeEntity {
         this.zipCd = zipCd;
         this.zipDetailAddr1 = zipDetailAddr1;
         this.zipDetailAddr2 = zipDetailAddr2;
+        this.roles = roles;
     }
 
 
